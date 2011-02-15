@@ -1,0 +1,43 @@
+VERSION INFO
+------------
+* Commons Collections 3.2
+
+* Ice 3.1.1
+  - Notes:
+    * The Ice.jar is Ice's Java 5 jar (located in ICE_HOME/lib/java5).
+    * The ice-ant.jar contains both classes and java source files.  To get both the source and the classes,
+      I had to download ZeroC's Java 5 source distribution (http://www.zeroc.com/download/Ice/3.1/IceJ-3.1.1-java5.zip).
+      I then just jarred up the stuff in the IceJ-3.1.1-java5/ant directory with these commands:
+
+          > cd IceJ-3.1.1-java5\ant
+          > jar cvf ../ice-ant.jar .
+
+    * I generated the java source from the slice files like this:
+
+         > cd C:\Ice-3.1.1
+         > mkdir cpb
+         > cd slice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb Freeze/*.ice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb Glacier2/*.ice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb Ice/*.ice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb IceBox/*.ice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb IceGrid/*.ice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb IcePatch2/*.ice
+         > slice2java --ice --meta java:java5 -I. --output-dir ../cpb IceStorm/*.ice
+
+     * Then, to create the ice-src.jar, I merged the stuff in IceJ-3.1.1-java5\src (from the Java 5 source distribution
+       mentioned above) with the stuff that I just generated into my cpb directory.  I then jarred it all up like this:
+
+         > jar cvf ../ice-src.jar .
+
+* JGraph 5.9.2
+
+* MRPL Graphics 1.08-b1
+
+* MRPL Ice 1.11-b1
+
+* MRPL Peer 1.06-b1
+
+* MRPL Utilities 1.15-b1
+
+* RSSReaders 1.0
