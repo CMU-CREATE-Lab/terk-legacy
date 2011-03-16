@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import Ice.Current;
 import edu.cmu.ri.mrpl.TeRK.ReadOnlyPropertyException;
+import edu.cmu.ri.mrpl.TeRK.hummingbird.HummingbirdState;
 import edu.cmu.ri.mrpl.TeRK.hummingbird._HummingbirdServiceDisp;
 
 /**
