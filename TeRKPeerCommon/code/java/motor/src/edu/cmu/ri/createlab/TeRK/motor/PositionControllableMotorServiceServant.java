@@ -5,6 +5,7 @@ import java.util.Map;
 import Ice.Current;
 import edu.cmu.ri.mrpl.TeRK.ReadOnlyPropertyException;
 import edu.cmu.ri.mrpl.TeRK.motor.PositionControllableMotorCommand;
+import edu.cmu.ri.mrpl.TeRK.motor.PositionControllableMotorState;
 import edu.cmu.ri.mrpl.TeRK.motor._PositionControllableMotorServiceDisp;
 
 /**
