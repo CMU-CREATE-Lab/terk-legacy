@@ -1,0 +1,48 @@
+========================================================================================================================
+
+RUNNING A CLIENT AND (SIMULATED) ROBOT USING YOUR LOCAL RELAY
+-------------------------------------------------------------
+
+Once you successfully build the code, you can run it on your local machine (assuming you did a "dev" build) by doing the
+following:
+
+0) Open 4 command prompt windows
+
+1) In the first 2 command prompt windows, set the current directory to TeRKRelay/dist
+
+2) In the 3rd window, set the current directory to TeRKRobot/dist/commandline
+
+3) In the 4th window, set the current directory to TeRKClient/dist/commandline
+
+4) In the first window, start the relay using the appropriate script for your platform (either Relay.bat or Relay.sh).
+   You should see a few dozen lines of log messages during startup (mostly from Hibernate, the ORM framework we use).
+
+5) Once the relay has started up (it should only take a couple seconds), start the Glacier2 server by running either the
+   Glacier.bat or Glacier.sh script in the 2nd command prompt window.
+
+6) Start up a (simulated) robot by running either the CommandLineQwerk.bat or CommandLineQwerk.sh script in the 3rd
+   command prompt window.  Log in with a qwerk username and password (you might have to create one first).
+
+7) Start up the command line TeRK client by running either the CommandLineClient.bat or CommandLineClient.sh script in
+   the 4th command prompt window.  Log in with a client username and password (you might have to create one first--make
+   sure the client has access to the qwerk!).
+
+8) The TeRK client has a menu which should explain the available options.  Once you've established a connection between
+   the client and the robot, you should be able to send text messages back and forth.
+
+To see a GUI TeRK client and GUI Qwerk, follow the steps above but make the following changes:
+
+Step 2: In the 3rd window, set the current directory to TeRKRobot/dist/fakeqwerk
+
+Step 3: In the 4th window, set the current directory to TeRKClient/dist/diffdrive
+
+Step 6: For the simulated robot, use either the FakeQwerk.bat or FakeQwerk.sh scripts (the login is the same).
+
+Step 7: Start up the TeRK client using either the DiffDriveClient.bat or DiffDriveClient.sh scripts (the login is the
+        same).
+
+Step 8: The GUI should be pretty intuitive.  Click the Connect button or choose the "Connect Via Relay..." menu item
+        to connect to a robot.  Once connected, you can "drive" the robot by clicking on the arrows with the mouse or
+        using the arrow keys on your keyboard.  Hold down SHIFT and use the arrow keys to control the camera.
+
+========================================================================================================================

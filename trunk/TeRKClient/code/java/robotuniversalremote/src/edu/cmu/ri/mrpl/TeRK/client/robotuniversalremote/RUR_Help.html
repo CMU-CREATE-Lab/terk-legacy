@@ -1,0 +1,83 @@
+<html>
+<body>
+<center><h2>Welcome to Robot Universal Remote!</h2></center>
+<p>
+<center><h3>About Robot Universal Remote</h3></center>
+<p>
+   Robot Universal Remote (RUR) is designed to help you test out all the parts connected to your Qwerk Controller Board. You can control motors and servos, read the value of digital inputs or analog inputs, and even turn the LEDs on the board on and off.
+   <br><br>
+   For more information on the TeRK project, visit <a href="http://www.terk.ri.cmu.edu">the TeRK Web Site</a>.
+<p>
+<center><h3>Quick 'n' Dirty Instructions</h3></center>
+<p>
+   Control your robot in 3 steps!
+<ol>
+   <li>Connect to your robot
+   <li>Click on the ports to which you have components connected
+   <li>Use the control panels to move things or read values
+</ol>
+<center><h3>More Detailed Example</h3></center>
+<p>
+   Let's use the Qwerkbot+ as an example. The Qwerkbot+ has the following parts:
+</p>
+<ul>
+   <li>Left motor (connected to Motor port 0)
+   <li>Right motor (connected to Motor port 1)
+   <li>Pan servo (connected to Servo port 0)
+   <li>Tilt servo (connected to Servo port 1)
+</ul>
+<p>
+   Let's say we have hooked all of these parts up to Qwerkbot+, and we want to make sure they work using
+   the RUR. Here is what we would do:
+</p>
+
+<ul>
+   <li>Start up the RUR
+   <li>Connect to your robot using the connection wizard (make sure you have registered your robot on the TeRK web site first!)
+   <li>Click on the red motor port 0 to add the Left motor
+   <li>Click on the red motor port 1 to add the Right motor
+   <li>Click on the green servo port 0 to add the Pan servo
+   <li>Click on the green servo port 1 to add the Tilt servo
+</ul>
+<p>
+   You should see 4 control panels now, one for each part we've added to Qwerkbot+. You can use the sliders,
+   buttons, and text fields in those control panels to command Qwerkbot to do whatever you feel like. You
+   might try picking up the robot off your table and telling the right motor to go full speed ahead. Or, you
+   might move the pan servo left and right to see how wide your Qwerkbot's field of vision is.
+</p>
+<p>
+   If you want to control the LEDs on your robot, just click on the LEDs on the controller board. A control
+   panel will appear with options for each of the LEDs on your board.
+</p>
+<p>
+   If you have an analog input or digital input connected to your robot, you can add control panels in the
+   same way as the rest of the parts; just click on the port to which you've attached your part. For these
+   control panels, you can have the RUR automatically retrieve the value at a regular interval, or just click
+   the Refresh button to get the value immediately.
+</p>
+<center>
+   <h3>Expressions</h3>
+</center>
+<p>Expressions give the user quick access to multiple states previously saved using the RUR expressions menu. </p>
+<p><em>Saving Expressions for later use:</em> To keep an expression, first configure the servos, motors, and other
+   options to reflect the expression's final configuration. Then, under the menu of options, choose &quot;Expression&quot;
+   and select &quot;Save Expression.&quot; You will be prompted to name your expression. After naming your expression,
+   click &quot;OK.&quot; You should immediately be able to see your new expression in the Expressions menu. </p>
+<p><em>Loading previously saved Expressions:</em> To load an expression, go into the menu under &quot;Expressions&quot;
+   and select the name of the expression you would like to load. Once you select one of the names of the expressions
+   listed in the Expressions menu, it should immediately load. </p>
+<p>
+   <em>Sharing Expressions with others:</em> To share an expression with a friend, you must navigate using the file system
+   to the TeRK/Expressions directory using a file browser. For Windows the expressions directory is
+   c:\documents and settings\&lt;user name&gt;\TeRK\Expressions. For other operating systems the expression directory should be
+   ~/TeRK/Expressions. For an expression that was saved by another user you can copy their file to your expressions directory
+   and restart RUR. Once the application is restarted the expression should show up in the &quot;Expressions&quot; menu.
+</p>
+<p><em>Removing an expression permanently: </em>To delete an expression permanently, go into the menu under
+   &quot;Expressions&quot; then select &quot;Delete Expression&quot;. A dialog will appear with a list of expressions that
+   can be deleted (Note: This will remove the expression from your pc). You may also delete the expression file from your
+   file system and restart RUR.</p>
+<p>&nbsp;</p>
+<b>Happy building!</b>
+</body>
+</html>

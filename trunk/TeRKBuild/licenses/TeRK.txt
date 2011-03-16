@@ -1,0 +1,6 @@
+All TeRK source code is provided under the terms of the GNU General
+Public License v2 (http://www.gnu.org/licenses/gpl-2.0.html). Anyone
+wishing to use TeRK technologies under other licensing terms must
+contact us at telepresencerobotkit@cs.cmu.edu for a commercial
+license. Such licenses are available for all portions of the TeRK 
+codebase presented here.

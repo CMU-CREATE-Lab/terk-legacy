@@ -1,0 +1,2 @@
+This component doesn't current have (or need) any code that isn't generated.  This README exists to prevent some version
+control systems (e.g. CVS) from pruning the directory and causing the build to fail when it looks for this directory.

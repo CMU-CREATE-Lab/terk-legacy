@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/code/java/accelerometer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/accelerometer/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/analogin/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/analogin/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/application/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/audio/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/audio/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/audioclips/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/buzzer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/buzzer/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/client/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/color/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/color/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/commandline/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/commandline/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/common/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/common/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/communicator/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/communicatormanager/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/connectionwizard/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/digitalin/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/digitalin/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/digitalout/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/digitalout/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/expression/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/finch/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/finch/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/hummingbird/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/led/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/led/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/motor/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/obstacle/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/obstacle/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/peerinfo/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/photoresistor/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/photoresistor/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/qwerk/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/qwerk/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/roboticon/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/roboticon/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/serial/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/serial/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/serialconfig/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/servant/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/service/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/servo/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/servo/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/speech/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/speech/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/thermistor/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/thermistor/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/userinterface/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/video/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/video/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/xml/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/motor/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/hummingbird/src-gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/peerinfo/src-gen" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Commons Collections" level="project" />
+    <orderEntry type="library" name="FreeTTS" level="project" />
+    <orderEntry type="library" name="Ice" level="project" />
+    <orderEntry type="library" name="Log4j" level="project" />
+    <orderEntry type="library" name="MRPL Graphics" level="project" />
+    <orderEntry type="library" name="MRPL Ice" level="project" />
+    <orderEntry type="library" name="MRPL Peer" level="project" />
+    <orderEntry type="library" name="MRPL Utilities" level="project" />
+    <orderEntry type="library" name="Swing Layout" level="project" />
+    <orderEntry type="library" name="JDOM" level="project" />
+  </component>
+</module>
+

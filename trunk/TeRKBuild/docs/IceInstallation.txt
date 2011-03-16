@@ -1,0 +1,143 @@
+========================================================================================================================
+
+ICE INSTALLATION
+----------------
+
+The TeRK software currently only supports Ice 3.1.1.  You MUST use this version!
+
+========================================================================================================================
+
+Ice for Windows Installation Instructions
+-----------------------------------------
+
+0) Download and install the latest Java JDK and make sure you have a JAVA_HOME environment variable pointing to the
+   directory where your JDK is installed.
+
+1) Download the Ice installer from:  http://www.zeroc.com/download/Ice/3.1/Ice-3.1.1-VC80.msi
+
+2) Install Ice.  I did a custom install so I could opt not to install all the extra junk like Ice for C++, Python,
+   PHP, etc.  You only need the Ice Runtime, Ice for Java, and the HTML Documentation.  If you plan on building the
+   TeRK C# clients, you'll also want to select the Ice for .NET option.
+
+3) Create the ICE_HOME environment variable and set it to Ice's home directory. For example, I installed Ice to
+   C:\Ice-3.1.1, so I set the ICE_HOME environment variable to C:\Ice-3.1.1.
+
+4) Add Ice's bin directory to your path.  Since you created the ICE_HOME environment variable in step 3, simply add
+   %ICE_HOME%\bin to your path.
+
+========================================================================================================================
+
+Ice for Fedora Core 5 Installation Instructions
+-----------------------------------------------
+
+0) Download the Ice for C++ source distribution and unpack it:
+
+      http://www.zeroc.com/download/Ice/3.1/Ice-3.1.1.tar.gz
+
+   This assumes you're running Ice for C++ applications (such as Glacier2) or are running Ice for Java applications
+   which already include the Ice.jar.  If you need the Ice.jar, you can download the Ice for Java distribution at:
+
+      http://www.zeroc.com/download/Ice/3.1/IceJ-3.1.1-java5.tar.gz
+
+   Follow the included installation instructions (there's not much to it other than putting the Ice.jar somewhere and
+   including it on your application's classpath).
+
+1) cd to Ice-3.1.1
+
+2) Read over the INSTALL.LINUX instructions.
+
+3) Examine the config/Make.rules to see whether you need to make any changes.  I didn't.
+
+4) Installed the required source packages with yum (not sure whether I really need db4-java, but I went ahead and
+   installed it anyway):
+
+      > yum install expat-devel
+      > yum install bzip2-devel
+      > yum install openssl-devel
+      > yum install readline-devel
+      > yum install ncurses-devel
+      > yum install db4-devel
+      > yum install db4-java
+
+5) Did a make:
+
+      > make
+
+6) That appeared to work, so I tried a make test:
+
+      > make test
+
+   That failed, but in this case it's just a problem with the test code.  See here for more info:
+
+      http://www.zeroc.com/vbulletin/showthread.php?t=2263
+
+7) Did a make install, which puts Ice at /opt/Ice-3.1.1 (unless you changed the destination directory in Make.rules):
+
+      > make install
+
+8) Added ICE_HOME to /etc/profile:
+
+      export ICE_HOME=/opt/Ice-3.1.1
+
+9) Added these to my .bash_profile
+
+      export PATH=$ICE_HOME/bin:$PATH
+      export LD_LIBRARY_PATH=$ICE_HOME/lib:$LD_LIBRARY_PATH
+
+========================================================================================================================
+
+Ice for Mac OS X Installation Instructions
+-----------------------------------------------
+
+0) Download the precompiled MacOS X binaries available here:
+
+      http://www.zeroc.com/download/Ice/3.1/Ice-3.1.1-bin-macosx.tar.gz
+
+1) Untar it into the directory of your choosing.  ZeroC recommends putting it under /opt/Ice-3.1.1, so I did the
+   following:
+
+      $ sudo mkdir /opt
+      $ cd /opt
+      $ sudo tar zxf /PATH_TO_WHERE_YOU_SAVED_THE_TAR_BALL/Ice-3.1.1-bin-macosx.tar.gz
+
+2) The Ice instructions recommend adding a symbolic link from /opt/Ice-3.1 to your Ice home directory.  So, do the
+   following:
+
+      $ sudo ln -s /opt/Ice-3.1.1 /opt/Ice-3.1
+
+3) Add the following to your .profile:
+
+      export ICE_HOME=/opt/Ice-3.1.1
+      export PATH=$PATH:$ICE_HOME/bin
+      export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$ICE_HOME/lib
+
+========================================================================================================================
+
+Ice-E for C++ for Windows Installation Instructions
+---------------------------------------------------
+
+0) NOTE!  You don't need to do this unless you have a need for running the Ice-E Slice translator.  The only people
+   who typically need to do so are developers who need to change the Slice code and want to ensure that their changes
+   work under Ice-E.
+
+1) Download the Ice-E for C++ zip from: http://www.zeroc.com/download/IceE/1.1/IceE-1.1.0.zip
+
+2) Unzip IceE-1.1.0.zip to C:\IceE-1.1.0.  Copying the zip to C:\ and then doing a WinZip "Extract To Here" should do
+   the right thing.
+
+3) Download the translator distribution binary from: http://www.zeroc.com/download/IceE/1.1/IceE-trans-1.1.0-bin-win.zip
+
+4) Unzip IceE-trans-1.1.0-bin-win.zip and make sure that the executables in the bin directory get placed into
+   C:\IceE-1.1.0\bin.  Copying the zip to C:\ and then doing a WinZip "Extract To Here" should do the right thing.
+   Answer "Yes" when it asks you whether you want to overwrite the "LICENSE" file (they're identical, so it doesn't
+   matter).
+
+5) Create the ICE_E_HOME environment variable and set it to Ice-E's home directory:
+
+      Variable name:   ICE_E_HOME
+      Variable value:  C:\IceE-1.1.0
+
+6) Add Ice-E's bin directory to your path.  Since you created the ICE_E_HOME environment variable in step 3, simply add
+   %ICE_E_HOME%\bin to your path.
+
+========================================================================================================================

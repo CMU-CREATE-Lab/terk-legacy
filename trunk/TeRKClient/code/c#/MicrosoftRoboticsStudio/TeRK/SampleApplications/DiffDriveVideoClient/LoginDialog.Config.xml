@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FlexDialogState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/robotics/2007/08/flexdialog.html">
+   <Title>Login</Title>
+   <Visible>true</Visible>
+   <Controls>
+      <FlexControl>
+         <Id>errorLabel</Id>
+         <ControlType>Label</ControlType>
+         <Text>No errors detected.</Text>
+         <Value>err</Value>
+      </FlexControl>
+   </Controls>
+   <Buttons>
+      <FlexButton>
+         <Id>directButton</Id>
+         <ControlType>Button</ControlType>
+         <Text>Direct Login</Text>
+         <Value>dli</Value>
+      </FlexButton>
+      <FlexButton>
+         <Id>relayButton</Id>
+         <ControlType>Button</ControlType>
+         <Text>Relay Login</Text>
+         <Value>rli</Value>
+      </FlexButton>
+   </Buttons>
+</FlexDialogState>

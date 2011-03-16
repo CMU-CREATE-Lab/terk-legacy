@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<workspace>
+
+	<settings>
+
+		<label>MyFirstRobot250</label>
+
+	</settings>
+
+	<users>
+
+		<user>
+
+			<path>MyFirstRobot2502.jcu</path>
+
+		</user>
+
+	</users>
+
+	<projects>
+
+		<project>
+
+			<path>MyFirstRobot250.jcp</path>
+
+		</project>
+
+	</projects>
+
+</workspace>

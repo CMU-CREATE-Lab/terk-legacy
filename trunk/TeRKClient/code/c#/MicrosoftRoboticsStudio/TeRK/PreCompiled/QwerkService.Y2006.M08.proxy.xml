@@ -1,0 +1,1245 @@
+<?xml version="1.0"?>
+<doc>
+   <assembly>
+      <name>QwerkService.Y2006.M08.Proxy</name>
+   </assembly>
+   <members>
+      <member name="T:TeRK.client.qwerkservice.Proxy.Contract">
+         <summary>
+            Qwerk Contract
+         </summary>
+      </member>
+      <member name="F:TeRK.client.qwerkservice.Proxy.Contract.Identifier">
+         The Unique Contract Identifier for the Qwerk service
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Contract.ServiceModel">
+         The Dss Service dssModel Contract(s)
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Contract.CreateService(Microsoft.Dss.Services.Constructor.ConstructorPort,Microsoft.Dss.ServiceModel.Dssp.PartnerType[])">
+         <summary>
+            Creates an instance of the service associated with this contract
+         </summary>
+         <param name="contructorServicePort">Contractor Service that will create the instance</param>
+         <param name="partners">Optional list of service partners for new service instance</param>
+         <returns>Result PortSet for retrieving service creation response</returns>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Contract.CreateService(Microsoft.Dss.Services.Constructor.ConstructorPort)">
+         <summary>
+            Creates an instance of the service associated with this contract
+         </summary>
+         <param name="contructorServicePort">Contractor Service that will create the instance</param>
+         <returns>Result PortSet for retrieving service creation response</returns>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.QwerkServiceState">
+         <summary>
+            Qwerk Service State
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceState.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Qwerk Service State
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceState.Clone">
+         <summary>
+            Clone Qwerk Service State
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceState.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceState.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.QwerkState">
+         <summary>
+            Qwerk State
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.Ticks">
+         <summary>
+            Ticks
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.Subscribers">
+         <summary>
+            Subscribers
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.AnalogInputs">
+         <summary>
+            Analog Inputs
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.BatteryVoltage">
+         <summary>
+            Battery Voltage
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.Buttons">
+         <summary>
+            Buttons
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.DigitalInputs">
+         <summary>
+            Digital Inputs
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.MotorVelocities">
+         <summary>
+            Motor Velocities
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.MotorPositions">
+         <summary>
+            Motor Positions
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.MotorCurrents">
+         <summary>
+            Motor Currents
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.MotorDutyCycles">
+         <summary>
+            Motor Duty Cycles
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.MotorDone">
+         <summary>
+            Motor Done
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.QwerkServiceState.ServoPositions">
+         <summary>
+            Servo Positions
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.RelayLoginRequest">
+         <summary>
+            Relay Login Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Relay Login Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.Clone">
+         <summary>
+            Clone Relay Login Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.TerkLogin">
+         <summary>
+            Terk Login
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.TerkPassword">
+         <summary>
+            Terk Password
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.RelayLoginRequest.QwerkLogin">
+         <summary>
+            Qwerk Login
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.DirectLoginRequest">
+         <summary>
+            Direct Login Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLoginRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Direct Login Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLoginRequest.Clone">
+         <summary>
+            Clone Direct Login Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLoginRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLoginRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.DirectLoginRequest.PeerIdentifier">
+         <summary>
+            Peer Identifier
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest">
+         <summary>
+            Get Video Frame Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Get Video Frame Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest.Clone">
+         <summary>
+            Clone Get Video Frame Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.VideoFrameMessage">
+         <summary>
+            Video Frame Message
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.VideoFrameMessage.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Video Frame Message
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.VideoFrameMessage.Clone">
+         <summary>
+            Clone Video Frame Message
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.VideoFrameMessage.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.VideoFrameMessage.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.VideoFrameMessage.MyFrame">
+         <summary>
+            My Frame
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest">
+         <summary>
+            Update Qwerk State Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Update Qwerk State Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest.Clone">
+         <summary>
+            Clone Update Qwerk State Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.UpdateInputsRequest">
+         <summary>
+            Update Inputs Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputsRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Update Inputs Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputsRequest.Clone">
+         <summary>
+            Clone Update Inputs Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputsRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputsRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest">
+         <summary>
+            Set Motor Speed Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Set Motor Speed Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Clone">
+         <summary>
+            Clone Set Motor Speed Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Motor0">
+         <summary>
+            Motor0
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Motor1">
+         <summary>
+            Motor1
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Motor2">
+         <summary>
+            Motor2
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest.Motor3">
+         <summary>
+            Motor3
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest">
+         <summary>
+            Set Servo Positions Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Set Servo Positions Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.Clone">
+         <summary>
+            Clone Set Servo Positions Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPosArray">
+         <summary>
+            Servo Pos Array
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos0">
+         <summary>
+            Servo Pos0
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos1">
+         <summary>
+            Servo Pos1
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos2">
+         <summary>
+            Servo Pos2
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos3">
+         <summary>
+            Servo Pos3
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos4">
+         <summary>
+            Servo Pos4
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos5">
+         <summary>
+            Servo Pos5
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos6">
+         <summary>
+            Servo Pos6
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos7">
+         <summary>
+            Servo Pos7
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos8">
+         <summary>
+            Servo Pos8
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos9">
+         <summary>
+            Servo Pos9
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos10">
+         <summary>
+            Servo Pos10
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos11">
+         <summary>
+            Servo Pos11
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos12">
+         <summary>
+            Servo Pos12
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos13">
+         <summary>
+            Servo Pos13
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos14">
+         <summary>
+            Servo Pos14
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoPos15">
+         <summary>
+            Servo Pos15
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVelArray">
+         <summary>
+            Servo Vel Array
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel0">
+         <summary>
+            Servo Vel0
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel1">
+         <summary>
+            Servo Vel1
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel2">
+         <summary>
+            Servo Vel2
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel3">
+         <summary>
+            Servo Vel3
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel4">
+         <summary>
+            Servo Vel4
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel5">
+         <summary>
+            Servo Vel5
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel6">
+         <summary>
+            Servo Vel6
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel7">
+         <summary>
+            Servo Vel7
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel8">
+         <summary>
+            Servo Vel8
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel9">
+         <summary>
+            Servo Vel9
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel10">
+         <summary>
+            Servo Vel10
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel11">
+         <summary>
+            Servo Vel11
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel12">
+         <summary>
+            Servo Vel12
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel13">
+         <summary>
+            Servo Vel13
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel14">
+         <summary>
+            Servo Vel14
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest.ServoVel15">
+         <summary>
+            Servo Vel15
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest">
+         <summary>
+            Set Digital Out Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Set Digital Out Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.Clone">
+         <summary>
+            Clone Set Digital Out Request
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.DigitalOutArray">
+         <summary>
+            Digital Out Array
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.DigitalOut0">
+         <summary>
+            Digital Out0
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.DigitalOut1">
+         <summary>
+            Digital Out1
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.DigitalOut2">
+         <summary>
+            Digital Out2
+         </summary>
+      </member>
+      <member name="P:TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest.DigitalOut3">
+         <summary>
+            Digital Out3
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations">
+         <summary>
+            Qwerk Service Operations
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultLookup">
+         <summary>
+            Post Dssp Default Lookup and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultLookup(Microsoft.Dss.ServiceModel.Dssp.DsspDefaultLookup@)">
+         <summary>
+            Post Dssp Default Lookup.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultLookup(Microsoft.Dss.ServiceModel.Dssp.LookupRequestType)">
+         <summary>
+            Post Dssp Default Lookup with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultLookup(Microsoft.Dss.ServiceModel.Dssp.LookupRequestType,Microsoft.Dss.ServiceModel.Dssp.DsspDefaultLookup@)">
+         <summary>
+            Post Dssp Default Lookup with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultDrop">
+         <summary>
+            Post Dssp Default Drop and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultDrop(Microsoft.Dss.ServiceModel.Dssp.DsspDefaultDrop@)">
+         <summary>
+            Post Dssp Default Drop.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultDrop(Microsoft.Dss.ServiceModel.Dssp.DropRequestType)">
+         <summary>
+            Post Dssp Default Drop with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DsspDefaultDrop(Microsoft.Dss.ServiceModel.Dssp.DropRequestType,Microsoft.Dss.ServiceModel.Dssp.DsspDefaultDrop@)">
+         <summary>
+            Post Dssp Default Drop with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.HttpGet">
+         <summary>
+            Post Http Get and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.HttpGet(Microsoft.Dss.Core.DsspHttp.HttpGet@)">
+         <summary>
+            Post Http Get.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.HttpGet(Microsoft.Dss.Core.DsspHttp.HttpGetRequestType)">
+         <summary>
+            Post Http Get with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.HttpGet(Microsoft.Dss.Core.DsspHttp.HttpGetRequestType,Microsoft.Dss.Core.DsspHttp.HttpGet@)">
+         <summary>
+            Post Http Get with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Get">
+         <summary>
+            Post Get and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Get(TeRK.client.qwerkservice.Proxy.Get@)">
+         <summary>
+            Post Get.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Get(Microsoft.Dss.ServiceModel.Dssp.GetRequestType)">
+         <summary>
+            Post Get with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Get(Microsoft.Dss.ServiceModel.Dssp.GetRequestType,TeRK.client.qwerkservice.Proxy.Get@)">
+         <summary>
+            Post Get with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Replace">
+         <summary>
+            Post Replace and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Replace(TeRK.client.qwerkservice.Proxy.Replace@)">
+         <summary>
+            Post Replace.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Replace(TeRK.client.qwerkservice.Proxy.QwerkServiceState)">
+         <summary>
+            Post Replace with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Replace(TeRK.client.qwerkservice.Proxy.QwerkServiceState,TeRK.client.qwerkservice.Proxy.Replace@)">
+         <summary>
+            Post Replace with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Subscribe(Microsoft.Ccr.Core.IPort,System.Type[])">
+         <summary>
+            Post Subscribe and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Subscribe(Microsoft.Ccr.Core.IPort,TeRK.client.qwerkservice.Proxy.Subscribe@,System.Type[])">
+         <summary>
+            Post Subscribe.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Subscribe(Microsoft.Dss.ServiceModel.Dssp.SubscribeRequestType,Microsoft.Ccr.Core.IPort,System.Type[])">
+         <summary>
+            Post Subscribe with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.Subscribe(Microsoft.Dss.ServiceModel.Dssp.SubscribeRequestType,Microsoft.Ccr.Core.IPort,TeRK.client.qwerkservice.Proxy.Subscribe@,System.Type[])">
+         <summary>
+            Post Subscribe with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.RelayLogin">
+         <summary>
+            Post Relay Login and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.RelayLogin(TeRK.client.qwerkservice.Proxy.RelayLogin@)">
+         <summary>
+            Post Relay Login.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.RelayLogin(TeRK.client.qwerkservice.Proxy.RelayLoginRequest)">
+         <summary>
+            Post Relay Login with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.RelayLogin(TeRK.client.qwerkservice.Proxy.RelayLoginRequest,TeRK.client.qwerkservice.Proxy.RelayLogin@)">
+         <summary>
+            Post Relay Login with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DirectLogin">
+         <summary>
+            Post Direct Login and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DirectLogin(TeRK.client.qwerkservice.Proxy.DirectLogin@)">
+         <summary>
+            Post Direct Login.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DirectLogin(TeRK.client.qwerkservice.Proxy.DirectLoginRequest)">
+         <summary>
+            Post Direct Login with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.DirectLogin(TeRK.client.qwerkservice.Proxy.DirectLoginRequest,TeRK.client.qwerkservice.Proxy.DirectLogin@)">
+         <summary>
+            Post Direct Login with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.GetVideoFrame">
+         <summary>
+            Post Get Video Frame and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.GetVideoFrame(TeRK.client.qwerkservice.Proxy.GetVideoFrame@)">
+         <summary>
+            Post Get Video Frame.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.GetVideoFrame(TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest)">
+         <summary>
+            Post Get Video Frame with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.GetVideoFrame(TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest,TeRK.client.qwerkservice.Proxy.GetVideoFrame@)">
+         <summary>
+            Post Get Video Frame with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateQwerkState">
+         <summary>
+            Post Update Qwerk State and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateQwerkState(TeRK.client.qwerkservice.Proxy.UpdateQwerkState@)">
+         <summary>
+            Post Update Qwerk State.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateQwerkState(TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest)">
+         <summary>
+            Post Update Qwerk State with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateQwerkState(TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest,TeRK.client.qwerkservice.Proxy.UpdateQwerkState@)">
+         <summary>
+            Post Update Qwerk State with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateInputs">
+         <summary>
+            Post Update Inputs and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateInputs(TeRK.client.qwerkservice.Proxy.UpdateInputs@)">
+         <summary>
+            Post Update Inputs.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateInputs(TeRK.client.qwerkservice.Proxy.UpdateInputsRequest)">
+         <summary>
+            Post Update Inputs with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.UpdateInputs(TeRK.client.qwerkservice.Proxy.UpdateInputsRequest,TeRK.client.qwerkservice.Proxy.UpdateInputs@)">
+         <summary>
+            Post Update Inputs with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetMotorSpeed">
+         <summary>
+            Post Set Motor Speed and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetMotorSpeed(TeRK.client.qwerkservice.Proxy.SetMotorSpeed@)">
+         <summary>
+            Post Set Motor Speed.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetMotorSpeed(TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest)">
+         <summary>
+            Post Set Motor Speed with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetMotorSpeed(TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest,TeRK.client.qwerkservice.Proxy.SetMotorSpeed@)">
+         <summary>
+            Post Set Motor Speed with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetServoPositions">
+         <summary>
+            Post Set Servo Positions and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetServoPositions(TeRK.client.qwerkservice.Proxy.SetServoPositions@)">
+         <summary>
+            Post Set Servo Positions.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetServoPositions(TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest)">
+         <summary>
+            Post Set Servo Positions with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetServoPositions(TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest,TeRK.client.qwerkservice.Proxy.SetServoPositions@)">
+         <summary>
+            Post Set Servo Positions with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetDigitalOut">
+         <summary>
+            Post Set Digital Out and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetDigitalOut(TeRK.client.qwerkservice.Proxy.SetDigitalOut@)">
+         <summary>
+            Post Set Digital Out.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetDigitalOut(TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest)">
+         <summary>
+            Post Set Digital Out with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.QwerkServiceOperations.SetDigitalOut(TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest,TeRK.client.qwerkservice.Proxy.SetDigitalOut@)">
+         <summary>
+            Post Set Digital Out with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.CombinedOperationsPort">
+         <summary>
+            Combined Operations Port
+         </summary>
+      </member>
+      <member name="F:TeRK.client.qwerkservice.Proxy.CombinedOperationsPort.QwerkServiceOperations">
+         <summary>
+            Qwerk Service Operations
+         </summary>
+         <remarks>
+            Service port suffix: '/qwerkservice'
+         </remarks>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.CombinedOperationsPort.#ctor">
+         <summary>
+            Combined Operations Port
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.Get">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Get.#ctor">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Get.#ctor(Microsoft.Dss.ServiceModel.Dssp.GetRequestType)">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Get.#ctor(Microsoft.Dss.ServiceModel.Dssp.GetRequestType,Microsoft.Ccr.Core.PortSet{TeRK.client.qwerkservice.Proxy.QwerkServiceState,W3C.Soap.Fault})">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.Replace">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Replace.#ctor">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Replace.#ctor(TeRK.client.qwerkservice.Proxy.QwerkServiceState)">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Replace.#ctor(TeRK.client.qwerkservice.Proxy.QwerkServiceState,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultReplaceResponseType,W3C.Soap.Fault})">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.Subscribe">
+         <summary>
+            Subscribe
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Subscribe.#ctor">
+         <summary>
+            Subscribe
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Subscribe.#ctor(Microsoft.Dss.ServiceModel.Dssp.SubscribeRequestType)">
+         <summary>
+            Subscribe
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.Subscribe.#ctor(Microsoft.Dss.ServiceModel.Dssp.SubscribeRequestType,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.SubscribeResponseType,W3C.Soap.Fault})">
+         <summary>
+            Subscribe
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.RelayLogin">
+         <summary>
+            Relay Login
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLogin.#ctor">
+         <summary>
+            Relay Login
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLogin.#ctor(TeRK.client.qwerkservice.Proxy.RelayLoginRequest)">
+         <summary>
+            Relay Login
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.RelayLogin.#ctor(TeRK.client.qwerkservice.Proxy.RelayLoginRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Relay Login
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.DirectLogin">
+         <summary>
+            Direct Login
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLogin.#ctor">
+         <summary>
+            Direct Login
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLogin.#ctor(TeRK.client.qwerkservice.Proxy.DirectLoginRequest)">
+         <summary>
+            Direct Login
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.DirectLogin.#ctor(TeRK.client.qwerkservice.Proxy.DirectLoginRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Direct Login
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.GetVideoFrame">
+         <summary>
+            Get Video Frame
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrame.#ctor">
+         <summary>
+            Get Video Frame
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrame.#ctor(TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest)">
+         <summary>
+            Get Video Frame
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.GetVideoFrame.#ctor(TeRK.client.qwerkservice.Proxy.GetVideoFrameRequest,Microsoft.Ccr.Core.PortSet{TeRK.client.qwerkservice.Proxy.VideoFrameMessage,W3C.Soap.Fault})">
+         <summary>
+            Get Video Frame
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.UpdateQwerkState">
+         <summary>
+            Update Qwerk State
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkState.#ctor">
+         <summary>
+            Update Qwerk State
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkState.#ctor(TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest)">
+         <summary>
+            Update Qwerk State
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateQwerkState.#ctor(TeRK.client.qwerkservice.Proxy.UpdateQwerkStateRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Update Qwerk State
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.UpdateInputs">
+         <summary>
+            Update Inputs
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputs.#ctor">
+         <summary>
+            Update Inputs
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputs.#ctor(TeRK.client.qwerkservice.Proxy.UpdateInputsRequest)">
+         <summary>
+            Update Inputs
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.UpdateInputs.#ctor(TeRK.client.qwerkservice.Proxy.UpdateInputsRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Update Inputs
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.SetMotorSpeed">
+         <summary>
+            Set Motor Speed
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeed.#ctor">
+         <summary>
+            Set Motor Speed
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeed.#ctor(TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest)">
+         <summary>
+            Set Motor Speed
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetMotorSpeed.#ctor(TeRK.client.qwerkservice.Proxy.SetMotorSpeedRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Set Motor Speed
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.SetServoPositions">
+         <summary>
+            Set Servo Positions
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositions.#ctor">
+         <summary>
+            Set Servo Positions
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositions.#ctor(TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest)">
+         <summary>
+            Set Servo Positions
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetServoPositions.#ctor(TeRK.client.qwerkservice.Proxy.SetServoPositionsRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Set Servo Positions
+         </summary>
+      </member>
+      <member name="T:TeRK.client.qwerkservice.Proxy.SetDigitalOut">
+         <summary>
+            Set Digital Out
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOut.#ctor">
+         <summary>
+            Set Digital Out
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOut.#ctor(TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest)">
+         <summary>
+            Set Digital Out
+         </summary>
+      </member>
+      <member name="M:TeRK.client.qwerkservice.Proxy.SetDigitalOut.#ctor(TeRK.client.qwerkservice.Proxy.SetDigitalOutRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Set Digital Out
+         </summary>
+      </member>
+      <member name="T:TeRK.Properties.Resources">
+         <summary>
+            A strongly-typed resource class, for looking up localized strings, etc.
+         </summary>
+      </member>
+      <member name="P:TeRK.Properties.Resources.ResourceManager">
+         <summary>
+            Returns the cached ResourceManager instance used by this class.
+         </summary>
+      </member>
+      <member name="P:TeRK.Properties.Resources.Culture">
+         <summary>
+            Overrides the current thread's CurrentUICulture property for all
+            resource lookups using this strongly typed resource class.
+         </summary>
+      </member>
+      <member name="P:TeRK.Properties.Resources.DssModel">
+         <summary>
+            Looks up a resource file similar to DssModel.
+         </summary>
+      </member>
+   </members>
+</doc>

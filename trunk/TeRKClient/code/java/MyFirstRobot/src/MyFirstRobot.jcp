@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<project>
+
+	<settings>
+
+		<label>MyFirstRobot</label>
+
+		<root_path>\</root_path>
+
+		<output_path>\</output_path>
+
+		<source_path>\</source_path>
+
+		<jdkprofile_ref>JDK version 1.6.0</jdkprofile_ref>
+
+		<compiler_ref>&lt;Default&gt;</compiler_ref>
+
+		<ant_ref/>
+
+	</settings>
+
+	<ant_events/>
+
+	<run_items/>
+
+	<runtimes>
+
+		<runtime>
+
+			<label>&lt;Default&gt;</label>
+
+			<application_ref/>
+
+			<applet_ref/>
+
+			<debugger_ref/>
+
+			<param/>
+
+			<run/>
+
+		</runtime>
+
+	</runtimes>
+
+	<libraries>
+
+		<library_ref>terk</library_ref>
+
+	</libraries>
+
+	<files>
+
+		<include>
+
+			<folderitem>
+
+				<path>Examples</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc\RobotClient</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc\RSSReaders</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc\TTS</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>RobotClient</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>RSSReaders</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>TTS</path>
+
+			</folderitem>
+
+			<fileitem>
+
+				<path>log4j.xml</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstCreate.java</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstRobot.direct-connect.ice.properties</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstRobot.java</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstRobot.relay.ice.properties</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>script.txt</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>terk.jar</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\CreateMove.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\Headturner.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\hearingTest.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\photo_speak.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\Photovore.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\RSS_TTS_Example.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\RSS_TTS_Yahoo_Example.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>Examples\WeatherRSS_Example.java</path>
+
+				<folder>Examples</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\allclasses-frame.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\allclasses-frame.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\allclasses-noframe.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\allclasses-noframe.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\constant-values.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\constant-values.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\deprecated-list.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\deprecated-list.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\Headturner.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\Headturner.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\hearingTest.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\hearingTest.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\help-doc.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\help-doc.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\index.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\index.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\MyFirstRobot.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\MyFirstRobot.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\overview-frame.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\overview-frame.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\overview-summary.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\overview-summary.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\package-frame.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\package-frame.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\package-summary.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\package-summary.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\photo_speak.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\photo_speak.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\Photovore.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\Photovore.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RSS_TTS_Example.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\RSS_TTS_Example.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RSS_TTS_Yahoo_Example.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\RSS_TTS_Yahoo_Example.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\WeatherRSS_Example.html</path>
+
+				<folder>javadoc</folder>
+
+				<url>javadoc\WeatherRSS_Example.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RobotClient\package-frame.html</path>
+
+				<folder>javadoc\RobotClient</folder>
+
+				<url>javadoc\RobotClient\package-frame.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RobotClient\package-summary.html</path>
+
+				<folder>javadoc\RobotClient</folder>
+
+				<url>javadoc\RobotClient\package-summary.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RobotClient\RobotClient.html</path>
+
+				<folder>javadoc\RobotClient</folder>
+
+				<url>javadoc\RobotClient\RobotClient.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RobotClient\SimpleRobotClient.html</path>
+
+				<folder>javadoc\RobotClient</folder>
+
+				<url>javadoc\RobotClient\SimpleRobotClient.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RSSReaders\package-frame.html</path>
+
+				<folder>javadoc\RSSReaders</folder>
+
+				<url>javadoc\RSSReaders\package-frame.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RSSReaders\package-summary.html</path>
+
+				<folder>javadoc\RSSReaders</folder>
+
+				<url>javadoc\RSSReaders\package-summary.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RSSReaders\RSSReader.html</path>
+
+				<folder>javadoc\RSSReaders</folder>
+
+				<url>javadoc\RSSReaders\RSSReader.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\RSSReaders\WeatherReader.html</path>
+
+				<folder>javadoc\RSSReaders</folder>
+
+				<url>javadoc\RSSReaders\WeatherReader.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\TTS\package-frame.html</path>
+
+				<folder>javadoc\TTS</folder>
+
+				<url>javadoc\TTS\package-frame.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\TTS\package-summary.html</path>
+
+				<folder>javadoc\TTS</folder>
+
+				<url>javadoc\TTS\package-summary.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>javadoc\TTS\TTS.html</path>
+
+				<folder>javadoc\TTS</folder>
+
+				<url>javadoc\TTS\TTS.html</url>
+
+				<browser>true</browser>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\CreateClient.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\RobotClient.direct-connect.ice.properties</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\RobotClient.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\RobotClient.relay.ice.properties</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\RobotClientEventHandler.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\RobotClientGUI.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\RobotClientGUI.properties</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\SimpleRobotClient.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\RSSReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\WeatherReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>TTS\TTS.java</path>
+
+				<folder>TTS</folder>
+
+			</fileitem>
+
+		</include>
+
+	</files>
+
+	<tasks/>
+
+</project>

@@ -1,0 +1,37 @@
+HUMMINGBIRD SETUP DOCS
+----------------------
+
+This document describes steps required to talk to your Hummingbird from Java.
+
+------------------------------------------------------------------------------------------------------------------------
+
+INSTALLATION (MAC OS X 10.4 or later)
+
+You'll need to download and install a driver in order for your Mac to be able to talk to the Hummingbird.  The driver
+enables the Mac's operating system to see the Hummingbird as a serial device. Do the following:
+
+* Download the driver required for the FTDI USB-Serial adapter (which is built in to the hummingbird) from:
+
+      http://www.ftdichip.com/Drivers/VCP/MacOSX/UniBin/FTDIUSBSerialDriver_v2_2_9.dmg
+
+* Install the FTDI USB Serial Driver.  You'll need to restart your Mac after the installation is complete.
+
+* To test that the driver works, do the following:
+  * Plug your Hummingbird into your Mac, but don't turn it on yet.
+  * Open Terminal and enter "ls -l /dev/tty.*" without the quotes).  Depending on what hardware your Mac has, you may or
+    may not see anything listed.  On my MacBook, I see:
+
+       crw-rw-rw-  1 root  wheel   17,   2 Mar 17 09:54 /dev/tty.Bluetooth-Modem
+       crw-rw-rw-  1 root  wheel   17,   0 Mar 17 09:54 /dev/tty.Bluetooth-PDA-Sync
+
+  * Turn on the Hummingbird
+  * Now re-enter the "ls -l /dev/tty.*" command in Terminal.  You should see a new device in the listing.  This is
+    what I see (don't worry if the name differs on your Mac):
+
+      crw-rw-rw-  1 root  wheel   17,   2 Mar 17 09:54 /dev/tty.Bluetooth-Modem
+      crw-rw-rw-  1 root  wheel   17,   0 Mar 17 09:54 /dev/tty.Bluetooth-PDA-Sync
+      crw-rw-rw-  1 root  wheel   17,   6 Mar 17 12:08 /dev/tty.usbserial-A4004NuY
+
+  * Now that you've verified that your Mac can see the Hummingbird as a serial device, you can turn off the Hummingbird.
+
+------------------------------------------------------------------------------------------------------------------------

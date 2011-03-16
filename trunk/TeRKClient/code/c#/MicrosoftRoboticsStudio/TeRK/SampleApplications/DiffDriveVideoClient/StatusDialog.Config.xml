@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FlexDialogState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/robotics/2007/08/flexdialog.html">
+   <Title>Qwerk Status</Title>
+   <Visible>true</Visible>
+   <Controls>
+      <FlexControl>
+         <Id>batteryLabel</Id>
+         <ControlType>Label</ControlType>
+         <Text>Battery Voltage: Not connected</Text>
+         <Value>battery</Value>
+      </FlexControl>
+      <FlexControl>
+         <Id>motorVelocitiesLabel</Id>
+         <ControlType>Label</ControlType>
+         <Text>Motor Velocities: Not Connected</Text>
+         <Value>motorvelocities</Value>
+      </FlexControl>
+   </Controls>
+   <Buttons/>
+</FlexDialogState>
