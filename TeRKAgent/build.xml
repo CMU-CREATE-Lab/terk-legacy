@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeRKAgent" default="all">
+
+   <!-- Properties -->
+   <dirname property="base.directory" file="${ant.file}"/>
+   <property file="${user.home}/.terk-project.properties"/>
+   <property file="build.properties"/>
+   <property environment="env"/>
+
+   <condition property="local.host.domain.name" value="${env.HOSTNAME}">
+      <isset property="env.HOSTNAME"/>
+   </condition>
+
+   <property name="build.target" value="dev" description="default the build target to 'dev' (override with -D on the command line)"/>
+   <condition property="build.target.is-valid">
+      <or>
+         <equals arg1="${build.target}" arg2="dev"/>
+         <equals arg1="${build.target}" arg2="test"/>
+         <equals arg1="${build.target}" arg2="prod"/>
+      </or>
+   </condition>
+   <echo level="info" message="Build Target: ${build.target}"/>
+   <fail message="Property 'build.target' must be one of: dev, test, prod" unless="build.target.is-valid"/>
+
+   <property file="${build.number.file}"/>
+   <condition property="build.number.is-valid">
+      <isset property="build.number"/>
+   </condition>
+   <fail message="Property 'build.number' must be specified in the ${build.number.file} file!!" unless="build.number.is-valid"/>
+   <property name="build.number" value="none"/>
+   <echo level="info" message="Build Number: ${build.number}"/>
+
+   <property file="build.${build.target}.properties"/>
+   <echo level="info" message="Local Hostname=${local.host.domain.name}"/>
+   <echo level="info" message="Glacier Hostname=${glacier.host}"/>
+   <echo level="info" message="TeRK Web Site Hostname=${terk-web-site.host}"/>
+
+   <property name="zeroc.slice.dir" value="${env.ICE_HOME}/slice"/>
+   <condition property="isWindows">
+      <os family="windows"/>
+   </condition>
+
+   <!-- Task definitions -->
+   <taskdef name="slice2java" classname="Slice2JavaTask">
+      <classpath>
+         <pathelement location="${ice-ant.jar}"/>
+      </classpath>
+   </taskdef>
+   <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <pathelement location="${ant-contrib.jar}"/>
+      </classpath>
+   </taskdef>
+
+   <!-- Paths -->
+   <path id="peerinfo.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-peerinfo.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-peerinfo.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+   </path>
+
+   <path id="roboticon-messenger.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-roboticon-messenger.java.dir}"/>
+      <!-- shared components dependencies -->
+      <pathelement path="${build-peerinfo.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-peerinfo.jar}"/>
+      <pathelement path="${terk-common-roboticon.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+   </path>
+
+   <!-- Compiler options -->
+   <patternset id="compiler.resources">
+      <!-- excluded files -->
+      <exclude name="**/CVS/**"/>
+      <exclude name="**/SCCS/**"/>
+      <exclude name="**/RCS/**"/>
+      <exclude name="**/rcs/**"/>
+      <exclude name="**/.DS_Store/**"/>
+      <exclude name="**/.svn/**"/>
+      <!-- included files -->
+      <include name="**/?*.gif"/>
+      <include name="**/?*.png"/>
+      <include name="**/?*.jpeg"/>
+      <include name="**/?*.jpg"/>
+      <include name="**/?*.dll"/>
+      <include name="**/?*.lib"/>
+   </patternset>
+   <patternset id="compiler.resources.filterable">
+      <include name="**/?*.properties"/>
+      <include name="**/?*.xml"/>
+      <include name="**/?*.htm"/>
+      <include name="**/?*.html"/>
+      <include name="**/?*.dtd"/>
+      <include name="**/?*.tld"/>
+      <include name="**/?*.xsd"/>
+      <include name="**/?*.xsl"/>
+      <include name="**/?*.ice"/>
+      <include name="**/?*.pem"/>
+   </patternset>
+
+   <!-- ============================================================================================================ -->
+
+   <target name="all" depends="clean, build, dist" description="build all"/>
+
+   <target name="clean" description="clean up">
+      <delete dir="${build.dir}"/>
+      <delete dir="${dist.dir}"/>
+   </target>
+
+   <target name="init" unless="initIsComplete">
+      <!-- Create the time stamp -->
+      <tstamp/>
+
+      <!-- Create the output directories -->
+      <mkdir dir="${build.dir}"/>
+      <mkdir dir="${build-peerinfo.java.dir}"/>
+      <mkdir dir="${build-roboticon-messenger.java.dir}"/>
+
+      <property name="initIsComplete" value="true"/>
+   </target>
+
+   <target name="build-third-party" unless="BuildThirdPartyIsComplete">
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.color" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.common" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.communicator" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.peerinfo" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.roboticon" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.servant" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.service" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist.xml" inheritall="false" inheritrefs="false"/>
+      <property name="BuildThirdPartyIsComplete" value="true"/>
+   </target>
+
+   <target name="build" depends="init, compile.java, run-tests" description="build the project" unless="buildIsComplete">
+      <property name="buildIsComplete" value="true"/>
+   </target>
+
+   <target name="dist" depends="build, dist-shared, dist-roboticon-messenger" description="create the distribution" unless="distIsComplete">
+      <property name="distIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-shared" depends="build" description="builds the shared components" unless="distSharedIsComplete">
+      <mkdir dir="${dist-shared.dir}"/>
+
+      <!-- create jar of peerinfo classes -->
+      <jar destfile="${dist-shared.dir}/${peerinfo-jar.filename}"
+           basedir="${build-peerinfo.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <property name="distSharedIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-roboticon-messenger" depends="dist-shared" description="builds the roboticon messenger server agent" unless="distRoboticonMessengerIsComplete">
+      <mkdir dir="${dist-roboticon-messenger.dir}"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-roboticon-messenger.dir}/${roboticon-messenger-jar.filename}"
+           basedir="${build-roboticon-messenger.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-roboticon-messenger.dir}" flatten="true">
+         <fileset file="${commons-collections.jar}"/>
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${jdom.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${swing-layout.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-roboticon.jar}"/>
+         <fileset file="${terk-common-peerinfo.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+         <fileset file="${dist-shared.dir}/${peerinfo-jar.filename}"/>
+      </copy>
+
+      <copy-scripts app-name="roboticonmessenger" dist-dir="${dist-roboticon-messenger.dir}"/>
+
+      <property name="distRoboticonMessengerIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.java" depends="build-third-party, init" unless="compileJavaIsComplete">
+
+      <!-- Compile peerinfo classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-peerinfo.java.dir}"
+                                       src-dir="${src-peerinfo.java.dir}"
+                                       classpath-ref="peerinfo.classpath"/>
+
+      <!-- Compile roboticon-messenger classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-roboticon-messenger.java.dir}"
+                                       src-dir="${src-roboticon-messenger.java.dir}"
+                                       classpath-ref="roboticon-messenger.classpath"/>
+
+      <property name="compileJavaIsComplete" value="true"/>
+   </target>
+
+   <target name="run-tests" depends="compile.java" description="runs all JUnit tests" unless="runTestsIsComplete">
+      <property name="runTestsIsComplete" value="true"/>
+   </target>
+
+   <target name="javadoc" depends="build" description="generate javadocs" unless="javadocIsComplete">
+      <mkdir dir="${dist.dir}/javadoc"/>
+      <javadoc packagenames="*"
+               destdir="${dist.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK Agent API"
+               doctitle="TeRK Agent API"
+               protected="true">
+         <classpath>
+            <path refid="peerinfo.classpath"/>
+            <path refid="roboticon-messenger.classpath"/>
+         </classpath>
+         <packageset dir="${src-peerinfo.java.dir}"/>
+         <packageset dir="${src-roboticon-messenger.java.dir}"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <property name="javadocIsComplete" value="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Macro definitions -->
+   <!-- ============================================================================================================ -->
+
+   <macrodef name="compile-code-and-copy-resources">
+      <attribute name="classpath-ref"/>
+      <attribute name="build-dir"/>
+      <attribute name="src-dir"/>
+      <sequential>
+         <!-- compile code -->
+         <javac srcdir="@{src-dir}"
+                destdir="@{build-dir}"
+                classpathref="@{classpath-ref}"
+                debug="${java.compiler.debug}"
+                nowarn="${java.compiler.generate.no.warnings}"
+                memorymaximumsize="${java.compiler.max.memory}"
+                source="${java.compiler.source.level}"
+                fork="true"
+                includeAntRuntime="false">
+            <compilerarg line="${java.compiler.args}"/>
+         </javac>
+
+         <!-- copy resources -->
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources"/>
+            </fileset>
+         </copy>
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources.filterable"/>
+            </fileset>
+            <filterset>
+               <filter token="build.target" value="${build.target}"/>
+               <filter token="build.number" value="${build.number}"/>
+               <filter token="glacier.host" value="${glacier.host}"/>
+               <filter token="terk-web-site.host" value="${terk-web-site.host}"/>
+            </filterset>
+         </copy>
+
+      </sequential>
+   </macrodef>
+
+   <macrodef name="copy-scripts">
+      <attribute name="app-name"/>
+      <attribute name="dist-dir"/>
+      <sequential>
+         <if>
+            <istrue value="${isWindows}"/>
+            <then>
+               <property name="platform-for-path-conversion" value="windows"/>
+               <property name="script-file-extension" value="bat"/>
+            </then>
+            <else>
+               <property name="platform-for-path-conversion" value="unix"/>
+               <property name="script-file-extension" value="sh"/>
+            </else>
+         </if>
+
+         <!-- define the execution classpath for use in the scripts -->
+         <path id="@{app-name}.execution.classpath.elements">
+            <fileset dir="@{dist-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </path>
+
+         <!-- Set up a path id for the dist directory so it contains the correct kind of slashes when we do the pathconvert mapping -->
+         <path id="dist-@{app-name}.dir.before-conversion" path="@{dist-dir}"/>
+
+         <!-- Convert the dist directory path for the target platform to ensure that all the slashes are in the right direction -->
+         <pathconvert property="dist-@{app-name}.dir.after-conversion" targetos="${platform-for-path-conversion}" refid="dist-@{app-name}.dir.before-conversion"/>
+
+         <!-- Create the classpath -->
+         <pathconvert property="@{app-name}.execution.classpath" targetos="${platform-for-path-conversion}" refid="@{app-name}.execution.classpath.elements">
+            <map from="${dist-@{app-name}.dir.after-conversion}" to="."/>
+         </pathconvert>
+
+         <!-- copy scripts (with filtering) -->
+         <copy todir="@{dist-dir}" flatten="true">
+            <fileset dir="${scripts.dir}/@{app-name}" includes="**/*.${script-file-extension}"/>
+            <filterset>
+               <filter token="Classpath" value="${@{app-name}.execution.classpath}"/>
+            </filterset>
+         </copy>
+
+         <!-- set permissions for the executables and scripts-->
+         <chmod dir="${dist.dir}" includes="**/*.bat, **/*.sh" perm="755" verbose="true"/>
+      </sequential>
+   </macrodef>
+
+</project>

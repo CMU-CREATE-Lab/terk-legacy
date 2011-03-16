@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <typedef class="edu.cmu.ri.mrpl.TeRK.persistence.StringEnumUserType" name="enumAccessLevel">
+      <param name="enumClassname">edu.cmu.ri.mrpl.TeRK.model.AccessLevel</param>
+   </typedef>
+
+   <class name="edu.cmu.ri.mrpl.TeRK.model.PeerAssociationRule" table="PEER_ASSOCIATION_RULES">
+      <id name="id" column="PEER_ASSOCIATION_RULE_ID_KEY">
+         <generator class="native"/>
+      </id>
+      <natural-id>
+         <many-to-one name="sendingUser"
+                      class="edu.cmu.ri.mrpl.TeRK.model.TerkUser"
+                      column="SENDING_USER_ID_KEY"
+                      not-null="true"/>
+         <many-to-one name="receivingUser"
+                      class="edu.cmu.ri.mrpl.TeRK.model.TerkUser"
+                      column="RECEIVING_USER_ID_KEY"
+                      not-null="true"/>
+      </natural-id>
+      <property name="accessLevel" column="ACCESS_LEVEL" type="enumAccessLevel" not-null="true"/>
+   </class>
+   <query name="findPeerAssociationRuleForUsers"><![CDATA[
+      from PeerAssociationRule where
+      (sendingUser = :user1) and
+      (receivingUser = :user2)
+   ]]></query>
+</hibernate-mapping>

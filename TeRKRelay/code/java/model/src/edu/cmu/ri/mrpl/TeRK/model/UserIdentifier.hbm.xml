@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <class name="edu.cmu.ri.mrpl.TeRK.model.UserIdentifier" table="USER_IDENTIFIERS">
+      <id name="id" column="USER_IDENTIFIER_ID_KEY">
+         <generator class="native"/>
+      </id>
+      <natural-id mutable="false">
+         <property name="userId" column="USER_ID" not-null="true" unique="true"/>
+      </natural-id>
+      <property name="password" column="PASSWORD" not-null="false"/>
+      <property name="firstName" column="FIRST_NAME" not-null="false"/>
+      <property name="lastName" column="LAST_NAME" not-null="false"/>
+
+      <!-- one-to-one mapping to TerkUser -->
+      <one-to-one name="terkUser" property-ref="userIdentifier"/>
+   </class>
+   <query name="findUserIdentifierByUserId"><![CDATA[
+      from UserIdentifier where
+      (userId = :userId)
+   ]]></query>
+</hibernate-mapping>

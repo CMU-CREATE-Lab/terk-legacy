@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeRKRelay" default="all">
+
+   <!-- Properties -->
+   <dirname property="base.directory" file="${ant.file}"/>
+   <property file="${user.home}/.terk-project.properties"/>
+   <property file="build.properties"/>
+   <property environment="env"/>
+
+   <condition property="local.host.domain.name" value="${env.HOSTNAME}">
+      <isset property="env.HOSTNAME"/>
+   </condition>
+
+   <property name="build.target" value="dev" description="default the build target to 'dev' (override with -D on the command line)"/>
+   <condition property="build.target.is-valid">
+      <or>
+         <equals arg1="${build.target}" arg2="dev"/>
+         <equals arg1="${build.target}" arg2="test"/>
+         <equals arg1="${build.target}" arg2="prod"/>
+      </or>
+   </condition>
+   <echo level="info" message="Build Target: ${build.target}"/>
+   <fail message="Property 'build.target' must be one of: dev, test, prod" unless="build.target.is-valid"/>
+
+   <property file="${build.number.file}"/>
+   <condition property="build.number.is-valid">
+      <isset property="build.number"/>
+   </condition>
+   <fail message="Property 'build.number' must be specified in the ${build.number.file} file!!" unless="build.number.is-valid"/>
+   <property name="build.number" value="none"/>
+   <echo level="info" message="Build Number: ${build.number}"/>
+
+   <property name="zeroc.slice.dir" value="${env.ICE_HOME}/slice"/>
+   <condition property="isWindows">
+      <os family="windows"/>
+   </condition>
+
+   <!-- Task definitions -->
+   <taskdef name="slice2java" classname="Slice2JavaTask">
+      <classpath>
+         <pathelement location="${ice-ant.jar}"/>
+      </classpath>
+   </taskdef>
+   <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <pathelement location="${ant-contrib.jar}"/>
+      </classpath>
+   </taskdef>
+
+   <!-- Paths -->
+   <path id="model.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-model.java.dir}"/>
+
+      <!-- test classes -->
+      <pathelement path="${build-model-test.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+   </path>
+
+   <!-- Paths -->
+   <path id="persistence.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-persistence.java.dir}"/>
+
+      <!-- test classes -->
+      <pathelement path="${build-persistence-test.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${antlr.jar}"/>
+      <pathelement path="${asm-attrs.jar}"/>
+      <pathelement path="${asm.jar}"/>
+      <pathelement path="${c3p0.jar}"/>
+      <pathelement path="${cglib.jar}"/>
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${dom4j.jar}"/>
+      <pathelement path="${hibernate.jar}"/>
+      <pathelement path="${jta.jar}"/>
+      <pathelement path="${mysql-connector-java.jar}"/>
+   </path>
+
+   <!-- Paths -->
+   <path id="relay.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-model.java.dir}"/>
+      <pathelement path="${build-persistence.java.dir}"/>
+      <pathelement path="${build-relay.java.dir}"/>
+
+      <!-- test classes -->
+      <pathelement path="${build-relay-test.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${antlr.jar}"/>
+      <pathelement path="${asm-attrs.jar}"/>
+      <pathelement path="${asm.jar}"/>
+      <pathelement path="${c3p0.jar}"/>
+      <pathelement path="${cglib.jar}"/>
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${dom4j.jar}"/>
+      <pathelement path="${hibernate.jar}"/>
+      <pathelement path="${jta.jar}"/>
+      <pathelement path="${mysql-connector-java.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+   </path>
+
+   <!-- Compiler options -->
+   <patternset id="compiler.resources">
+      <!-- excluded files -->
+      <exclude name="**/CVS/**"/>
+      <exclude name="**/SCCS/**"/>
+      <exclude name="**/RCS/**"/>
+      <exclude name="**/rcs/**"/>
+      <exclude name="**/.DS_Store/**"/>
+      <exclude name="**/.svn/**"/>
+      <!-- included files -->
+      <include name="**/?*.gif"/>
+      <include name="**/?*.png"/>
+      <include name="**/?*.jpeg"/>
+      <include name="**/?*.jpg"/>
+      <include name="**/?*.dll"/>
+      <include name="**/?*.lib"/>
+   </patternset>
+   <patternset id="compiler.resources.filterable">
+      <include name="**/?*.properties"/>
+      <include name="**/?*.xml"/>
+      <include name="**/?*.htm"/>
+      <include name="**/?*.html"/>
+      <include name="**/?*.dtd"/>
+      <include name="**/?*.tld"/>
+      <include name="**/?*.xsd"/>
+      <include name="**/?*.xsl"/>
+      <include name="**/?*.ice"/>
+      <include name="**/?*.pem"/>
+   </patternset>
+
+   <!-- ============================================================================================================ -->
+
+   <target name="all" depends="clean, build, dist" description="build all"/>
+
+   <target name="clean" description="clean up">
+      <delete dir="${build.dir}"/>
+      <delete dir="${dist.dir}"/>
+   </target>
+
+   <target name="init" unless="initIsComplete">
+      <!-- prompt the user for the passwords required to connect to the database used by the relay server -->
+      <input message="Relay User Database Username: " addproperty="database.connection.username"/>
+      <input message="Relay User Database Password: " addproperty="database.connection.password"/>
+
+      <property file="build.${build.target}.properties"/>
+      <echo level="info" message="Local Hostname=${local.host.domain.name}"/>
+      <echo level="info" message="Glacier Hostname=${glacier.host}"/>
+      <echo level="info" message="Database Connection URL=${database.connection.url}"/>
+      <echo level="info" message="Database Connection User=${database.connection.username}"/>
+
+      <!-- Create the time stamp -->
+      <tstamp/>
+
+      <!-- Create the output directories -->
+      <mkdir dir="${build.dir}"/>
+      <mkdir dir="${build-relay.java.dir}"/>
+      <mkdir dir="${build-relay-test.java.dir}"/>
+      <mkdir dir="${build-model.java.dir}"/>
+      <mkdir dir="${build-model-test.java.dir}"/>
+      <mkdir dir="${build-persistence.java.dir}"/>
+      <mkdir dir="${build-persistence-test.java.dir}"/>
+
+      <property name="initIsComplete" value="true"/>
+   </target>
+
+   <target name="build-third-party" unless="BuildThirdPartyIsComplete">
+      <property name="BuildThirdPartyIsComplete" value="true"/>
+   </target>
+
+   <target name="build" depends="compile.java, run-tests" description="build the project" unless="buildIsComplete">
+      <property name="buildIsComplete" value="true"/>
+   </target>
+
+   <target name="dist" depends="build" description="create the distribution" unless="distIsComplete">
+      <!-- create the dist directory -->
+      <mkdir dir="${dist.dir}"/>
+
+      <!-- create jar of relay Java classes -->
+      <jar destfile="${dist.dir}/${model-jar.filename}"
+           basedir="${build-model.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- create jar of relay Java classes -->
+      <jar destfile="${dist.dir}/${persistence-jar.filename}"
+           basedir="${build-persistence.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- create jar of relay Java classes -->
+      <jar destfile="${dist.dir}/${relay-jar.filename}"
+           basedir="${build-relay.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${antlr.jar}"/>
+         <fileset file="${asm-attrs.jar}"/>
+         <fileset file="${asm.jar}"/>
+         <fileset file="${c3p0.jar}"/>
+         <fileset file="${cglib.jar}"/>
+         <fileset file="${commons-collections.jar}"/>
+         <fileset file="${dom4j.jar}"/>
+         <fileset file="${hibernate.jar}"/>
+         <fileset file="${jta.jar}"/>
+         <fileset file="${mysql-connector-java.jar}"/>
+      </copy>
+
+      <!-- copy Glacier stuff -->
+      <copy todir="${dist.dir}">
+         <fileset dir="${conf.dir}/Glacier">
+            <patternset refid="compiler.resources"/>
+         </fileset>
+      </copy>
+      <copy todir="${dist.dir}">
+         <fileset dir="${conf.dir}/Glacier">
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+         <filterset>
+            <filter token="build.target" value="${build.target}"/>
+            <filter token="build.number" value="${build.number}"/>
+            <filter token="glacier.host" value="${glacier.host}"/>
+            <filter token="database.connection.url" value="${database.connection.url}"/>
+            <filter token="database.connection.username" value="${database.connection.username}"/>
+            <filter token="database.connection.password" value="${database.connection.password}"/>
+         </filterset>
+      </copy>
+
+      <copy-scripts app-name="relay" dist-dir="${dist.dir}"/>
+
+      <property name="distIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.java.src" depends="build-third-party, init" unless="compileJavaSrcIsComplete">
+      <!-- Compile model src classes -->
+      <javac srcdir="${src-model.java.dir}"
+             destdir="${build-model.java.dir}"
+             classpathref="model.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- Compile persistence src classes -->
+      <javac srcdir="${src-persistence.java.dir}"
+             destdir="${build-persistence.java.dir}"
+             classpathref="persistence.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- Compile relay src classes -->
+      <javac srcdir="${src-relay.java.dir}"
+             destdir="${build-relay.java.dir}"
+             classpathref="relay.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- copy model resources -->
+      <copy todir="${build-model.java.dir}">
+         <fileset dir="${src-model.java.dir}">
+            <patternset refid="compiler.resources"/>
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+      </copy>
+
+      <!-- copy persistence resources -->
+      <copy todir="${build-persistence.java.dir}">
+         <fileset dir="${src-persistence.java.dir}">
+            <patternset refid="compiler.resources"/>
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+      </copy>
+
+      <!-- copy relay resources -->
+      <copy todir="${build-relay.java.dir}">
+         <fileset dir="${src-relay.java.dir}">
+            <patternset refid="compiler.resources"/>
+         </fileset>
+      </copy>
+      <copy todir="${build-relay.java.dir}">
+         <fileset dir="${src-relay.java.dir}">
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+         <filterset>
+            <filter token="build.target" value="${build.target}"/>
+            <filter token="build.number" value="${build.number}"/>
+            <filter token="glacier.host" value="${glacier.host}"/>
+            <filter token="database.connection.url" value="${database.connection.url}"/>
+            <filter token="database.connection.username" value="${database.connection.username}"/>
+            <filter token="database.connection.password" value="${database.connection.password}"/>
+         </filterset>
+      </copy>
+
+      <property name="compileJavaSrcIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.java.test" depends="compile.java.src" unless="compileJavaTestIsComplete">
+      <!-- Compile model test classes -->
+      <javac srcdir="${src-model-test.java.dir}"
+             destdir="${build-model-test.java.dir}"
+             classpathref="model.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- Compile persistence test classes -->
+      <javac srcdir="${src-persistence-test.java.dir}"
+             destdir="${build-persistence-test.java.dir}"
+             classpathref="persistence.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- Compile relay test classes -->
+      <javac srcdir="${src-relay-test.java.dir}"
+             destdir="${build-relay-test.java.dir}"
+             classpathref="relay.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- copy model test resources -->
+      <copy todir="${build-model-test.java.dir}">
+         <fileset dir="${src-model-test.java.dir}">
+            <patternset refid="compiler.resources"/>
+         </fileset>
+      </copy>
+
+      <!-- copy persistence test resources -->
+      <copy todir="${build-persistence-test.java.dir}">
+         <fileset dir="${src-persistence-test.java.dir}">
+            <patternset refid="compiler.resources"/>
+         </fileset>
+      </copy>
+
+      <!-- copy relay test resources -->
+      <copy todir="${build-relay-test.java.dir}">
+         <fileset dir="${src-relay-test.java.dir}">
+            <patternset refid="compiler.resources"/>
+         </fileset>
+      </copy>
+      <copy todir="${build-relay-test.java.dir}">
+         <fileset dir="${src-relay-test.java.dir}">
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+         <filterset>
+            <filter token="build.target" value="${build.target}"/>
+            <filter token="build.number" value="${build.number}"/>
+            <filter token="glacier.host" value="${glacier.host}"/>
+            <filter token="database.connection.url" value="${database.connection.url}"/>
+            <filter token="database.connection.username" value="${database.connection.username}"/>
+            <filter token="database.connection.password" value="${database.connection.password}"/>
+         </filterset>
+      </copy>
+
+      <property name="compileJavaTestIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.java" depends="compile.java.src, compile.java.test" unless="compileJavaIsComplete">
+      <property name="compileJavaIsComplete" value="true"/>
+   </target>
+
+   <target name="run-tests" depends="compile.java" description="runs all JUnit tests" unless="runTestsIsComplete">
+      <!-- run model tests -->
+      <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
+         <classpath refid="model.classpath"/>
+         <batchtest>
+            <fileset dir="${src-model-test.java.dir}">
+               <include name="**/*Test.java"/>
+            </fileset>
+         </batchtest>
+      </junit>
+
+      <!-- run persistence tests -->
+      <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
+         <classpath refid="persistence.classpath"/>
+         <batchtest>
+            <fileset dir="${src-persistence-test.java.dir}">
+               <include name="**/*Test.java"/>
+            </fileset>
+         </batchtest>
+      </junit>
+
+      <!-- run relay tests -->
+      <!-- TODO: enable this again
+      <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
+         <classpath refid="relay.classpath"/>
+
+         <batchtest>
+            <fileset dir="${src-relay-test.java.dir}">
+               <include name="**/*Test.java"/>
+            </fileset>
+         </batchtest>
+      </junit>
+      -->
+
+      <property name="runTestsIsComplete" value="true"/>
+   </target>
+
+   <target name="javadoc" depends="build" unless="javadocIsComplete" description="generate javadocs">
+      <mkdir dir="${dist.dir}/javadoc"/>
+      <javadoc packagenames="*"
+               destdir="${dist.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK Relay API"
+               doctitle="TeRK Relay API"
+               protected="true">
+         <classpath>
+            <path refid="model.classpath"/>
+            <path refid="persistence.classpath"/>
+            <path refid="relay.classpath"/>
+         </classpath>
+         <packageset dir="${src-model.java.dir}"/>
+         <packageset dir="${src-persistence.java.dir}"/>
+         <packageset dir="${src-relay.java.dir}"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+         <link href="http://www.hibernate.org/hib_docs/v3/api/"/>
+      </javadoc>
+
+      <property name="javadocIsComplete" value="true"/>
+   </target>
+
+   <target name="db-generate-script" depends="dist" description="Generates SQL script for initializing the database tables.">
+      <mkdir dir="${dist.dir}/sql"/>
+      <taskdef name="schemaexport" classname="org.hibernate.tool.hbm2ddl.SchemaExportTask" classpathref="relay.classpath"/>
+
+      <schemaexport
+            config="${build-relay.java.dir}/hibernate.cfg.xml"
+            quiet="true"
+            text="true"
+            delimiter=";"
+            output="${dist.dir}/sql/create-tables.sql">
+      </schemaexport>
+   </target>
+
+   <target name="db-init-prompt">
+      <input message="All data is going to be deleted from the database!  Continue? "
+             validargs="y,n"
+             addproperty="do.db-init"
+             defaultvalue="n"/>
+      <condition property="do.abort-db-init">
+         <equals arg1="n" arg2="${do.db-init}"/>
+      </condition>
+      <fail if="do.abort-db-init">Build aborted by user.</fail>
+   </target>
+
+   <target name="db-init" depends="db-init-prompt, dist" description="Initializes the database tables (by dropping and creating them).">
+
+      <mkdir dir="${dist.dir}/sql"/>
+      <taskdef name="schemaexport" classname="org.hibernate.tool.hbm2ddl.SchemaExportTask" classpathref="relay.classpath"/>
+
+      <schemaexport
+            config="${build-relay.java.dir}/hibernate.cfg.xml"
+            quiet="true"
+            text="false"
+            delimiter=";"
+            output="${dist.dir}/sql/create-tables.sql">
+      </schemaexport>
+   </target>
+
+   <target name="db-populate" depends="dist" description="Populates the database tables with default data.">
+      <java classname="edu.cmu.ri.mrpl.TeRK.relay.DatabasePopulator"
+            classpathref="relay.classpath"
+            fork="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Macro definitions -->
+   <!-- ============================================================================================================ -->
+
+   <macrodef name="copy-scripts">
+      <attribute name="app-name"/>
+      <attribute name="dist-dir"/>
+      <sequential>
+         <if>
+            <istrue value="${isWindows}"/>
+            <then>
+               <property name="platform-for-path-conversion" value="windows"/>
+               <property name="script-file-extension" value="bat"/>
+            </then>
+            <else>
+               <property name="platform-for-path-conversion" value="unix"/>
+               <property name="script-file-extension" value="sh"/>
+            </else>
+         </if>
+
+         <!-- define the execution classpath for use in the scripts -->
+         <path id="@{app-name}.execution.classpath.elements">
+            <fileset dir="@{dist-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </path>
+
+         <!-- Set up a path id for the dist directory so it contains the correct kind of slashes when we do the pathconvert mapping -->
+         <path id="dist-@{app-name}.dir.before-conversion" path="@{dist-dir}"/>
+
+         <!-- Convert the dist directory path for the target platform to ensure that all the slashes are in the right direction -->
+         <pathconvert property="dist-@{app-name}.dir.after-conversion" targetos="${platform-for-path-conversion}" refid="dist-@{app-name}.dir.before-conversion"/>
+
+         <!-- Create the classpath -->
+         <pathconvert property="@{app-name}.execution.classpath" targetos="${platform-for-path-conversion}" refid="@{app-name}.execution.classpath.elements">
+            <map from="${dist-@{app-name}.dir.after-conversion}" to="."/>
+         </pathconvert>
+
+         <!-- copy scripts (with filtering) -->
+         <copy todir="@{dist-dir}" flatten="true">
+            <fileset dir="${scripts.dir}" includes="**/*.${script-file-extension}"/>
+            <filterset>
+               <filter token="Classpath" value="${@{app-name}.execution.classpath}"/>
+            </filterset>
+         </copy>
+
+         <!-- set permissions for the executables and scripts-->
+         <chmod dir="${dist.dir}" includes="**/*.bat, **/*.sh" perm="755" verbose="true"/>
+      </sequential>
+   </macrodef>
+</project>

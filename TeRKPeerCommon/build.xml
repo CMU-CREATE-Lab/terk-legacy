@@ -1,0 +1,2288 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeRKPeerCommon" default="all">
+
+   <!-- Properties -->
+   <dirname property="base.directory" file="${ant.file}"/>
+   <property file="${user.home}/.terk-project.properties"/>
+   <property file="build.properties"/>
+   <property environment="env"/>
+   <property name="zeroc.slice.dir" value="${env.ICE_HOME}/slice"/>
+   <property name="zeroc.slice-embedded.dir" value="${env.ICE_E_HOME}/slice"/>
+
+   <!-- Task definitions -->
+   <taskdef name="slice2java" classname="Slice2JavaTask">
+      <classpath>
+         <pathelement location="${ice-ant.jar}"/>
+      </classpath>
+   </taskdef>
+   <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <pathelement location="${ant-contrib.jar}"/>
+      </classpath>
+   </taskdef>
+
+   <!-- Classpaths -->
+   <path id="javadoc.classpath">
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+   </path>
+
+   <path id="accelerometer.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="analogin.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="application.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="audio.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${userinterface.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+   </path>
+
+   <path id="audioclips.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="client.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${video.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+   </path>
+
+   <path id="buzzer.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="color.classpath">
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+   </path>
+
+   <path id="commandline.classpath">
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+   </path>
+
+   <path id="common.classpath">
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+   </path>
+
+   <path id="communicator.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="communicatormanager.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${servant.build.java.dir}"/>
+      <pathelement path="${userinterface.build.java.dir}"/>
+
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="connectionwizard.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${communicatormanager.build.java.dir}"/>
+      <pathelement path="${userinterface.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="digitalin.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="digitalout.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="expression.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${userinterface.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="finch.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${accelerometer.build.java.dir}"/>
+      <pathelement path="${audio.build.java.dir}"/>
+      <pathelement path="${buzzer.build.java.dir}"/>
+      <pathelement path="${color.build.java.dir}"/>
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${motor.build.java.dir}"/>
+      <pathelement path="${obstacle.build.java.dir}"/>
+      <pathelement path="${photoresistor.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${thermistor.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="hummingbird.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${analogin.build.java.dir}"/>
+      <pathelement path="${audio.build.java.dir}"/>
+      <pathelement path="${color.build.java.dir}"/>
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="led.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${color.build.java.dir}"/>
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="motor.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="obstacle.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="peerinfo.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+   </path>
+
+   <path id="photoresistor.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="qwerk.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${analogin.build.java.dir}"/>
+      <pathelement path="${audio.build.java.dir}"/>
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${digitalin.build.java.dir}"/>
+      <pathelement path="${digitalout.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${led.build.java.dir}"/>
+      <pathelement path="${motor.build.java.dir}"/>
+      <pathelement path="${serial.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${servo.build.java.dir}"/>
+      <pathelement path="${video.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="roboticon.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${peerinfo.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+   </path>
+
+   <path id="serial.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${serialconfig.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="serialconfig.classpath">
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="servant.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+   </path>
+
+   <path id="service.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${communicator.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="servo.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${xml.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="speech.classpath">
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="thermistor.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="userinterface.classpath">
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="video.classpath">
+      <!-- other classes within this module -->
+      <pathelement path="${common.build.java.dir}"/>
+      <pathelement path="${service.build.java.dir}"/>
+      <pathelement path="${expression.build.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <path id="xml.classpath">
+      <!-- other classes within this module -->
+
+      <!-- third-party jars -->
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+   </path>
+
+   <!-- Compiler resources -->
+   <patternset id="compiler.resources">
+      <!-- excluded files -->
+      <exclude name="**/CVS/**"/>
+      <exclude name="**/SCCS/**"/>
+      <exclude name="**/RCS/**"/>
+      <exclude name="**/rcs/**"/>
+      <exclude name="**/.DS_Store/**"/>
+      <exclude name="**/.svn/**"/>
+      <!-- included files -->
+      <include name="**/?*.properties"/>
+      <include name="**/?*.xml"/>
+      <include name="**/?*.htm"/>
+      <include name="**/?*.html"/>
+      <include name="**/?*.dtd"/>
+      <include name="**/?*.tld"/>
+      <include name="**/?*.xsd"/>
+      <include name="**/?*.xsl"/>
+      <include name="**/?*.gif"/>
+      <include name="**/?*.png"/>
+      <include name="**/?*.jpeg"/>
+      <include name="**/?*.jpg"/>
+      <include name="**/?*.dll"/>
+      <include name="**/?*.lib"/>
+      <include name="**/?*.ice"/>
+      <include name="**/?*.pem"/>
+   </patternset>
+
+   <!-- ============================================================================================================ -->
+
+   <target name="all" depends="clean, dist" description="build all"/>
+
+   <target name="clean" description="clean up">
+      <delete dir="${build.dir}"/>
+      <delete dir="${dist.dir}"/>
+      <delete dir="${src-gen.c#.dir}"/>
+      <delete dir="${accelerometer.src-gen.java.dir}"/>
+      <delete dir="${analogin.src-gen.java.dir}"/>
+      <delete dir="${audio.src-gen.java.dir}"/>
+      <delete dir="${buzzer.src-gen.java.dir}"/>
+      <delete dir="${client.src-gen.java.dir}"/>
+      <delete dir="${color.src-gen.java.dir}"/>
+      <delete dir="${commandline.src-gen.java.dir}"/>
+      <delete dir="${common.src-gen.java.dir}"/>
+      <delete dir="${digitalin.src-gen.java.dir}"/>
+      <delete dir="${digitalout.src-gen.java.dir}"/>
+      <delete dir="${finch.src-gen.java.dir}"/>
+      <delete dir="${hummingbird.src-gen.java.dir}"/>
+      <delete dir="${led.src-gen.java.dir}"/>
+      <delete dir="${motor.src-gen.java.dir}"/>
+      <delete dir="${obstacle.src-gen.java.dir}"/>
+      <delete dir="${peerinfo.src-gen.java.dir}"/>
+      <delete dir="${photoresistor.src-gen.java.dir}"/>
+      <delete dir="${qwerk.src-gen.java.dir}"/>
+      <delete dir="${roboticon.src-gen.java.dir}"/>
+      <delete dir="${serial.src-gen.java.dir}"/>
+      <delete dir="${servo.src-gen.java.dir}"/>
+      <delete dir="${speech.src-gen.java.dir}"/>
+      <delete dir="${thermistor.src-gen.java.dir}"/>
+      <delete dir="${video.src-gen.java.dir}"/>
+   </target>
+
+   <target name="init" unless="initIsComplete">
+      <!-- Create the time stamp -->
+      <tstamp/>
+
+      <property name="initIsComplete" value="true"/>
+   </target>
+
+   <target name="build" depends="compile.slice, compile.java" description="builds all components" unless="buildIsComplete">
+      <property name="buildIsComplete" value="true"/>
+   </target>
+
+   <target name="javadoc" depends="build" description="generate javadocs" unless="javadocIsComplete">
+      <mkdir dir="${dist.dir}/javadoc"/>
+      <javadoc packagenames="*"
+               classpathref="javadoc.classpath"
+               destdir="${dist.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK Peer Common API"
+               doctitle="TeRK Peer Common API"
+               protected="true">
+         <packageset dir="${accelerometer.src.java.dir}"/>
+         <packageset dir="${analogin.src.java.dir}"/>
+         <packageset dir="${application.src.java.dir}"/>
+         <packageset dir="${audio.src.java.dir}"/>
+         <packageset dir="${audioclips.src.java.dir}"/>
+         <packageset dir="${buzzer.src.java.dir}"/>
+         <packageset dir="${client.src.java.dir}"/>
+         <packageset dir="${color.src.java.dir}"/>
+         <packageset dir="${commandline.src.java.dir}"/>
+         <packageset dir="${common.src.java.dir}"/>
+         <packageset dir="${communicator.src.java.dir}"/>
+         <packageset dir="${communicatormanager.src.java.dir}"/>
+         <packageset dir="${connectionwizard.src.java.dir}"/>
+         <packageset dir="${digitalin.src.java.dir}"/>
+         <packageset dir="${digitalout.src.java.dir}"/>
+         <packageset dir="${expression.src.java.dir}"/>
+         <packageset dir="${finch.src.java.dir}"/>
+         <packageset dir="${hummingbird.src.java.dir}"/>
+         <packageset dir="${led.src.java.dir}"/>
+         <packageset dir="${motor.src.java.dir}"/>
+         <packageset dir="${obstacle.src.java.dir}"/>
+         <packageset dir="${peerinfo.src.java.dir}"/>
+         <packageset dir="${photoresistor.src.java.dir}"/>
+         <packageset dir="${qwerk.src.java.dir}"/>
+         <packageset dir="${roboticon.src.java.dir}"/>
+         <packageset dir="${serial.src.java.dir}"/>
+         <packageset dir="${serialconfig.src.java.dir}"/>
+         <packageset dir="${servant.src.java.dir}"/>
+         <packageset dir="${service.src.java.dir}"/>
+         <packageset dir="${servo.src.java.dir}"/>
+         <packageset dir="${speech.src.java.dir}"/>
+         <packageset dir="${thermistor.src.java.dir}"/>
+         <packageset dir="${userinterface.src.java.dir}"/>
+         <packageset dir="${video.src.java.dir}"/>
+         <packageset dir="${xml.src.java.dir}"/>
+
+         <packageset dir="${accelerometer.src-gen.java.dir}"/>
+         <packageset dir="${analogin.src-gen.java.dir}"/>
+         <packageset dir="${audio.src-gen.java.dir}"/>
+         <packageset dir="${buzzer.src-gen.java.dir}"/>
+         <packageset dir="${client.src-gen.java.dir}"/>
+         <packageset dir="${color.src-gen.java.dir}"/>
+         <packageset dir="${commandline.src-gen.java.dir}"/>
+         <packageset dir="${common.src-gen.java.dir}"/>
+         <packageset dir="${digitalin.src-gen.java.dir}"/>
+         <packageset dir="${digitalout.src-gen.java.dir}"/>
+         <packageset dir="${finch.src-gen.java.dir}"/>
+         <packageset dir="${hummingbird.src-gen.java.dir}"/>
+         <packageset dir="${led.src-gen.java.dir}"/>
+         <packageset dir="${motor.src-gen.java.dir}"/>
+         <packageset dir="${obstacle.src-gen.java.dir}"/>
+         <packageset dir="${peerinfo.src-gen.java.dir}"/>
+         <packageset dir="${photoresistor.src-gen.java.dir}"/>
+         <packageset dir="${qwerk.src-gen.java.dir}"/>
+         <packageset dir="${roboticon.src-gen.java.dir}"/>
+         <packageset dir="${serial.src-gen.java.dir}"/>
+         <packageset dir="${servo.src-gen.java.dir}"/>
+         <packageset dir="${speech.src-gen.java.dir}"/>
+         <packageset dir="${thermistor.src-gen.java.dir}"/>
+         <packageset dir="${video.src-gen.java.dir}"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <property name="javadocIsComplete" value="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Distributions  -->
+   <!-- ============================================================================================================ -->
+
+   <target name="dist"
+           depends="dist.accelerometer,
+                    dist.analogin,
+                    dist.application,
+                    dist.audio,
+                    dist.audioclips,
+                    dist.buzzer,
+                    dist.client,
+                    dist.color,
+                    dist.commandline,
+                    dist.common,
+                    dist.communicator,
+                    dist.communicatormanager,
+                    dist.connectionwizard,
+                    dist.digitalin,
+                    dist.digitalout,
+                    dist.expression,
+                    dist.finch,
+                    dist.hummingbird,
+                    dist.led,
+                    dist.motor,
+                    dist.obstacle,
+                    dist.peerinfo,
+                    dist.photoresistor,
+                    dist.qwerk,
+                    dist.roboticon,
+                    dist.serial,
+                    dist.serialconfig,
+                    dist.servant,
+                    dist.service,
+                    dist.servo,
+                    dist.speech,
+                    dist.thermistor,
+                    dist.userinterface,
+                    dist.video,
+                    dist.xml"
+           description="create the distribution"
+           unless="distIsComplete">
+      <property name="distIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.accelerometer" depends="compile.java.accelerometer, dist.common, dist.service" description="create the distribution for the accelerometer component" unless="distAccelerometerIsComplete">
+      <create-dist build-dir="${accelerometer.build.java.dir}"
+                   dist-dir="${accelerometer.dist.dir}"
+                   jar-filename="${accelerometer.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distAccelerometerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.analogin" depends="compile.java.analogin, dist.common, dist.expression, dist.service" description="create the distribution for the analog-in component" unless="distAnalogInIsComplete">
+      <create-dist build-dir="${analogin.build.java.dir}"
+                   dist-dir="${analogin.dist.dir}"
+                   jar-filename="${analogin.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distAnalogInIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.application" depends="compile.java.application, dist.common, dist.service" description="create the distribution for the application component" unless="distApplicationIsComplete">
+      <create-dist build-dir="${application.build.java.dir}"
+                   dist-dir="${application.dist.dir}"
+                   jar-filename="${application.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distApplicationIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.audio" depends="compile.java.audio, dist.common, dist.expression, dist.service, dist.userinterface" description="create the distribution for the audio component" unless="distAudioIsComplete">
+      <create-dist build-dir="${audio.build.java.dir}"
+                   dist-dir="${audio.dist.dir}"
+                   jar-filename="${audio.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${userinterface.dist.dir}/${userinterface.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distAudioIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.audioclips" depends="compile.java.audioclips, dist.common" description="create the distribution for the audioclips component" unless="distAudioClipsIsComplete">
+      <create-dist build-dir="${audioclips.build.java.dir}"
+                   dist-dir="${audioclips.dist.dir}"
+                   jar-filename="${audioclips.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+
+      <property name="distAudioClipsIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.buzzer" depends="compile.java.buzzer,
+                                       dist.common,
+                                       dist.expression,
+                                       dist.service,
+                                       dist.xml" description="create the distribution for the buzzer component" unless="distBuzzerIsComplete">
+      <create-dist build-dir="${buzzer.build.java.dir}"
+                   dist-dir="${buzzer.dist.dir}"
+                   jar-filename="${buzzer.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distBuzzerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.client" depends="compile.java.client, dist.common, dist.video" description="create the distribution for the client component" unless="distClientIsComplete">
+      <create-dist build-dir="${client.build.java.dir}"
+                   dist-dir="${client.dist.dir}"
+                   jar-filename="${client.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-peer.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${video.dist.dir}/${video.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distClientIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.color" depends="compile.java.color" description="create the distribution for the color component" unless="distColorIsComplete">
+      <create-dist build-dir="${color.build.java.dir}"
+                   dist-dir="${color.dist.dir}"
+                   jar-filename="${color.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distColorIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.commandline" depends="compile.java.commandline" description="create the distribution for the commandline component" unless="distCommandLineIsComplete">
+      <create-dist build-dir="${commandline.build.java.dir}"
+                   dist-dir="${commandline.dist.dir}"
+                   jar-filename="${commandline.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-peer.jar}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distCommandLineIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.common" depends="compile.java.common" description="create the distribution for the common component" unless="distCommonIsComplete">
+      <create-dist build-dir="${common.build.java.dir}"
+                   dist-dir="${common.dist.dir}"
+                   jar-filename="${common.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-peer.jar}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distCommonIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.communicator" depends="compile.java.communicator, dist.common" description="create the distribution for the communicator component" unless="distCommunicatorIsComplete">
+      <create-dist build-dir="${communicator.build.java.dir}"
+                   dist-dir="${communicator.dist.dir}"
+                   jar-filename="${communicator.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-peer.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distCommunicatorIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.communicatormanager" depends="compile.java.communicatormanager,
+                                                    dist.common,
+                                                    dist.communicator,
+                                                    dist.servant,
+                                                    dist.userinterface" description="create the distribution for the communicator manager component" unless="distCommunicatorManagerIsComplete">
+      <create-dist build-dir="${communicatormanager.build.java.dir}"
+                   dist-dir="${communicatormanager.dist.dir}"
+                   jar-filename="${communicatormanager.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-peer.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${communicator.dist.dir}/${communicator.jar.filename}"/>
+            <fileset file="${servant.dist.dir}/${servant.jar.filename}"/>
+            <fileset file="${userinterface.dist.dir}/${userinterface.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distCommunicatorManagerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.connectionwizard" depends="compile.java.connectionwizard,
+                                                 dist.communicator,
+                                                 dist.communicatormanager,
+                                                 dist.userinterface" description="create the distribution for the connection wizard component" unless="distConnectionWizardIsComplete">
+      <create-dist build-dir="${connectionwizard.build.java.dir}"
+                   dist-dir="${connectionwizard.dist.dir}"
+                   jar-filename="${connectionwizard.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-peer.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${communicator.dist.dir}/${communicator.jar.filename}"/>
+            <fileset file="${communicatormanager.dist.dir}/${communicatormanager.jar.filename}"/>
+            <fileset file="${userinterface.dist.dir}/${userinterface.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distConnectionWizardIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.digitalin" depends="compile.java.digitalin, dist.common, dist.expression, dist.service" description="create the distribution for the digital-in component" unless="distDigitalInIsComplete">
+      <create-dist build-dir="${digitalin.build.java.dir}"
+                   dist-dir="${digitalin.dist.dir}"
+                   jar-filename="${digitalin.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distDigitalInIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.digitalout" depends="compile.java.digitalout, dist.common, dist.expression, dist.service" description="create the distribution for the digital-out component" unless="distDigitalOutIsComplete">
+      <create-dist build-dir="${digitalout.build.java.dir}"
+                   dist-dir="${digitalout.dist.dir}"
+                   jar-filename="${digitalout.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distDigitalOutIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.expression" depends="compile.java.expression, dist.common, dist.userinterface, dist.xml" description="create the distribution for the expression component" unless="distExressionIsComplete">
+      <create-dist build-dir="${expression.build.java.dir}"
+                   dist-dir="${expression.dist.dir}"
+                   jar-filename="${expression.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${userinterface.dist.dir}/${userinterface.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distExpressionIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.finch" depends="compile.java.finch,
+                                            dist.accelerometer,
+                                            dist.audio,
+                                            dist.buzzer,
+                                            dist.color,
+                                            dist.common,
+                                            dist.communicator,
+                                            dist.expression,
+                                            dist.motor,
+                                            dist.obstacle,
+                                            dist.photoresistor,
+                                            dist.service,
+                                            dist.thermistor" description="create the distribution for the Finch component" unless="distFinchIsComplete">
+      <create-dist build-dir="${finch.build.java.dir}"
+                   dist-dir="${finch.dist.dir}"
+                   jar-filename="${finch.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${accelerometer.dist.dir}/${accelerometer.jar.filename}"/>
+            <fileset file="${audio.dist.dir}/${audio.jar.filename}"/>
+            <fileset file="${buzzer.dist.dir}/${buzzer.jar.filename}"/>
+            <fileset file="${color.dist.dir}/${color.jar.filename}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${motor.dist.dir}/${motor.jar.filename}"/>
+            <fileset file="${obstacle.dist.dir}/${obstacle.jar.filename}"/>
+            <fileset file="${photoresistor.dist.dir}/${photoresistor.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${thermistor.dist.dir}/${thermistor.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distFinchIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.hummingbird" depends="compile.java.hummingbird,
+                                            dist.analogin,
+                                            dist.audio,
+                                            dist.color,
+                                            dist.common,
+                                            dist.communicator,
+                                            dist.service" description="create the distribution for the hummingbird component" unless="distHummingbirdIsComplete">
+      <create-dist build-dir="${hummingbird.build.java.dir}"
+                   dist-dir="${hummingbird.dist.dir}"
+                   jar-filename="${hummingbird.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${analogin.dist.dir}/${analogin.jar.filename}"/>
+            <fileset file="${audio.dist.dir}/${audio.jar.filename}"/>
+            <fileset file="${color.dist.dir}/${color.jar.filename}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distHummingbirdIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.led" depends="compile.java.led,
+                                    dist.color,
+                                    dist.common,
+                                    dist.expression,
+                                    dist.service,
+                                    dist.xml" description="create the distribution for the LED component" unless="distLEDIsComplete">
+      <create-dist build-dir="${led.build.java.dir}"
+                   dist-dir="${led.dist.dir}"
+                   jar-filename="${led.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${color.dist.dir}/${color.jar.filename}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distLEDIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.motor" depends="compile.java.motor,
+                                      dist.common,
+                                      dist.expression,
+                                      dist.service,
+                                      dist.xml" description="create the distribution for the motor component" unless="distMotorIsComplete">
+      <create-dist build-dir="${motor.build.java.dir}"
+                   dist-dir="${motor.dist.dir}"
+                   jar-filename="${motor.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distMotorIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.obstacle" depends="compile.java.obstacle, dist.common, dist.service" description="create the distribution for the obstacle component" unless="distObstacleIsComplete">
+      <create-dist build-dir="${obstacle.build.java.dir}"
+                   dist-dir="${obstacle.dist.dir}"
+                   jar-filename="${obstacle.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distObstacleIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.peerinfo" depends="compile.java.peerinfo,
+                                         dist.common,
+                                         dist.communicator,
+                                         dist.service" description="create the distribution for the peerinfo component" unless="distPeerInfoIsComplete">
+      <create-dist build-dir="${peerinfo.build.java.dir}"
+                   dist-dir="${peerinfo.dist.dir}"
+                   jar-filename="${peerinfo.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${communicator.dist.dir}/${communicator.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distPeerInfoIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.photoresistor" depends="compile.java.photoresistor, dist.common, dist.service" description="create the distribution for the photoresistor component" unless="distPhotoresistorIsComplete">
+      <create-dist build-dir="${photoresistor.build.java.dir}"
+                   dist-dir="${photoresistor.dist.dir}"
+                   jar-filename="${photoresistor.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distPhotoresistorIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.qwerk" depends="compile.java.qwerk,
+                                      dist.analogin,
+                                      dist.audio,
+                                      dist.common,
+                                      dist.digitalin,
+                                      dist.digitalout,
+                                      dist.expression,
+                                      dist.led,
+                                      dist.motor,
+                                      dist.serial,
+                                      dist.service,
+                                      dist.servo,
+                                      dist.video,
+                                      dist.xml" description="create the distribution for the qwerk component" unless="distQwerkIsComplete">
+      <create-dist build-dir="${qwerk.build.java.dir}"
+                   dist-dir="${qwerk.dist.dir}"
+                   jar-filename="${qwerk.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${analogin.dist.dir}/${analogin.jar.filename}"/>
+            <fileset file="${audio.dist.dir}/${audio.jar.filename}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${digitalin.dist.dir}/${digitalin.jar.filename}"/>
+            <fileset file="${digitalout.dist.dir}/${digitalout.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${led.dist.dir}/${led.jar.filename}"/>
+            <fileset file="${motor.dist.dir}/${motor.jar.filename}"/>
+            <fileset file="${serial.dist.dir}/${serial.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${servo.dist.dir}/${servo.jar.filename}"/>
+            <fileset file="${video.dist.dir}/${video.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distQwerkIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.roboticon" depends="compile.java.roboticon,
+                                          dist.common,
+                                          dist.communicator,
+                                          dist.peerinfo,
+                                          dist.service,
+                                          dist.xml" description="create the distribution for the roboticon component" unless="distRoboticonIsComplete">
+      <create-dist build-dir="${roboticon.build.java.dir}"
+                   dist-dir="${roboticon.dist.dir}"
+                   jar-filename="${roboticon.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${peerinfo.dist.dir}/${peerinfo.jar.filename}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${communicator.dist.dir}/${communicator.jar.filename}"/>
+            <fileset file="${peerinfo.dist.dir}/${peerinfo.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distRoboticonIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.serial" depends="compile.java.serial, dist.common, dist.expression, dist.service, dist.serialconfig" description="create the distribution for the serial component" unless="distSerialIsComplete">
+      <create-dist build-dir="${serial.build.java.dir}"
+                   dist-dir="${serial.dist.dir}"
+                   jar-filename="${serial.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${serialconfig.dist.dir}/${serialconfig.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distSerialIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.serialconfig" depends="compile.java.serialconfig" description="create the distribution for the serial-config component" unless="distSerialConfigIsComplete">
+      <create-dist build-dir="${serialconfig.build.java.dir}"
+                   dist-dir="${serialconfig.dist.dir}"
+                   jar-filename="${serialconfig.jar.filename}">
+         <additional-jar-files-to-copy/>
+      </create-dist>
+      <property name="distSerialConfigIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.servant" depends="compile.java.servant,
+                                        dist.common,
+                                        dist.communicator" description="create the distribution for the servant component" unless="distServantIsComplete">
+      <create-dist build-dir="${servant.build.java.dir}"
+                   dist-dir="${servant.dist.dir}"
+                   jar-filename="${servant.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-peer.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distServantIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.service" depends="compile.java.service,
+                                        dist.common,
+                                        dist.communicator,
+                                        dist.expression" description="create the distribution for the service component" unless="distServiceIsComplete">
+      <create-dist build-dir="${service.build.java.dir}"
+                   dist-dir="${service.dist.dir}"
+                   jar-filename="${service.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-ice.jar}"/>
+            <fileset file="${mrpl-peer.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${communicator.dist.dir}/${communicator.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distServiceIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.servo" depends="compile.java.servo,
+                                      dist.common,
+                                      dist.expression,
+                                      dist.service,
+                                      dist.xml" description="create the distribution for the servo component" unless="distServoIsComplete">
+      <create-dist build-dir="${servo.build.java.dir}"
+                   dist-dir="${servo.dist.dir}"
+                   jar-filename="${servo.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${xml.dist.dir}/${xml.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distServoIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.speech" depends="compile.java.speech" description="create the distribution for the speech component" unless="distSpeechIsComplete">
+      <create-dist build-dir="${speech.build.java.dir}"
+                   dist-dir="${speech.dist.dir}"
+                   jar-filename="${speech.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-utilities.jar}"/>
+            <fileset file="${cmu_us_kal.jar}"/>
+            <fileset file="${cmulex.jar}"/>
+            <fileset file="${en_us.jar}"/>
+            <fileset file="${freetts.jar}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distSpeechIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.thermistor" depends="compile.java.thermistor, dist.common, dist.service" description="create the distribution for the thermistor component" unless="distThermistorIsComplete">
+      <create-dist build-dir="${thermistor.build.java.dir}"
+                   dist-dir="${thermistor.dist.dir}"
+                   jar-filename="${thermistor.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distThermistorIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.userinterface" depends="compile.java.userinterface" description="create the distribution for the user interface component" unless="distUserInterfaceIsComplete">
+      <create-dist build-dir="${userinterface.build.java.dir}"
+                   dist-dir="${userinterface.dist.dir}"
+                   jar-filename="${userinterface.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${mrpl-graphics.jar}"/>
+            <fileset file="${mrpl-utilities.jar}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distUserInterfaceIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.video" depends="compile.java.video, dist.common, dist.expression, dist.service" description="create the distribution for the video component" unless="distVideoIsComplete">
+      <create-dist build-dir="${video.build.java.dir}"
+                   dist-dir="${video.dist.dir}"
+                   jar-filename="${video.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${common.dist.dir}/${common.jar.filename}"/>
+            <fileset file="${service.dist.dir}/${service.jar.filename}"/>
+            <fileset file="${expression.dist.dir}/${expression.jar.filename}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distVideoIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.xml" depends="compile.java.xml" description="create the distribution for the xml component" unless="distXMLIsComplete">
+      <create-dist build-dir="${xml.build.java.dir}"
+                   dist-dir="${xml.dist.dir}"
+                   jar-filename="${xml.jar.filename}">
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+         </additional-jar-files-to-copy>
+      </create-dist>
+      <property name="distXMLIsComplete" value="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Java compilation -->
+   <!-- ============================================================================================================ -->
+
+   <target name="compile.java"
+           depends="compile.java.accelerometer,
+                    compile.java.analogin,
+                    compile.java.application,
+                    compile.java.audio,
+                    compile.java.audioclips,
+                    compile.java.buzzer,
+                    compile.java.client,
+                    compile.java.color,
+                    compile.java.commandline,
+                    compile.java.common,
+                    compile.java.communicator,
+                    compile.java.communicatormanager,
+                    compile.java.connectionwizard,
+                    compile.java.digitalin,
+                    compile.java.digitalout,
+                    compile.java.expression,
+                    compile.java.finch,
+                    compile.java.hummingbird,
+                    compile.java.led,
+                    compile.java.motor,
+                    compile.java.obstacle,
+                    compile.java.peerinfo,
+                    compile.java.photoresistor,
+                    compile.java.qwerk,
+                    compile.java.roboticon,
+                    compile.java.serial,
+                    compile.java.serialconfig,
+                    compile.java.servant,
+                    compile.java.service,
+                    compile.java.servo,
+                    compile.java.speech,
+                    compile.java.thermistor,
+                    compile.java.userinterface,
+                    compile.java.video,
+                    compile.java.xml"
+           description="compiles all Java source"
+           unless="compileJavaIsComplete">
+      <property name="compileJavaIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.java.accelerometer" depends="compile.slice.accelerometer, compile.java.common, compile.java.service" description="compiles the Java source for the accelerometer component" unless="compileJavaAccelerometerIsComplete">
+      <compile-java-code classpath-ref="accelerometer.classpath"
+                         src-dir="${accelerometer.src.java.dir}"
+                         src-gen-dir="${accelerometer.src-gen.java.dir}"
+                         build-dir="${accelerometer.build.java.dir}"
+                         is-complete-property-name="compileJavaAccelerometerIsComplete"/>
+   </target>
+
+   <target name="compile.java.analogin" depends="compile.slice.analogin, compile.java.common, compile.java.expression, compile.java.service" description="compiles the Java source for the analog-in component" unless="compileJavaAnalogInIsComplete">
+      <compile-java-code classpath-ref="analogin.classpath"
+                         src-dir="${analogin.src.java.dir}"
+                         src-gen-dir="${analogin.src-gen.java.dir}"
+                         build-dir="${analogin.build.java.dir}"
+                         is-complete-property-name="compileJavaAnalogInIsComplete"/>
+   </target>
+
+   <target name="compile.java.application" depends="compile.java.common, compile.java.service" description="compiles the Java source for the application component" unless="compileJavaApplicationIsComplete">
+      <compile-java-code-no-generated classpath-ref="application.classpath"
+                                      src-dir="${application.src.java.dir}"
+                                      build-dir="${application.build.java.dir}"
+                                      is-complete-property-name="compileJavaApplicationIsComplete"/>
+   </target>
+
+   <target name="compile.java.audio" depends="compile.slice.audio, compile.java.common, compile.java.expression, compile.java.service, compile.java.userinterface" description="compiles the Java source for the audio component" unless="compileJavaAudioIsComplete">
+      <compile-java-code classpath-ref="audio.classpath"
+                         src-dir="${audio.src.java.dir}"
+                         src-gen-dir="${audio.src-gen.java.dir}"
+                         build-dir="${audio.build.java.dir}"
+                         is-complete-property-name="compileJavaAudioIsComplete"/>
+   </target>
+
+   <target name="compile.java.audioclips" depends="compile.java.common" description="compiles the Java source for the audioclips component" unless="compileJavaAudioClipsIsComplete">
+
+      <!-- make sure the build directory exists -->
+      <mkdir dir="${audioclips.build.java.dir}"/>
+
+      <!-- copy clips to the build directory -->
+      <copy todir="${audioclips.build.java.dir}">
+         <fileset dir="${audioclips.clips.dir}" includes="**/*"/>
+      </copy>
+
+      <!-- figure out which platform we're running on -->
+      <if>
+         <os family="windows"/>
+         <then>
+            <property name="platform-for-path-conversion" value="windows"/>
+         </then>
+         <else>
+            <property name="platform-for-path-conversion" value="unix"/>
+         </else>
+      </if>
+
+      <!-- define the set of clips -->
+      <path id="clip.elements">
+         <fileset dir="${audioclips.clips.dir}">
+            <include name="**/*"/>
+         </fileset>
+      </path>
+
+      <!-- Set up a path id for the clips directory so it contains the correct kind of slashes when we do the pathconvert mapping -->
+      <path id="audioclips.dir.before-conversion" path="${audioclips.clips.dir}"/>
+
+      <!-- Convert the clips directory path for the target platform to ensure that all the slashes are in the right direction -->
+      <pathconvert property="audioclips.dir.after-conversion" pathsep="," targetos="${platform-for-path-conversion}" refid="audioclips.dir.before-conversion"/>
+
+      <!-- Create the comma-delimited list of clips -->
+      <pathconvert property="clip.filenames" pathsep="," targetos="${platform-for-path-conversion}" refid="clip.elements">
+         <!-- handle mapping for UNIX -->
+         <map from="${audioclips.dir.after-conversion}/" to=""/>
+         <!-- handle mapping for Windows -->
+         <map from="${audioclips.dir.after-conversion}\" to=""/>
+      </pathconvert>
+
+      <echo message="audio clip filenames=[${clip.filenames}]"/>
+
+      <!-- Compile src classes -->
+      <javac srcdir="${audioclips.src.java.dir}"
+             destdir="${audioclips.build.java.dir}"
+             classpathref="audioclips.classpath"
+             debug="${java.compiler.debug}"
+             nowarn="${java.compiler.generate.no.warnings}"
+             memoryMaximumSize="${java.compiler.max.memory}"
+             source="${java.compiler.source.level}"
+             fork="true"
+             includeAntRuntime="false">
+         <compilerarg line="${java.compiler.args}"/>
+      </javac>
+
+      <!-- copy resources, with filtering -->
+      <copy todir="${audioclips.build.java.dir}">
+         <fileset dir="${audioclips.src.java.dir}">
+            <patternset refid="compiler.resources"/>
+         </fileset>
+         <filterset>
+            <filter token="clip.filenames" value="${clip.filenames}"/>
+         </filterset>
+      </copy>
+
+      <property name="compileJavaAudioClipsIsComplete" value="true"/>
+
+   </target>
+
+   <target name="compile.java.buzzer" depends="compile.slice.buzzer,
+                                               compile.java.common,
+                                               compile.java.expression,
+                                               compile.java.service,
+                                               compile.java.xml" description="compiles the Java source for the buzzer component" unless="compileJavaBuzzerIsComplete">
+      <compile-java-code classpath-ref="buzzer.classpath"
+                         src-dir="${buzzer.src.java.dir}"
+                         src-gen-dir="${buzzer.src-gen.java.dir}"
+                         build-dir="${buzzer.build.java.dir}"
+                         is-complete-property-name="compileJavaBuzzerIsComplete"/>
+   </target>
+
+   <target name="compile.java.client" depends="compile.slice.client, compile.java.common, compile.java.video" description="compiles the Java source for the client component" unless="compileJavaClientIsComplete">
+      <compile-java-code classpath-ref="client.classpath"
+                         src-dir="${client.src.java.dir}"
+                         src-gen-dir="${client.src-gen.java.dir}"
+                         build-dir="${client.build.java.dir}"
+                         is-complete-property-name="compileJavaClientIsComplete"/>
+   </target>
+
+   <target name="compile.java.color" depends="compile.slice.color" description="compiles the Java source for the color component" unless="compileJavaColorIsComplete">
+      <compile-java-code classpath-ref="color.classpath"
+                         src-dir="${color.src.java.dir}"
+                         src-gen-dir="${color.src-gen.java.dir}"
+                         build-dir="${color.build.java.dir}"
+                         is-complete-property-name="compileJavaColorIsComplete"/>
+   </target>
+
+   <target name="compile.java.commandline" depends="compile.slice.commandline" description="compiles the Java source for the commandline component" unless="compileJavaCommandLineIsComplete">
+      <compile-java-code classpath-ref="commandline.classpath"
+                         src-dir="${commandline.src.java.dir}"
+                         src-gen-dir="${commandline.src-gen.java.dir}"
+                         build-dir="${commandline.build.java.dir}"
+                         is-complete-property-name="compileJavaCommandLineIsComplete"/>
+   </target>
+
+   <target name="compile.java.common" depends="compile.slice.common" description="compiles the Java source for the common component" unless="compileJavaCommonIsComplete">
+      <compile-java-code classpath-ref="common.classpath"
+                         src-dir="${common.src.java.dir}"
+                         src-gen-dir="${common.src-gen.java.dir}"
+                         build-dir="${common.build.java.dir}"
+                         is-complete-property-name="compileJavaCommonIsComplete"/>
+   </target>
+
+   <target name="compile.java.communicator" depends="compile.java.common" description="compiles the Java source for the communicator component" unless="compileJavaCommunicatorIsComplete">
+      <compile-java-code-no-generated classpath-ref="communicator.classpath"
+                                      src-dir="${communicator.src.java.dir}"
+                                      build-dir="${communicator.build.java.dir}"
+                                      is-complete-property-name="compileJavaCommunicatorIsComplete"/>
+   </target>
+
+   <target name="compile.java.communicatormanager" depends="compile.java.common,
+                                                            compile.java.communicator,
+                                                            compile.java.servant,
+                                                            compile.java.userinterface" description="compiles the Java source for the communicator manager component" unless="compileJavaCommunicatorManagerIsComplete">
+      <compile-java-code-no-generated classpath-ref="communicatormanager.classpath"
+                                      src-dir="${communicatormanager.src.java.dir}"
+                                      build-dir="${communicatormanager.build.java.dir}"
+                                      is-complete-property-name="compileJavaCommunicatorManagerIsComplete"/>
+   </target>
+
+   <target name="compile.java.connectionwizard" depends="compile.java.communicator,
+                                                         compile.java.communicatormanager,
+                                                         compile.java.userinterface" description="compiles the Java source for the connection wizard component" unless="compileJavaConnectionWizardIsComplete">
+      <compile-java-code-no-generated classpath-ref="connectionwizard.classpath"
+                                      src-dir="${connectionwizard.src.java.dir}"
+                                      build-dir="${connectionwizard.build.java.dir}"
+                                      is-complete-property-name="compileJavaConnectionWizardIsComplete"/>
+   </target>
+
+   <target name="compile.java.digitalin" depends="compile.slice.digitalin, compile.java.common, compile.java.expression, compile.java.service" description="compiles the Java source for the digital-in component" unless="compileJavaDigitalInIsComplete">
+      <compile-java-code classpath-ref="digitalin.classpath"
+                         src-dir="${digitalin.src.java.dir}"
+                         src-gen-dir="${digitalin.src-gen.java.dir}"
+                         build-dir="${digitalin.build.java.dir}"
+                         is-complete-property-name="compileJavaDigitalInIsComplete"/>
+   </target>
+
+   <target name="compile.java.digitalout" depends="compile.slice.digitalout, compile.java.common, compile.java.expression, compile.java.service" description="compiles the Java source for the digital-out component" unless="compileJavaDigitalOutIsComplete">
+      <compile-java-code classpath-ref="digitalout.classpath"
+                         src-dir="${digitalout.src.java.dir}"
+                         src-gen-dir="${digitalout.src-gen.java.dir}"
+                         build-dir="${digitalout.build.java.dir}"
+                         is-complete-property-name="compileJavaDigitalOutIsComplete"/>
+   </target>
+
+   <target name="compile.java.expression" depends="compile.java.common, compile.java.userinterface, compile.java.xml" description="compiles the Java source for the expression component" unless="compileJavaExpressionIsComplete">
+      <compile-java-code-no-generated classpath-ref="expression.classpath"
+                                      src-dir="${expression.src.java.dir}"
+                                      build-dir="${expression.build.java.dir}"
+                                      is-complete-property-name="compileJavaExpressionIsComplete"/>
+   </target>
+
+   <target name="compile.java.finch" depends="compile.slice.finch,
+                                                    compile.java.accelerometer,
+                                                    compile.java.audio,
+                                                    compile.java.buzzer,
+                                                    compile.java.color,
+                                                    compile.java.common,
+                                                    compile.java.communicator,
+                                                    compile.java.expression,
+                                                    compile.java.motor,
+                                                    compile.java.service,
+                                                    compile.java.thermistor" description="compiles the Java source for the finch component" unless="compileJavaFinchIsComplete">
+      <compile-java-code classpath-ref="finch.classpath"
+                         src-dir="${finch.src.java.dir}"
+                         src-gen-dir="${finch.src-gen.java.dir}"
+                         build-dir="${finch.build.java.dir}"
+                         is-complete-property-name="compileJavaFinchIsComplete"/>
+   </target>
+
+   <target name="compile.java.hummingbird" depends="compile.slice.hummingbird,
+                                                    compile.java.analogin,
+                                                    compile.java.audio,
+                                                    compile.java.color,
+                                                    compile.java.common,
+                                                    compile.java.communicator,
+                                                    compile.java.service" description="compiles the Java source for the hummingbird component" unless="compileJavaHummingbirdIsComplete">
+      <compile-java-code classpath-ref="hummingbird.classpath"
+                         src-dir="${hummingbird.src.java.dir}"
+                         src-gen-dir="${hummingbird.src-gen.java.dir}"
+                         build-dir="${hummingbird.build.java.dir}"
+                         is-complete-property-name="compileJavaHummingbirdIsComplete"/>
+   </target>
+
+   <target name="compile.java.led" depends="compile.slice.led,
+                                            compile.java.color,
+                                            compile.java.common,
+                                            compile.java.expression,
+                                            compile.java.service,
+                                            compile.java.xml" description="compiles the Java source for the LED component" unless="compileJavaLEDIsComplete">
+      <compile-java-code classpath-ref="led.classpath"
+                         src-dir="${led.src.java.dir}"
+                         src-gen-dir="${led.src-gen.java.dir}"
+                         build-dir="${led.build.java.dir}"
+                         is-complete-property-name="compileJavaLEDIsComplete"/>
+   </target>
+
+   <target name="compile.java.motor" depends="compile.slice.motor,
+                                              compile.java.common,
+                                              compile.java.expression,
+                                              compile.java.service,
+                                              compile.java.xml" description="compiles the Java source for the motor component" unless="compileJavaMotorIsComplete">
+      <compile-java-code classpath-ref="motor.classpath"
+                         src-dir="${motor.src.java.dir}"
+                         src-gen-dir="${motor.src-gen.java.dir}"
+                         build-dir="${motor.build.java.dir}"
+                         is-complete-property-name="compileJavaMotorIsComplete"/>
+   </target>
+
+   <target name="compile.java.obstacle" depends="compile.slice.obstacle, compile.java.common, compile.java.service" description="compiles the Java source for the obstacle component" unless="compileJavaObstacleIsComplete">
+      <compile-java-code classpath-ref="obstacle.classpath"
+                         src-dir="${obstacle.src.java.dir}"
+                         src-gen-dir="${obstacle.src-gen.java.dir}"
+                         build-dir="${obstacle.build.java.dir}"
+                         is-complete-property-name="compileJavaObstacleIsComplete"/>
+   </target>
+
+   <target name="compile.java.peerinfo" depends="compile.slice.peerinfo, compile.java.common, compile.java.communicator, compile.java.service" description="compiles the Java source for the peerinfo component" unless="compileJavaPeerInfoIsComplete">
+      <compile-java-code classpath-ref="peerinfo.classpath"
+                         src-dir="${peerinfo.src.java.dir}"
+                         src-gen-dir="${peerinfo.src-gen.java.dir}"
+                         build-dir="${peerinfo.build.java.dir}"
+                         is-complete-property-name="compileJavaPeerInfoIsComplete"/>
+   </target>
+
+   <target name="compile.java.photoresistor" depends="compile.slice.photoresistor, compile.java.common, compile.java.service" description="compiles the Java source for the photoresistor component" unless="compileJavaPhotoresistorIsComplete">
+      <compile-java-code classpath-ref="photoresistor.classpath"
+                         src-dir="${photoresistor.src.java.dir}"
+                         src-gen-dir="${photoresistor.src-gen.java.dir}"
+                         build-dir="${photoresistor.build.java.dir}"
+                         is-complete-property-name="compileJavaPhotoresistorIsComplete"/>
+   </target>
+
+   <target name="compile.java.qwerk" depends="compile.slice.qwerk,
+                                              compile.java.analogin,
+                                              compile.java.audio,
+                                              compile.java.common,
+                                              compile.java.digitalin,
+                                              compile.java.digitalout,
+                                              compile.java.expression,
+                                              compile.java.led,
+                                              compile.java.motor,
+                                              compile.java.serial,
+                                              compile.java.service,
+                                              compile.java.servo,
+                                              compile.java.video,
+                                              compile.java.xml" description="compiles the Java source for the qwerk component" unless="compileJavaQwerkIsComplete">
+      <compile-java-code classpath-ref="qwerk.classpath"
+                         src-dir="${qwerk.src.java.dir}"
+                         src-gen-dir="${qwerk.src-gen.java.dir}"
+                         build-dir="${qwerk.build.java.dir}"
+                         is-complete-property-name="compileJavaQwerkIsComplete"/>
+   </target>
+
+   <target name="compile.java.roboticon" depends="compile.slice.roboticon,
+                                                  compile.java.common,
+                                                  compile.java.communicator,
+                                                  compile.java.peerinfo,
+                                                  compile.java.service,
+                                                  compile.java.xml" description="compiles the Java source for the roboticon component" unless="compileJavaRoboticonIsComplete">
+      <compile-java-code classpath-ref="roboticon.classpath"
+                         src-dir="${roboticon.src.java.dir}"
+                         src-gen-dir="${roboticon.src-gen.java.dir}"
+                         build-dir="${roboticon.build.java.dir}"
+                         is-complete-property-name="compileJavaRoboticonIsComplete"/>
+   </target>
+
+   <target name="compile.java.serial" depends="compile.slice.serial, compile.java.common, compile.java.expression, compile.java.service, compile.java.serialconfig" description="compiles the Java source for the serial component" unless="compileJavaSerialIsComplete">
+      <compile-java-code classpath-ref="serial.classpath"
+                         src-dir="${serial.src.java.dir}"
+                         src-gen-dir="${serial.src-gen.java.dir}"
+                         build-dir="${serial.build.java.dir}"
+                         is-complete-property-name="compileJavaSerialIsComplete"/>
+   </target>
+
+   <target name="compile.java.serialconfig" description="compiles the Java source for the serial-config component" unless="compileJavaSerialConfigIsComplete">
+      <compile-java-code-no-generated classpath-ref="serialconfig.classpath"
+                                      src-dir="${serialconfig.src.java.dir}"
+                                      build-dir="${serialconfig.build.java.dir}"
+                                      is-complete-property-name="compileJavaSerialConfigIsComplete"/>
+   </target>
+
+   <target name="compile.java.servant" depends="compile.java.common, compile.java.communicator" description="compiles the Java source for the servant component" unless="compileJavaServantIsComplete">
+      <compile-java-code-no-generated classpath-ref="servant.classpath"
+                                      src-dir="${servant.src.java.dir}"
+                                      build-dir="${servant.build.java.dir}"
+                                      is-complete-property-name="compileJavaServantIsComplete"/>
+   </target>
+
+   <target name="compile.java.service" depends="compile.java.common, compile.java.communicator, compile.java.expression" description="compiles the Java source for the service component" unless="compileJavaServiceIsComplete">
+      <compile-java-code-no-generated classpath-ref="service.classpath"
+                                      src-dir="${service.src.java.dir}"
+                                      build-dir="${service.build.java.dir}"
+                                      is-complete-property-name="compileJavaServiceIsComplete"/>
+   </target>
+
+   <target name="compile.java.servo" depends="compile.slice.servo,
+                                              compile.java.common,
+                                              compile.java.expression,
+                                              compile.java.service,
+                                              compile.java.xml" description="compiles the Java source for the servo component" unless="compileJavaServoIsComplete">
+      <compile-java-code classpath-ref="servo.classpath"
+                         src-dir="${servo.src.java.dir}"
+                         src-gen-dir="${servo.src-gen.java.dir}"
+                         build-dir="${servo.build.java.dir}"
+                         is-complete-property-name="compileJavaServoIsComplete"/>
+   </target>
+
+   <target name="compile.java.speech" depends="compile.slice.speech" description="compiles the Java source for the speech component" unless="compileJavaSpeechIsComplete">
+      <compile-java-code classpath-ref="speech.classpath"
+                         src-dir="${speech.src.java.dir}"
+                         src-gen-dir="${speech.src-gen.java.dir}"
+                         build-dir="${speech.build.java.dir}"
+                         is-complete-property-name="compileJavaSpeechIsComplete"/>
+   </target>
+
+   <target name="compile.java.thermistor" depends="compile.slice.thermistor, compile.java.common, compile.java.service" description="compiles the Java source for the thermistor component" unless="compileJavaThermistorIsComplete">
+      <compile-java-code classpath-ref="thermistor.classpath"
+                         src-dir="${thermistor.src.java.dir}"
+                         src-gen-dir="${thermistor.src-gen.java.dir}"
+                         build-dir="${thermistor.build.java.dir}"
+                         is-complete-property-name="compileJavaThermistorIsComplete"/>
+   </target>
+
+   <target name="compile.java.userinterface" description="compiles the Java source for the user interface component" unless="compileJavaUserInterfaceIsComplete">
+      <compile-java-code-no-generated classpath-ref="userinterface.classpath"
+                                      src-dir="${userinterface.src.java.dir}"
+                                      build-dir="${userinterface.build.java.dir}"
+                                      is-complete-property-name="compileJavaUserInterfaceIsComplete"/>
+   </target>
+
+   <target name="compile.java.video" depends="compile.slice.video, compile.java.common, compile.java.expression, compile.java.service" description="compiles the Java source for the video component" unless="compileJavaVideoIsComplete">
+      <compile-java-code classpath-ref="video.classpath"
+                         src-dir="${video.src.java.dir}"
+                         src-gen-dir="${video.src-gen.java.dir}"
+                         build-dir="${video.build.java.dir}"
+                         is-complete-property-name="compileJavaVideoIsComplete"/>
+   </target>
+
+   <target name="compile.java.xml" description="compiles the Java source for the xml component" unless="compileJavaXMLIsComplete">
+      <compile-java-code-no-generated classpath-ref="xml.classpath"
+                                      src-dir="${xml.src.java.dir}"
+                                      build-dir="${xml.build.java.dir}"
+                                      is-complete-property-name="compileJavaXMLIsComplete"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Slice compilation -->
+   <!-- ============================================================================================================ -->
+
+   <target name="extract-mrpl-peer-slice" depends="init" unless="extractMRPLPeerSliceIsComplete">
+      <delete dir="${mrpl-peer.slice.dir}"/>
+      <mkdir dir="${mrpl-peer.slice.dir}"/>
+
+      <unjar src="${mrpl-peer-src.jar}"
+             dest="${mrpl-peer.slice.dir}">
+         <patternset>
+            <include name="**/*.ice"/>
+         </patternset>
+      </unjar>
+
+      <property name="extractMRPLPeerSliceIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.slice"
+           depends="init,
+                    extract-mrpl-peer-slice,
+                    compile.slice.accelerometer,
+                    compile.slice.analogin,
+                    compile.slice.audio,
+                    compile.slice.buzzer,
+                    compile.slice.client,
+                    compile.slice.color,
+                    compile.slice.commandline,
+                    compile.slice.common,
+                    compile.slice.digitalin,
+                    compile.slice.digitalout,
+                    compile.slice.finch,
+                    compile.slice.hummingbird,
+                    compile.slice.led,
+                    compile.slice.motor,
+                    compile.slice.obstacle,
+                    compile.slice.peerinfo,
+                    compile.slice.photoresistor,
+                    compile.slice.qwerk,
+                    compile.slice.roboticon,
+                    compile.slice.serial,
+                    compile.slice.servo,
+                    compile.slice.speech,
+                    compile.slice.thermistor,
+                    compile.slice.video"
+           description="compiles all Slice code, converting it into Java source"
+           unless="compileSliceIsComplete">
+      <property name="compileSliceIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.slice.accelerometer" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the accelerometer component" unless="compileSliceAccelerometerIsComplete">
+      <compile-slice-code src-dir="${accelerometer.src.slice.dir}"
+                          src-gen-dir="${accelerometer.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceAccelerometerIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.analogin" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the analog-in component" unless="compileSliceAnalogInIsComplete">
+      <compile-slice-code src-dir="${analogin.src.slice.dir}"
+                          src-gen-dir="${analogin.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceAnalogInIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.audio" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the audio component" unless="compileSliceAudioIsComplete">
+      <compile-slice-code src-dir="${audio.src.slice.dir}"
+                          src-gen-dir="${audio.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceAudioIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.buzzer" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the buzzer component" unless="compileSliceBuzzerIsComplete">
+      <compile-slice-code src-dir="${buzzer.src.slice.dir}"
+                          src-gen-dir="${buzzer.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceBuzzerIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.client" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the client component" unless="compileSliceClientIsComplete">
+      <compile-slice-code src-dir="${client.src.slice.dir}"
+                          src-gen-dir="${client.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceClientIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+            <pathelement path="${video.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.color" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the color component" unless="compileSliceColorIsComplete">
+      <compile-slice-code src-dir="${color.src.slice.dir}"
+                          src-gen-dir="${color.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceColorIsComplete"
+                          delete-marker-class="true">
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.commandline" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the commandline component" unless="compileSliceCommandLineIsComplete">
+      <compile-slice-code src-dir="${commandline.src.slice.dir}"
+                          src-gen-dir="${commandline.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceCommandLineIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.common" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the common component" unless="compileSliceCommonIsComplete">
+      <compile-slice-code src-dir="${common.src.slice.dir}"
+                          src-gen-dir="${common.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceCommonIsComplete">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.digitalin" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the digital-in component" unless="compileSliceDigitalInIsComplete">
+      <compile-slice-code src-dir="${digitalin.src.slice.dir}"
+                          src-gen-dir="${digitalin.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceDigitalInIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.digitalout" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the digital-out component" unless="compileSliceDigitalOutIsComplete">
+      <compile-slice-code src-dir="${digitalout.src.slice.dir}"
+                          src-gen-dir="${digitalout.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceDigitalOutIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.finch" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the finch component" unless="compileSliceFinchIsComplete">
+      <compile-slice-code src-dir="${finch.src.slice.dir}"
+                          src-gen-dir="${finch.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceFinchIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${accelerometer.src.slice.dir}"/>
+            <pathelement path="${audio.src.slice.dir}"/>
+            <pathelement path="${buzzer.src.slice.dir}"/>
+            <pathelement path="${color.src.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+            <pathelement path="${motor.src.slice.dir}"/>
+            <pathelement path="${obstacle.src.slice.dir}"/>
+            <pathelement path="${photoresistor.src.slice.dir}"/>
+            <pathelement path="${thermistor.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.hummingbird" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the hummingbird component" unless="compileSliceHummingbirdIsComplete">
+      <compile-slice-code src-dir="${hummingbird.src.slice.dir}"
+                          src-gen-dir="${hummingbird.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceHummingbirdIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${analogin.src.slice.dir}"/>
+            <pathelement path="${audio.src.slice.dir}"/>
+            <pathelement path="${color.src.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.led" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the LED component" unless="compileSliceLEDIsComplete">
+      <compile-slice-code src-dir="${led.src.slice.dir}"
+                          src-gen-dir="${led.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceLEDIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${color.src.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.motor" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the motor component" unless="compileSliceMotorIsComplete">
+      <compile-slice-code src-dir="${motor.src.slice.dir}"
+                          src-gen-dir="${motor.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceMotorIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.obstacle" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the obstacle component" unless="compileSliceObstacleIsComplete">
+      <compile-slice-code src-dir="${obstacle.src.slice.dir}"
+                          src-gen-dir="${obstacle.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceObstacleIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.peerinfo" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the peerinfo component" unless="compileSlicePeerInfoIsComplete">
+      <compile-slice-code src-dir="${peerinfo.src.slice.dir}"
+                          src-gen-dir="${peerinfo.src-gen.java.dir}"
+                          is-complete-property-name="compileSlicePeerInfoIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.photoresistor" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the photoresistor component" unless="compileSlicePhotoresistorIsComplete">
+      <compile-slice-code src-dir="${photoresistor.src.slice.dir}"
+                          src-gen-dir="${photoresistor.src-gen.java.dir}"
+                          is-complete-property-name="compileSlicePhotoresistorIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.qwerk" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the qwerk component" unless="compileSliceQwerkIsComplete">
+      <compile-slice-code src-dir="${qwerk.src.slice.dir}"
+                          src-gen-dir="${qwerk.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceQwerkIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${analogin.src.slice.dir}"/>
+            <pathelement path="${audio.src.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+            <pathelement path="${digitalin.src.slice.dir}"/>
+            <pathelement path="${digitalout.src.slice.dir}"/>
+            <pathelement path="${led.src.slice.dir}"/>
+            <pathelement path="${motor.src.slice.dir}"/>
+            <pathelement path="${serial.src.slice.dir}"/>
+            <pathelement path="${servo.src.slice.dir}"/>
+            <pathelement path="${video.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.roboticon" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the roboticon component" unless="compileSliceRoboticonIsComplete">
+      <compile-slice-code src-dir="${roboticon.src.slice.dir}"
+                          src-gen-dir="${roboticon.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceRoboticonIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${color.src.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.serial" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the serial component" unless="compileSliceSerialIsComplete">
+      <compile-slice-code src-dir="${serial.src.slice.dir}"
+                          src-gen-dir="${serial.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceSerialIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.servo" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the servo component" unless="compileSliceServoIsComplete">
+      <compile-slice-code src-dir="${servo.src.slice.dir}"
+                          src-gen-dir="${servo.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceServoIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.speech" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the speech component" unless="compileSliceSpeechIsComplete">
+      <mkdir dir="${speech.src-gen.java.dir}"/>
+      <!-- currently does nothing -->
+   </target>
+
+   <target name="compile.slice.thermistor" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the thermistor component" unless="compileSliceThermistorIsComplete">
+      <compile-slice-code src-dir="${thermistor.src.slice.dir}"
+                          src-gen-dir="${thermistor.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceThermistorIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <target name="compile.slice.video" depends="extract-mrpl-peer-slice" description="compiles the Slice source for the video component" unless="compileSliceVideoIsComplete">
+      <compile-slice-code src-dir="${video.src.slice.dir}"
+                          src-gen-dir="${video.src-gen.java.dir}"
+                          is-complete-property-name="compileSliceVideoIsComplete"
+                          delete-marker-class="true">
+         <slice2java-include-path-elements>
+            <pathelement path="${zeroc.slice.dir}"/>
+            <pathelement path="${mrpl-peer.slice.dir}"/>
+            <pathelement path="${common.src.slice.dir}"/>
+         </slice2java-include-path-elements>
+      </compile-slice-code>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- C# -->
+   <!-- ============================================================================================================ -->
+
+   <target name="compile.slice-c#" depends="extract-mrpl-peer-slice" description="compiles the Slice source for Ice for C#" unless="compileSliceCSharpIsComplete">
+      <delete dir="${src-gen.c#.dir}"/>
+      <mkdir dir="${src-gen.c#.dir}"/>
+
+      <exec executable="${env.ICE_HOME}\bin\slice2cs" failonerror="true">
+         <arg value="-I${env.ICE_HOME}/slice"/>
+         <arg value="-I${mrpl-peer.slice.dir}"/>
+         <arg value="-I${analogin.src.slice.dir}"/>
+         <arg value="-I${audio.src.slice.dir}"/>
+         <arg value="-I${client.src.slice.dir}"/>
+         <arg value="-I${common.src.slice.dir}"/>
+         <arg value="-I${digitalin.src.slice.dir}"/>
+         <arg value="-I${digitalout.src.slice.dir}"/>
+         <arg value="-I${led.src.slice.dir}"/>
+         <arg value="-I${motor.src.slice.dir}"/>
+         <arg value="-I${qwerk.src.slice.dir}"/>
+         <arg value="-I${serial.src.slice.dir}"/>
+         <arg value="-I${servo.src.slice.dir}"/>
+         <arg value="-I${video.src.slice.dir}"/>
+         <arg value="--output-dir"/>
+         <arg file="${src-gen.c#.dir}"/>
+         <arg file="${analogin.src.slice.dir}/TeRK/AnalogIn.ice"/>
+         <arg file="${audio.src.slice.dir}/TeRK/Audio.ice"/>
+         <arg file="${client.src.slice.dir}/TeRK/TerkClient.ice"/>
+         <arg file="${common.src.slice.dir}/TeRK/TeRKCommon.ice"/>
+         <arg file="${commandline.src.slice.dir}/TeRK/commandline/CommandLine.ice"/>
+         <arg file="${digitalin.src.slice.dir}/TeRK/DigitalIn.ice"/>
+         <arg file="${digitalout.src.slice.dir}/TeRK/DigitalOut.ice"/>
+         <arg file="${led.src.slice.dir}/TeRK/LED.ice"/>
+         <arg file="${motor.src.slice.dir}/TeRK/Motor.ice"/>
+         <arg file="${qwerk.src.slice.dir}/TeRK/Qwerk.ice"/>
+         <arg file="${serial.src.slice.dir}/TeRK/SerialIO.ice"/>
+         <arg file="${servo.src.slice.dir}/TeRK/Servo.ice"/>
+         <arg file="${video.src.slice.dir}/TeRK/Video.ice"/>
+         <arg file="${mrpl-peer.slice.dir}/peer/MRPLPeer.ice"/>
+      </exec>
+
+      <property name="compileSliceCSharpIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.c#" depends="compile.slice-c#" unless="compileCSharpIsComplete">
+      <delete dir="${build.c#.dir}"/>
+      <mkdir dir="${build.c#.dir}"/>
+
+      <!-- create the MRPLPeer.dll -->
+      <csc optimize="true"
+           debug="true"
+           warnLevel="4"
+           unsafe="false"
+           targetType="library"
+           incremental="false"
+           failonerror="true"
+           destfile="${build.c#.dir}/MRPLPeer.dll"
+           extraoptions="/KEYFILE:${conf.dir}/security/terk_key_pair.snk">
+         <src dir="${src-gen.c#.dir}" includes="MRPLPeer.cs"/>
+         <reference file="${env.ICE_HOME}/bin/icecs.dll"/>
+         <reference file="${env.ICE_HOME}/bin/glacier2cs.dll"/>
+      </csc>
+
+      <!-- create the TeRKPeerCommonCommandLine.dll -->
+      <csc optimize="true"
+           debug="true"
+           warnLevel="4"
+           unsafe="false"
+           targetType="library"
+           incremental="false"
+           failonerror="true"
+           destfile="${build.c#.dir}/TeRKPeerCommonCommandLine.dll"
+           extraoptions="/KEYFILE:${conf.dir}/security/terk_key_pair.snk">
+         <src dir="${src-gen.c#.dir}" includes="CommandLine.cs"/>
+         <reference file="${env.ICE_HOME}/bin/icecs.dll"/>
+         <reference file="${env.ICE_HOME}/bin/glacier2cs.dll"/>
+         <reference file="${build.c#.dir}/MRPLPeer.dll"/>
+      </csc>
+
+      <!-- create the TeRKPeerCommon.dll -->
+      <csc optimize="true"
+           debug="true"
+           warnLevel="4"
+           unsafe="false"
+           targetType="library"
+           incremental="false"
+           failonerror="true"
+           destfile="${build.c#.dir}/TeRKPeerCommon.dll"
+           extraoptions="/KEYFILE:${conf.dir}/security/terk_key_pair.snk">
+         <src dir="${src-gen.c#.dir}" includes="AnalogIn.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Audio.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="DigitalIn.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="DigitalOut.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Finch.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Hummingbird.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="LED.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Motor.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Qwerk.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="SerialIO.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Servo.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="TerkClient.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="TeRKCommon.cs"/>
+         <src dir="${src-gen.c#.dir}" includes="Video.cs"/>
+         <src dir="${src.c#.dir}" includes="**/?*.cs"/>
+         <reference file="${env.ICE_HOME}/bin/icecs.dll"/>
+         <reference file="${env.ICE_HOME}/bin/glacier2cs.dll"/>
+         <reference file="${build.c#.dir}/MRPLPeer.dll"/>
+      </csc>
+      <property name="compileCSharpIsComplete" value="true"/>
+   </target>
+
+   <target name="build.c#" depends="compile.c#" description="build the C# code" unless="buildCSharpIsComplete">
+      <property name="buildCSharpIsComplete" value="true"/>
+   </target>
+
+   <target name="dist.c#" depends="build.c#" description="dist the C# code" unless="distCSharpIsComplete">
+      <mkdir dir="${dist.c#.dir}"/>
+
+      <copy todir="${dist.c#.dir}" flatten="true">
+         <fileset dir="${build.c#.dir}" includes="**/?*.dll"/>
+      </copy>
+
+      <property name="distCSharpIsComplete" value="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Macro definitions -->
+   <!-- ============================================================================================================ -->
+
+   <macrodef name="compile-slice-code">
+      <attribute name="src-dir"/>
+      <attribute name="src-gen-dir"/>
+      <attribute name="is-complete-property-name"/>
+      <attribute name="delete-marker-class" default="false"/>
+      <element name="slice2java-include-path-elements" optional="true"/>
+
+      <sequential>
+
+         <mkdir dir="@{src-gen-dir}"/>
+
+         <slice2java outputdir="@{src-gen-dir}">
+            <includepath>
+               <slice2java-include-path-elements/>
+               <pathelement path="@{src-dir}"/>
+            </includepath>
+            <fileset dir="@{src-dir}" includes="**/*.ice"/>
+         </slice2java>
+
+         <property name="@{is-complete-property-name}" value="true"/>
+
+         <if>
+            <istrue value="@{delete-marker-class}"/>
+            <then>
+               <echo level="info" message="Deleting _Marker.java class since it exists in the terk-common.jar and causes annoying 'duplicate class' errors in IDEs."/>
+               <delete>
+                  <fileset dir="@{src-gen-dir}" includes="**/_Marker.java"/>
+               </delete>
+            </then>
+         </if>
+      </sequential>
+   </macrodef>
+
+   <macrodef name="compile-java-code">
+      <attribute name="classpath-ref"/>
+      <attribute name="src-dir"/>
+      <attribute name="src-gen-dir"/>
+      <attribute name="build-dir"/>
+      <attribute name="is-complete-property-name"/>
+
+      <sequential>
+
+         <mkdir dir="@{build-dir}"/>
+
+         <!-- Compile src-gen and src classes -->
+         <javac srcdir="@{src-gen-dir}"
+                destdir="@{build-dir}"
+                classpathref="@{classpath-ref}"
+                debug="${java.compiler.debug}"
+                nowarn="${java.compiler.generate.no.warnings}"
+                memoryMaximumSize="${java.compiler.max.memory}"
+                source="${java.compiler.source.level}"
+                fork="true"
+                includeAntRuntime="false">
+            <compilerarg line="${java.compiler.args}"/>
+         </javac>
+         <javac srcdir="@{src-dir}"
+                destdir="@{build-dir}"
+                classpathref="@{classpath-ref}"
+                debug="${java.compiler.debug}"
+                nowarn="${java.compiler.generate.no.warnings}"
+                memoryMaximumSize="${java.compiler.max.memory}"
+                source="${java.compiler.source.level}"
+                fork="true"
+                includeAntRuntime="false">
+            <compilerarg line="${java.compiler.args}"/>
+         </javac>
+
+         <!-- copy resources -->
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources"/>
+            </fileset>
+         </copy>
+
+         <property name="@{is-complete-property-name}" value="true"/>
+
+      </sequential>
+   </macrodef>
+
+   <macrodef name="compile-java-code-no-generated">
+      <attribute name="classpath-ref"/>
+      <attribute name="src-dir"/>
+      <attribute name="build-dir"/>
+      <attribute name="is-complete-property-name"/>
+
+      <sequential>
+
+         <mkdir dir="@{build-dir}"/>
+
+         <!-- Compile src classes -->
+         <javac srcdir="@{src-dir}"
+                destdir="@{build-dir}"
+                classpathref="@{classpath-ref}"
+                debug="${java.compiler.debug}"
+                nowarn="${java.compiler.generate.no.warnings}"
+                memoryMaximumSize="${java.compiler.max.memory}"
+                source="${java.compiler.source.level}"
+                fork="true"
+                includeAntRuntime="false">
+            <compilerarg line="${java.compiler.args}"/>
+         </javac>
+
+         <!-- copy resources -->
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources"/>
+            </fileset>
+         </copy>
+
+         <property name="@{is-complete-property-name}" value="true"/>
+
+      </sequential>
+   </macrodef>
+
+   <macrodef name="create-dist">
+      <attribute name="build-dir"/>
+      <attribute name="dist-dir"/>
+      <attribute name="jar-filename"/>
+      <element name="additional-jar-files-to-copy" optional="true"/>
+      <sequential>
+         <!-- create the dist directory -->
+         <mkdir dir="@{dist-dir}"/>
+
+         <!-- create jar of classes -->
+         <jar destfile="@{dist-dir}/@{jar-filename}"
+              basedir="@{build-dir}"
+              update="no"
+              compress="true"/>
+
+         <!-- copy required jar files -->
+         <copy todir="@{dist-dir}" flatten="true">
+            <fileset file="${ice.jar}"/>
+            <fileset file="${log4j.jar}"/>
+            <additional-jar-files-to-copy/>
+         </copy>
+
+      </sequential>
+   </macrodef>
+
+</project>

@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeRKRobot" default="all">
+
+   <!-- Properties -->
+   <dirname property="base.directory" file="${ant.file}"/>
+   <property file="${user.home}/.terk-project.properties"/>
+   <property file="build.properties"/>
+   <property environment="env"/>
+
+   <condition property="local.host.domain.name" value="${env.HOSTNAME}">
+      <isset property="env.HOSTNAME"/>
+   </condition>
+
+   <property name="build.target" value="dev" description="default the build target to 'dev' (override with -D on the command line)"/>
+   <condition property="build.target.is-valid">
+      <or>
+         <equals arg1="${build.target}" arg2="dev"/>
+         <equals arg1="${build.target}" arg2="test"/>
+         <equals arg1="${build.target}" arg2="prod"/>
+      </or>
+   </condition>
+   <echo level="info" message="Build Target: ${build.target}"/>
+   <fail message="Property 'build.target' must be one of: dev, test, prod" unless="build.target.is-valid"/>
+
+   <property file="${build.number.file}"/>
+   <condition property="build.number.is-valid">
+      <isset property="build.number"/>
+   </condition>
+   <fail message="Property 'build.number' must be specified in the ${build.number.file} file!!" unless="build.number.is-valid"/>
+   <property name="build.number" value="none"/>
+   <echo level="info" message="Build Number: ${build.number}"/>
+
+   <property file="build.${build.target}.properties"/>
+   <echo level="info" message="Local hostname=${local.host.domain.name}"/>
+   <echo level="info" message="Glacier Hostname=${glacier.host}"/>
+
+   <property name="zeroc.slice.dir" value="${env.ICE_HOME}/slice"/>
+   <condition property="isWindows">
+      <os family="windows"/>
+   </condition>
+
+   <!-- Task definitions -->
+   <taskdef name="slice2java" classname="Slice2JavaTask">
+      <classpath>
+         <pathelement location="${ice-ant.jar}"/>
+      </classpath>
+   </taskdef>
+   <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <pathelement location="${ant-contrib.jar}"/>
+      </classpath>
+   </taskdef>
+
+   <!-- Paths -->
+   <path id="common-serial.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-common-serial.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${rxtx.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+   </path>
+
+   <path id="common-commandline.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-common-commandline.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+   </path>
+
+   <path id="common-serialapplications.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-common-serialapplications.java.dir}"/>
+      <pathelement path="${build-common-commandline.java.dir}"/>
+      <pathelement path="${build-common-serial.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+   </path>
+
+   <!-- Paths -->
+   <path id="fakeqwerk.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-fakeqwerk.java.dir}"/>
+
+      <!-- test classes -->
+      <pathelement path="${build-fakeqwerk-test.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="commandline.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-commandline.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-commandline.jar}"/>
+   </path>
+
+   <path id="finch.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-finch.java.dir}"/>
+      <pathelement path="${build-common-commandline.java.dir}"/>
+      <pathelement path="${build-common-serial.java.dir}"/>
+      <pathelement path="${build-common-serialapplications.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${rxtx.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-accelerometer.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-application.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-buzzer.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-finch.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-obstacle.jar}"/>
+      <pathelement path="${terk-common-photoresistor.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-thermistor.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="finch-applications.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-finch-applications.java.dir}"/>
+
+      <pathelement path="${finch-applications.terk.jar}"/>
+   </path>
+
+   <path id="hummingbird.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-hummingbird.java.dir}"/>
+      <pathelement path="${build-common-commandline.java.dir}"/>
+      <pathelement path="${build-common-serial.java.dir}"/>
+      <pathelement path="${build-common-serialapplications.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${rxtx.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-hummingbird.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <!-- Compiler options -->
+   <patternset id="compiler.resources">
+      <!-- excluded files -->
+      <exclude name="**/CVS/**"/>
+      <exclude name="**/SCCS/**"/>
+      <exclude name="**/RCS/**"/>
+      <exclude name="**/rcs/**"/>
+      <exclude name="**/.DS_Store/**"/>
+      <exclude name="**/.svn/**"/>
+      <!-- included files -->
+      <include name="**/?*.gif"/>
+      <include name="**/?*.png"/>
+      <include name="**/?*.jpeg"/>
+      <include name="**/?*.jpg"/>
+      <include name="**/?*.dll"/>
+      <include name="**/?*.lib"/>
+   </patternset>
+   <patternset id="compiler.resources.filterable">
+      <include name="**/?*.properties"/>
+      <include name="**/?*.xml"/>
+      <include name="**/?*.htm"/>
+      <include name="**/?*.html"/>
+      <include name="**/?*.dtd"/>
+      <include name="**/?*.tld"/>
+      <include name="**/?*.xsd"/>
+      <include name="**/?*.xsl"/>
+      <include name="**/?*.ice"/>
+      <include name="**/?*.pem"/>
+   </patternset>
+
+   <!-- ============================================================================================================ -->
+
+   <target name="all" depends="clean, build, dist" description="build all"/>
+
+   <target name="clean" description="clean up">
+      <delete dir="${build.dir}"/>
+      <delete dir="${dist.dir}"/>
+   </target>
+
+   <target name="init" unless="initIsComplete">
+      <!-- Create the time stamp -->
+      <tstamp/>
+
+      <!-- Create the output directories -->
+      <mkdir dir="${build.dir}"/>
+      <mkdir dir="${build-common-commandline.java.dir}"/>
+      <mkdir dir="${build-common-serial.java.dir}"/>
+      <mkdir dir="${build-common-serialapplications.java.dir}"/>
+      <mkdir dir="${build-fakeqwerk.java.dir}"/>
+      <mkdir dir="${build-fakeqwerk-test.java.dir}"/>
+      <mkdir dir="${build-commandline.java.dir}"/>
+      <mkdir dir="${build-finch.java.dir}"/>
+      <mkdir dir="${build-finch-applications.java.dir}"/>
+      <mkdir dir="${build-hummingbird.java.dir}"/>
+
+      <property name="initIsComplete" value="true"/>
+   </target>
+
+   <target name="build-third-party" unless="BuildThirdPartyIsComplete">
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist" inheritall="false" inheritrefs="false"/>
+
+      <property name="BuildThirdPartyIsComplete" value="true"/>
+   </target>
+
+   <target name="build" depends="init, compile.java, run-tests" description="build the project" unless="buildIsComplete">
+      <property name="buildIsComplete" value="true"/>
+   </target>
+
+   <target name="build-finch-applications" depends="init, build-finch-applications-terk-jar" description="build the finch-applications code" unless="build-finch-applications-is-complete">
+      <!-- Compile finch-applications classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-finch-applications.java.dir}"
+                                       src-dir="${src-finch-applications.java.dir}"
+                                       classpath-ref="finch-applications.classpath"/>
+
+      <property name="build-finch-applications-is-complete" value="true"/>
+   </target>
+
+   <target name="build-finch-applications-terk-jar" description="creates the terk.jar used by finch-applications, but only if it doesn't already exist" unless="build-finch-applications-terk-jar-is-complete">
+      <if>
+         <available file="${finch-applications.terk.jar}" type="file"/>
+         <then>
+            <echo message="The terk.jar already exists, so I won't try to build it."/>
+         </then>
+         <else>
+            <echo message="The terk.jar doesn't exist, so I will build it."/>
+            <antcall target="force-build-finch-applications-terk-jar" inheritall="true" inheritrefs="true"/>
+         </else>
+      </if>
+      <property name="build-finch-applications-terk-jar-is-complete" value="true"/>
+   </target>
+
+   <target name="force-build-finch-applications-terk-jar" description="creates the terk.jar used by finch-applications, overwriting it if already exists" unless="force-build-finch-applications-terk-jar-is-complete">
+      <antcall target="dist-finch" inheritall="true" inheritrefs="true"/>
+
+      <!-- Create the big honkin' jar containing all the jars from dist-finch, but exclude the finch resources jar since
+      we want to use our own log4j.xml.  We'll also include some other jars required by classes in finch-applications,
+      but not used by classes in finch. -->
+      <jar destfile="${finch-applications.terk.jar}" update="no" compress="true">
+         <zipgroupfileset dir="${dist-finch.dir}" includes="**/*.jar" excludes="${finch-resources-jar.filename}"/>
+         <zipgroupfileset dir="${terk-common-speech.dir}" includes="${terk-common-speech.jar.filename}"/>
+         <zipgroupfileset dir="${rome.dir}" includes="${rome.jar.filename}"/>
+         <zipgroupfileset dir="${jdom.dir}" includes="${jdom.jar.filename}"/>
+         <zipgroupfileset dir="${rssreaders.dir}" includes="${rssreaders.jar.filename}"/>
+         <zipgroupfileset dir="${lticivil.dir}" includes="*.jar"/>
+         <zipgroupfileset dir="${freetts.dir}" includes="**/*.jar"/>
+      </jar>
+
+      <property name="force-build-finch-applications-terk-jar-is-complete" value="true"/>
+   </target>
+
+   <target name="dist" depends="build,
+                                dist-common-commandline,
+                                dist-common-serial,
+                                dist-common-serialapplications,
+                                dist-fakeqwerk,
+                                dist-commandline,
+                                dist-finch,
+                                dist-finch-applications,
+                                create-finch-applications-distro-zip,
+                                dist-hummingbird" description="create the distribution">
+      <!-- set permissions for the executables and scripts-->
+      <chmod dir="${dist.dir}" includes="**/*.bat, **/*.sh" perm="755" verbose="true"/>
+   </target>
+
+   <target name="dist-common-commandline" depends="build" description="builds the common-commandline library" unless="dist_commoncommandline_is_complete">
+      <mkdir dir="${dist-common-commandline.dir}"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-common-commandline.dir}/${common-commandline-jar.filename}"
+           basedir="${build-common-commandline.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-common-commandline.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+      </copy>
+
+      <property name="dist_commoncommandline_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-common-serial" depends="build" description="builds the common-serial library" unless="dist_commonserial_is_complete">
+      <mkdir dir="${dist-common-serial.dir}"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-common-serial.dir}/${common-serial-jar.filename}"
+           basedir="${build-common-serial.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-common-serial.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${rxtx.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-userinterface.jar}"/>
+      </copy>
+
+      <!-- copy required native libraries files -->
+      <copy todir="${dist-common-serial.dir}" flatten="true">
+         <fileset dir="${rxtx.dir}">
+            <include name="**/?*.jnilib"/>
+            <include name="**/?*.dll"/>
+         </fileset>
+      </copy>
+
+      <property name="dist_commonserial_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-common-serialapplications" depends="build, dist-common-commandline, dist-common-serial" description="builds the common-serialapplications library" unless="dist_commonserialapplications_is_complete">
+      <mkdir dir="${dist-common-serialapplications.dir}"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-common-serialapplications.dir}/${common-serialapplications-jar.filename}"
+           basedir="${build-common-serialapplications.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-common-serialapplications.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${dist-common-commandline.dir}/${common-commandline-jar.filename}"/>
+         <fileset file="${dist-common-serial.dir}/${common-serial-jar.filename}"/>
+      </copy>
+
+      <property name="dist_commonserialapplications_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-fakeqwerk" depends="build" description="builds the fake qwerk" unless="dist_fakeqwerk_is_complete">
+      <mkdir dir="${dist-fakeqwerk.dir}"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-fakeqwerk.dir}/${fakeqwerk-jar.filename}"
+           basedir="${build-fakeqwerk.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-fakeqwerk.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${terk-common-client.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-analogin.jar}"/>
+         <fileset file="${terk-common-audio.jar}"/>
+         <fileset file="${terk-common-digitalin.jar}"/>
+         <fileset file="${terk-common-digitalout.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-led.jar}"/>
+         <fileset file="${terk-common-motor.jar}"/>
+         <fileset file="${terk-common-qwerk.jar}"/>
+         <fileset file="${terk-common-serial.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-servo.jar}"/>
+         <fileset file="${terk-common-video.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+      </copy>
+
+      <!-- define the execution classpath for use in the scripts -->
+      <path id="fakeqwerk.execution.classpath.elements">
+         <fileset dir="${dist-fakeqwerk.dir}">
+            <include name="**/*.jar"/>
+         </fileset>
+      </path>
+
+      <copy-scripts app-name="fakeqwerk" dist-dir="${dist-fakeqwerk.dir}"/>
+
+      <property name="dist_fakeqwerk_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-commandline" depends="build" description="builds the command-line qwerk" unless="dist_commandline_is_complete">
+      <mkdir dir="${dist-commandline.dir}"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-commandline.dir}/${commandline-jar.filename}"
+           basedir="${build-commandline.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-commandline.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${terk-common-commandline.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+      </copy>
+
+      <!-- define the execution classpath for use in the scripts -->
+      <path id="commandline.execution.classpath.elements">
+         <fileset dir="${dist-commandline.dir}">
+            <include name="**/*.jar"/>
+         </fileset>
+      </path>
+
+      <copy-scripts app-name="commandline" dist-dir="${dist-commandline.dir}"/>
+
+      <property name="dist_commandline_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-finch" depends="build, dist-common-commandline, dist-common-serial, dist-common-serialapplications" description="builds the finch" unless="dist_finch_is_complete">
+      <mkdir dir="${dist-finch.dir}"/>
+
+      <!-- define the resource files -->
+      <property name="finch.resource.files" value="log4j.xml,version.properties"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-finch.dir}/${finch-jar.filename}"
+           basedir="${build-finch.java.dir}"
+           update="no"
+           compress="true"
+           excludes="${finch.resource.files}"/>
+
+      <!-- create jar of resources -->
+      <jar destfile="${dist-finch.dir}/${finch-resources-jar.filename}"
+           basedir="${build-finch.java.dir}"
+           update="no"
+           compress="true"
+           includes="${finch.resource.files}"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-finch.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${rxtx.jar}"/>
+         <fileset file="${swing-layout.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${terk-common-accelerometer.jar}"/>
+         <fileset file="${terk-common-analogin.jar}"/>
+         <fileset file="${terk-common-application.jar}"/>
+         <fileset file="${terk-common-audio.jar}"/>
+         <fileset file="${terk-common-buzzer.jar}"/>
+         <fileset file="${terk-common-client.jar}"/>
+         <fileset file="${terk-common-color.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-communicatormanager.jar}"/>
+         <fileset file="${terk-common-connectionwizard.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-finch.jar}"/>
+         <fileset file="${terk-common-led.jar}"/>
+         <fileset file="${terk-common-motor.jar}"/>
+         <fileset file="${terk-common-obstacle.jar}"/>
+         <fileset file="${terk-common-photoresistor.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${terk-common-servo.jar}"/>
+         <fileset file="${terk-common-thermistor.jar}"/>
+         <fileset file="${terk-common-userinterface.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+         <fileset file="${dist-common-commandline.dir}/${common-commandline-jar.filename}"/>
+         <fileset file="${dist-common-serial.dir}/${common-serial-jar.filename}"/>
+         <fileset file="${dist-common-serialapplications.dir}/${common-serialapplications-jar.filename}"/>
+
+         <!-- Additional jars used by Java Web Start -->
+         <fileset file="${rxtx-native-mac.jar}"/>
+         <fileset file="${rxtx-native-win.jar}"/>
+      </copy>
+
+      <!-- copy required native libraries files -->
+      <copy todir="${dist-finch.dir}" flatten="true">
+         <fileset dir="${rxtx.dir}">
+            <include name="**/?*.jnilib"/>
+            <include name="**/?*.dll"/>
+            <include name="**/?*.so"/>
+         </fileset>
+      </copy>
+
+      <copy-scripts app-name="finch" dist-dir="${dist-finch.dir}"/>
+
+      <property name="dist_finch_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-finch-applications" depends="build-finch-applications-terk-jar, build-finch-applications" description="builds the finch applications" unless="dist_finch_applications_is_complete">
+      <mkdir dir="${dist-finch-applications.dir}"/>
+
+      <!-- define the resource files -->
+      <property name="finch-applications.resource.files" value="version.properties"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-finch-applications.dir}/${finch-applications-jar.filename}"
+           basedir="${build-finch-applications.java.dir}"
+           update="no"
+           compress="true"
+           excludes="${finch-applications.resource.files}"/>
+
+      <!-- create jar of resources, using the logging config file required for console-only logging -->
+      <jar destfile="${dist-finch-applications.dir}/${finch-applications-resources-jar.filename}"
+           update="no"
+           compress="true">
+         <fileset dir="${build-finch-applications.java.dir}" includes="${finch-applications.resource.files}"/>
+         <fileset dir="${finch-applications.logging-resource.dir}/console" includes="**/*"/>
+      </jar>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-finch-applications.dir}" flatten="true">
+         <fileset file="${finch-applications.terk.jar}"/>
+      </copy>
+
+      <!-- copy required native libraries files -->
+      <copy todir="${dist-finch-applications.dir}" flatten="true">
+         <fileset dir="${rxtx.dir}">
+            <include name="**/?*.jnilib"/>
+            <include name="**/?*.dll"/>
+         </fileset>
+      </copy>
+
+      <copy-scripts app-name="finch-applications" dist-dir="${dist-finch-applications.dir}"/>
+
+      <property name="dist_finch_applications_is_complete" value="true"/>
+   </target>
+
+   <target name="create-finch-applications-distro-zip" depends="force-build-finch-applications-terk-jar, dist-finch-applications" description="builds the finch applications zip for distributing to students, etc." unless="create_finch_applications_distro_zip_is_complete">
+      <mkdir dir="${dist-finch-applications-distro-zip.dir}"/>
+
+      <!-- Create the big honkin' finch.jar -->
+      <jar destfile="${finch-applications-distro-zip.finch.jar}" update="yes" compress="true">
+         <zipgroupfileset dir="${dist-finch-applications.dir}" includes="terk.jar"/>
+         <!--<zipgroupfileset dir="${dist-finch-applications.dir}" includes="finch-applications.jar"/>    -->
+         <zipfileset dir="${finch-applications.logging-resource.dir}/file" includes="**/*"/>
+         <!-- <zipfileset dir="${src-finch-applications.java.dir}/finch/" includes="*.java"/>      -->
+      </jar>
+
+      <!-- copy required native libraries files -->
+      <copy todir="${dist-finch-applications-distro-zip.dir}" flatten="true">
+         <fileset dir="${rxtx.dir}">
+            <include name="**/?*.jnilib"/>
+            <include name="**/?*.dll"/>
+         </fileset>
+      </copy>
+
+      <!-- generate the scripts for all platforms -->
+      <!--    <copy-scripts app-name="finch-applications-distro-zip"
+   dist-dir="${dist-finch-applications-distro-zip.dir}"
+   scripts-dir-name="finch-applications"
+   platform-dependent="false"/>   -->
+
+      <!-- create javadocs -->
+      <javadoc packagenames="*"
+               destdir="${dist-finch-applications-distro-zip.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="Finch API"
+               doctitle="Finch API"
+               protected="true"
+               notree="true"
+               noindex="true">
+         <classpath>
+            <path refid="finch-applications.classpath"/>
+         </classpath>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-finch-applications.java.dir}" includes="**/*.java"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <!-- create zip of the directory -->
+      <zip destfile="${dist.dir}/${finch-applications-distro-zip.filename}"
+           compress="true">
+         <zipfileset dir="${dist-finch-applications-distro-zip.dir}" prefix="finch"/>
+      </zip>
+
+      <!-- delete the temporary zip directory -->
+      <delete dir="${dist-finch-applications-distro-zip.dir}"/>
+
+      <property name="create_finch_applications_distro_zip_is_complete" value="true"/>
+   </target>
+
+   <target name="dist-hummingbird" depends="build, dist-common-commandline, dist-common-serial, dist-common-serialapplications" description="builds the hummingbird" unless="dist_hummingbird_is_complete">
+      <mkdir dir="${dist-hummingbird.dir}"/>
+
+      <!-- define the resource files -->
+      <property name="hummingbird.resource.files" value="log4j.xml,version.properties"/>
+
+      <!-- create jar of Java classes -->
+      <jar destfile="${dist-hummingbird.dir}/${hummingbird-jar.filename}"
+           basedir="${build-hummingbird.java.dir}"
+           update="no"
+           compress="true"
+           excludes="${hummingbird.resource.files}"/>
+
+      <!-- create jar of resources -->
+      <jar destfile="${dist-hummingbird.dir}/${hummingbird-resources-jar.filename}"
+           basedir="${build-hummingbird.java.dir}"
+           update="no"
+           compress="true"
+           includes="${hummingbird.resource.files}"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-hummingbird.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${rxtx.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${terk-common-analogin.jar}"/>
+         <fileset file="${terk-common-audio.jar}"/>
+         <fileset file="${terk-common-client.jar}"/>
+         <fileset file="${terk-common-color.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-communicatormanager.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-hummingbird.jar}"/>
+         <fileset file="${terk-common-led.jar}"/>
+         <fileset file="${terk-common-motor.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${terk-common-servo.jar}"/>
+         <fileset file="${terk-common-userinterface.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+         <fileset file="${dist-common-commandline.dir}/${common-commandline-jar.filename}"/>
+         <fileset file="${dist-common-serial.dir}/${common-serial-jar.filename}"/>
+         <fileset file="${dist-common-serialapplications.dir}/${common-serialapplications-jar.filename}"/>
+
+         <!-- Additional jars used by Java Web Start -->
+         <fileset file="${rxtx-native-mac.jar}"/>
+         <fileset file="${rxtx-native-win.jar}"/>
+      </copy>
+
+      <!-- copy required native libraries files -->
+      <copy todir="${dist-hummingbird.dir}" flatten="true">
+         <fileset dir="${rxtx.dir}">
+            <include name="**/?*.jnilib"/>
+            <include name="**/?*.dll"/>
+         </fileset>
+      </copy>
+
+      <copy-scripts app-name="hummingbird" dist-dir="${dist-hummingbird.dir}"/>
+
+      <property name="dist_hummingbird_is_complete" value="true"/>
+   </target>
+
+   <target name="compile.java" depends="build-third-party, init" unless="compileJavaIsComplete">
+
+      <!-- Compile common-commandline classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-common-commandline.java.dir}"
+                                       src-dir="${src-common-commandline.java.dir}"
+                                       classpath-ref="common-commandline.classpath"/>
+
+      <!-- Compile common-serial classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-common-serial.java.dir}"
+                                       src-dir="${src-common-serial.java.dir}"
+                                       classpath-ref="common-serial.classpath"/>
+
+      <!-- Compile common-serialapplications classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-common-serialapplications.java.dir}"
+                                       src-dir="${src-common-serialapplications.java.dir}"
+                                       classpath-ref="common-serialapplications.classpath"/>
+
+      <!-- Compile fake qwerk classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-fakeqwerk.java.dir}"
+                                       src-dir="${src-fakeqwerk.java.dir}"
+                                       classpath-ref="fakeqwerk.classpath"/>
+      <compile-code-and-copy-resources build-dir="${build-fakeqwerk-test.java.dir}"
+                                       src-dir="${src-fakeqwerk-test.java.dir}"
+                                       classpath-ref="fakeqwerk.classpath"/>
+
+      <!-- Compile command line qwerk classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-commandline.java.dir}"
+                                       src-dir="${src-commandline.java.dir}"
+                                       classpath-ref="commandline.classpath"/>
+
+      <!-- Compile finch classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-finch.java.dir}"
+                                       src-dir="${src-finch.java.dir}"
+                                       classpath-ref="finch.classpath"/>
+
+      <!-- Compile hummingbird classes and copy its resources -->
+      <compile-code-and-copy-resources build-dir="${build-hummingbird.java.dir}"
+                                       src-dir="${src-hummingbird.java.dir}"
+                                       classpath-ref="hummingbird.classpath"/>
+
+      <property name="compileJavaIsComplete" value="true"/>
+   </target>
+
+   <target name="run-tests" depends="compile.java" description="runs all JUnit tests" unless="runTestsIsComplete">
+      <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
+         <classpath refid="fakeqwerk.classpath"/>
+
+         <batchtest>
+            <fileset dir="${src-fakeqwerk-test.java.dir}">
+               <include name="**/*Test*.java"/>
+            </fileset>
+         </batchtest>
+      </junit>
+
+      <property name="runTestsIsComplete" value="true"/>
+   </target>
+
+   <target name="javadoc" depends="build" unless="javadocIsComplete" description="generate javadocs">
+      <mkdir dir="${dist.dir}/javadoc"/>
+      <javadoc packagenames="*"
+               destdir="${dist.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK Robot API"
+               doctitle="TeRK Robot API"
+               protected="true">
+         <classpath>
+            <path refid="common-commandline.classpath"/>
+            <path refid="common-serial.classpath"/>
+            <path refid="common-serialapplications.classpath"/>
+            <path refid="fakeqwerk.classpath"/>
+            <path refid="commandline.classpath"/>
+            <path refid="finch.classpath"/>
+            <path refid="hummingbird.classpath"/>
+         </classpath>
+         <packageset dir="${src-common-commandline.java.dir}"/>
+         <packageset dir="${src-common-serial.java.dir}"/>
+         <packageset dir="${src-common-serialapplications.java.dir}"/>
+         <packageset dir="${src-fakeqwerk.java.dir}"/>
+         <packageset dir="${src-commandline.java.dir}"/>
+         <packageset dir="${src-finch.java.dir}"/>
+         <packageset dir="${src-hummingbird.java.dir}"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <property name="javadocIsComplete" value="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Macro definitions -->
+   <!-- ============================================================================================================ -->
+
+   <macrodef name="compile-code-and-copy-resources">
+      <attribute name="classpath-ref"/>
+      <attribute name="build-dir"/>
+      <attribute name="src-dir"/>
+      <sequential>
+         <!-- compile code -->
+         <javac srcdir="@{src-dir}"
+                destdir="@{build-dir}"
+                classpathref="@{classpath-ref}"
+                debug="${java.compiler.debug}"
+                nowarn="${java.compiler.generate.no.warnings}"
+                memorymaximumsize="${java.compiler.max.memory}"
+                source="${java.compiler.source.level}"
+                fork="true"
+                includeAntRuntime="false">
+            <compilerarg line="${java.compiler.args}"/>
+         </javac>
+
+         <!-- copy resources -->
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources"/>
+            </fileset>
+         </copy>
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources.filterable"/>
+            </fileset>
+            <filterset>
+               <filter token="build.target" value="${build.target}"/>
+               <filter token="build.number" value="${build.number}"/>
+               <filter token="glacier.host" value="${glacier.host}"/>
+            </filterset>
+         </copy>
+
+      </sequential>
+   </macrodef>
+
+   <macrodef name="copy-scripts">
+      <attribute name="app-name"/>
+      <attribute name="dist-dir"/>
+      <attribute name="scripts-dir-name" default="@{app-name}"/>
+      <attribute name="platform-dependent" default="true"/>
+      <sequential>
+         <if>
+            <istrue value="@{platform-dependent}"/>
+            <then>
+               <if>
+                  <istrue value="${isWindows}"/>
+                  <then>
+                     <copy-scripts-helper app-name="@{app-name}"
+                                          dist-dir="@{dist-dir}"
+                                          scripts-dir-name="@{scripts-dir-name}"
+                                          platform-for-path-conversion="windows"
+                                          script-file-extension="bat"
+                           />
+                  </then>
+                  <else>
+                     <copy-scripts-helper app-name="@{app-name}"
+                                          dist-dir="@{dist-dir}"
+                                          scripts-dir-name="@{scripts-dir-name}"
+                                          platform-for-path-conversion="unix"
+                                          script-file-extension="sh"
+                           />
+                  </else>
+               </if>
+            </then>
+            <else>
+               <copy-scripts-helper app-name="@{app-name}"
+                                    dist-dir="@{dist-dir}"
+                                    scripts-dir-name="@{scripts-dir-name}"
+                                    platform-for-path-conversion="windows"
+                                    script-file-extension="bat"
+                     />
+               <copy-scripts-helper app-name="@{app-name}"
+                                    dist-dir="@{dist-dir}"
+                                    scripts-dir-name="@{scripts-dir-name}"
+                                    platform-for-path-conversion="unix"
+                                    script-file-extension="sh"
+                     />
+            </else>
+         </if>
+
+         <!-- set permissions for the executables and scripts-->
+         <chmod dir="${dist.dir}" includes="**/*.bat, **/*.sh" perm="755" verbose="true"/>
+      </sequential>
+   </macrodef>
+
+   <macrodef name="copy-scripts-helper">
+      <attribute name="app-name"/>
+      <attribute name="dist-dir"/>
+      <attribute name="scripts-dir-name"/>
+      <attribute name="platform-for-path-conversion"/>
+      <attribute name="script-file-extension"/>
+      <sequential>
+
+         <!-- Create the classpath, mapping the dist directory to "." because we don't want absolute paths in our classpath -->
+         <pathconvert property="@{app-name}-@{platform-for-path-conversion}.execution.classpath" targetos="@{platform-for-path-conversion}">
+            <path>
+               <fileset dir="@{dist-dir}">
+                  <include name="**/*.jar"/>
+               </fileset>
+            </path>
+            <map from="@{dist-dir}" to="."/>
+         </pathconvert>
+
+         <!-- copy scripts (with filtering) -->
+         <copy todir="@{dist-dir}" flatten="true">
+            <fileset dir="${scripts.dir}/@{scripts-dir-name}" includes="**/*.@{script-file-extension}"/>
+            <filterset>
+               <filter token="Classpath" value="${@{app-name}-@{platform-for-path-conversion}.execution.classpath}"/>
+            </filterset>
+         </copy>
+
+      </sequential>
+   </macrodef>
+
+</project>

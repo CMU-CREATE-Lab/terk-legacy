@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeRKBuild" default="help">
+
+   <!-- Properties -->
+   <dirname property="base.directory" file="${ant.file}"/>
+   <property file="${user.home}/.mrpl-project.properties"/>
+   <property file="${user.home}/.terk-project.properties"/>
+   <property file="build.properties"/>
+
+   <property name="build.target" value="dev" description="default the build target to 'dev' (override with -D on the command line)"/>
+   <condition property="build.target.is-valid">
+      <or>
+         <equals arg1="${build.target}" arg2="dev"/>
+         <equals arg1="${build.target}" arg2="test"/>
+         <equals arg1="${build.target}" arg2="prod"/>
+      </or>
+   </condition>
+   <echo level="info" message="Build Target: ${build.target}"/>
+   <fail message="Property 'build.target' must be one of: dev, test, prod" unless="build.target.is-valid"/>
+
+   <property file="${build.number.file}"/>
+   <condition property="build.number.is-valid">
+      <isset property="build.number"/>
+   </condition>
+   <fail message="Property 'build.number' must be specified in the ${build.number.file} file!!" unless="build.number.is-valid"/>
+   <property name="build.number" value="none"/>
+   <echo level="info" message="Build Number: ${build.number}"/>
+
+   <!-- Task definitions -->
+   <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <pathelement location="lib/ant-contrib/ant-contrib-1.0b3.jar"/>
+      </classpath>
+   </taskdef>
+
+   <!-- Set dependency flags -->
+   <available file="${terk-agent.dir}/build.xml" type="file" property="isPresentTeRKAgent"/>
+   <available file="${terk-client.dir}/build.xml" type="file" property="isPresentTeRKClient"/>
+   <available file="${terk-common.dir}/build.xml" type="file" property="isPresentTeRKPeerCommon"/>
+   <available file="${terk-relay.dir}/build.xml" type="file" property="isPresentTeRKRelay"/>
+   <available file="${terk-robot.dir}/build.xml" type="file" property="isPresentTeRKRobot"/>
+   <condition property="areTeRKAgentDependenciesAvailable">
+      <and>
+         <isset property="isPresentTeRKPeerCommon"/>
+         <isset property="isPresentTeRKAgent"/>
+      </and>
+   </condition>
+   <condition property="areTeRKClientDependenciesAvailable">
+      <and>
+         <isset property="isPresentTeRKPeerCommon"/>
+         <isset property="isPresentTeRKClient"/>
+      </and>
+   </condition>
+   <condition property="areTeRKPeerCommonDependenciesAvailable">
+      <and>
+         <isset property="isPresentTeRKPeerCommon"/>
+      </and>
+   </condition>
+   <condition property="areTeRKRelayDependenciesAvailable">
+      <and>
+         <isset property="isPresentTeRKRelay"/>
+      </and>
+   </condition>
+   <condition property="areTeRKRobotDependenciesAvailable">
+      <and>
+         <isset property="isPresentTeRKPeerCommon"/>
+         <isset property="isPresentTeRKRobot"/>
+      </and>
+   </condition>
+
+   <!-- set the properties to false (they'll only get set if they weren't set to true above) -->
+   <property name="areTeRKAgentDependenciesAvailable" value="false"/>
+   <property name="areTeRKClientDependenciesAvailable" value="false"/>
+   <property name="areTeRKPeerCommonDependenciesAvailable" value="false"/>
+   <property name="areTeRKRelayDependenciesAvailable" value="false"/>
+   <property name="areTeRKRobotDependenciesAvailable" value="false"/>
+
+   <!-- ============================================================================================================ -->
+
+   <target name="init" unless="initIsComplete">
+      <!-- Create the time stamp -->
+      <tstamp/>
+
+      <property name="initIsComplete" value="true"/>
+   </target>
+
+   <target name="help" description="displays usage info">
+      <echo level="info" message="This build script helps build the TeRK modules."/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="Usage:"/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="   ant javadoc                                               Calls 'javadoc' on all TeRK modules."/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="   ant clean                                                 Calls 'clean' on all TeRK modules."/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="   ant dist                                                  Calls 'dist' on all TeRK modules"/>
+      <echo level="info" message="                                                             (defaults to 'dev' build target)."/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="   ant -Dbuild.target=dev dist                               Same as 'ant dist' above."/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="   ant -Dbuild.target=test -Dbuild.number=42  clean dist     Creates a clean build of all TeRK modules, "/>
+      <echo level="info" message="                                                             targeting the 'test' build target and"/>
+      <echo level="info" message="                                                             overriding the build number to '42'."/>
+      <echo level="info" message=" "/>
+      <echo level="info" message="   ant -Dbuild.target=prod -Dbuild.number=42  clean dist     Creates a clean build of all TeRK modules, "/>
+      <echo level="info" message="                                                             targeting the 'prod' build target and"/>
+      <echo level="info" message="                                                             overriding the build number to '42'."/>
+      <echo level="info" message=" "/>
+   </target>
+
+   <target name="clean" description="clean all modules">
+      <execute ant-target-name="clean"/>
+   </target>
+
+   <target name="dist" depends="init" description="dist all modules">
+      <!-- Call dist on all the modules -->
+      <execute ant-target-name="dist"/>
+   </target>
+
+   <target name="javadoc" depends="init" description="calls javadoc on all modules">
+      <!-- Call javadoc on all the modules -->
+      <execute ant-target-name="javadoc"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Macro definitions -->
+   <!-- ============================================================================================================ -->
+
+   <macrodef name="execute-helper">
+      <attribute name="module-exists"/>
+      <attribute name="ant-target-name"/>
+      <attribute name="module-name"/>
+      <attribute name="module-dir"/>
+      <sequential>
+         <if>
+            <istrue value="@{module-exists}"/>
+            <then>
+               <echo level="info" message="----------------------------------------------------------------------------------"/>
+               <echo level="info" message="Calling '@{ant-target-name}' on @{module-name}"/>
+               <echo level="info" message="----------------------------------------------------------------------------------"/>
+               <ant dir="@{module-dir}" antfile="build.xml" target="@{ant-target-name}" inheritall="false" inheritrefs="false">
+                  <property name="build.target" value="${build.target}"/>
+                  <property name="build.number" value="${build.number}"/>
+                  <property name="local.host.domain.name" value="${local.host.domain.name}"/>
+               </ant>
+            </then>
+            <else>
+               <echo level="info" message="----------------------------------------------------------------------------------"/>
+               <echo level="info" message="Skipping @{module-name} since it or one or more of its dependencies doesn't exist."/>
+               <echo level="info" message="----------------------------------------------------------------------------------"/>
+            </else>
+         </if>
+      </sequential>
+   </macrodef>
+
+   <macrodef name="execute">
+      <attribute name="ant-target-name"/>
+      <sequential>
+         <execute-helper module-exists="${areTeRKRelayDependenciesAvailable}"
+                         ant-target-name="@{ant-target-name}"
+                         module-name="TeRKRelay"
+                         module-dir="${terk-relay.dir}"/>
+
+         <execute-helper module-exists="${areTeRKPeerCommonDependenciesAvailable}"
+                         ant-target-name="@{ant-target-name}"
+                         module-name="TeRKPeerCommon"
+                         module-dir="${terk-common.dir}"/>
+
+         <execute-helper module-exists="${areTeRKClientDependenciesAvailable}"
+                         ant-target-name="@{ant-target-name}"
+                         module-name="TeRKClient"
+                         module-dir="${terk-client.dir}"/>
+
+         <execute-helper module-exists="${areTeRKRobotDependenciesAvailable}"
+                         ant-target-name="@{ant-target-name}"
+                         module-name="TeRKRobot"
+                         module-dir="${terk-robot.dir}"/>
+
+         <execute-helper module-exists="${areTeRKAgentDependenciesAvailable}"
+                         ant-target-name="@{ant-target-name}"
+                         module-name="TeRKAgent"
+                         module-dir="${terk-agent.dir}"/>
+
+      </sequential>
+   </macrodef>
+   <!-- ============================================================================================================ -->
+</project>

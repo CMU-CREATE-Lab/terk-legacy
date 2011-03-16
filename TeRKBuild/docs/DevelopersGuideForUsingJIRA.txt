@@ -1,0 +1,60 @@
+DEVELOPER'S GUIDE FOR USING JIRA
+--------------------------------
+
+This document describes the basic usage of JIRA, the issue tracking software we use.
+
+WHAT IS JIRA AND WHAT IS IT GOOD FOR?
+-------------------------------------
+
+JIRA is a bug and issue management application by Atlassian (http://www.atlassian.com/software/jira/).  We use it for
+the TeRK project to track all software bugs, issues, and new feature requests.  The TeRK JIRA is located at:
+
+   http://www.terk.ri.cmu.edu:8090
+
+Guest browsing is allowed, but you need to have a login in order to create new issues.  Developers need developer
+access in order to work issues.  If you need developer access, please contact Chris Bartley (bartley@cmu.edu).
+
+BASIC JIRA USAGE
+----------------
+
+When issues are created, they're in the "Open" state and assigned to a user.  Initial issue assignment can be controlled
+by some users when the issue is created, but for others it is just assigned to the default assignee.  Developers can
+also change issue assignment after the issue has been created.
+
+To start working on an Open issue, first make sure it's assigned to you.  If necessary, you can assign it to yourself
+using the Assign operation under the "Operations" section on the left side of the screen when viewing the issue.
+
+Now that the issue is assigned to you, choose "Start Progress" (you'll find it on the left side of the issue page, under
+the Available Workflow Actions section).  This just flags the issue as being worked on by you, and helps others know not
+to work on it.  JIRA lists all issues that you have in progress on the home page when you log in.  I find this helpful
+to remember my current task list.  Now that you've marked the issue as in progress, you can start coding up the fix!
+
+When you're done coding, have tested it thoroughly, and are writing the SVN commit comment to check in your changes, you
+can (and should) add the JIRA issue key into your comment to have JIRA automatically attach a report of the files that
+changed in SVN to the issue.  The JIRA issue key is listed at the top-left of the issue page (e.g. QWERKSOFTWARE-1,
+TELEOPCLIENT-2, or TERKWEBSITE-22).  So, your SVN commit comment might read something like this:
+
+   "Increased video buffer size to 20K (fixes QWERKSOFTWARE-3)."
+
+Once the code is checked in, you can go back to the JIRA and mark the issue as Resolved.  When filling out the
+resolution form in the JIRA, you'll notice a field called "Resolved In Build" for recording in which build the issue was
+resolved.  We have three different build numbers, one for each of the three major portions of the TeRK software, so the
+number to put in there depends on which part of the TeRK software you were working on:
+
+   * The Qwerk firmware build number is tracked in the build.number.txt file at the root of the embed module.
+   * The TeRK web site build number is tracked in the build.number.txt file at the root of the TeRKWebSite module.
+   * The build number for all other TeRK code (clients, relay, etc.) is tracked in the build.number.txt file at the root
+     of the TeRKBuild module.
+
+So, first determine which build.number.txt file applies to the issue you just resolved, then look in the file and make
+a note of the number (but don't change it!).  The number you enter into the JIRA resolution form is simply the next
+number in the series.  For example, if you fixed a firmware issue and the embed module's build.number.txt file has a 2
+in it, then you'd enter a 3 into the JIRA resolution form's "Resolved In Build" field.  Finish filling out the form
+(don't worry about being too detailed in the Comment field--it's only for important details that should be noted or will
+be of use to others), and submit it to finish marking the issue as Resolved.
+
+Issues don't get marked as Closed until after a new build is deployed and the issue is retested.  So, at this point, you
+can just forget about the issue and just wait until a new build is deployed (typically done by Chris). After deployment,
+you should retest all your Resolved issues and, if they pass the tests, then mark them as Closed.  JIRA helpfully
+provides a list of all your issues that are Resolved but not yet Closed.  You can see the list by clicking on the "My
+Resolved (But Not Closed) Issues" on the right side of the home page (you must be logged in).

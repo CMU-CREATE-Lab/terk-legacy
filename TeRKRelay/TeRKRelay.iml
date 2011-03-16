@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/code/java/model/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/model/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/persistence/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/persistence/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/relay/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/relay/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Commons Collections" level="project" />
+    <orderEntry type="module-library">
+      <library name="Hibernate">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate/dom4j-1.6.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/c3p0-0.9.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/asm.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/jta.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/antlr-2.7.6rc1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/hibernate3.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/cglib-2.1.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/hibernate/asm-attrs.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/hibernate/hibernate3-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Ice" level="project" />
+    <orderEntry type="library" name="JUnit" level="project" />
+    <orderEntry type="library" name="Log4j" level="project" />
+    <orderEntry type="library" name="MRPL Peer" level="project" />
+    <orderEntry type="library" name="MRPL Ice" level="project" />
+    <orderEntry type="library" name="MRPL Utilities" level="project" />
+    <orderEntry type="module-library">
+      <library name="MySQL Connector">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mysql/mysql-connector-java-3.1.12-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

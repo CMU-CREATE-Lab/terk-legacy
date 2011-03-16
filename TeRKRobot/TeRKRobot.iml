@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/code/java/commandline/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/common/commandline/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/common/serial/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/common/serialapplications/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/fakeqwerk/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/fakeqwerk/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/finch-applications/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/finch/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/java/hummingbird/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="TeRKPeerCommon" />
+    <orderEntry type="library" name="Ice" level="project" />
+    <orderEntry type="library" name="JUnit" level="project" />
+    <orderEntry type="library" name="Log4j" level="project" />
+    <orderEntry type="library" name="MRPL Graphics" level="project" />
+    <orderEntry type="library" name="MRPL Ice" level="project" />
+    <orderEntry type="library" name="MRPL Peer" level="project" />
+    <orderEntry type="library" name="MRPL Utilities" level="project" />
+    <orderEntry type="library" name="RxTx" level="project" />
+    <orderEntry type="library" name="Swing Layout" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/code/java/finch-applications/lib/terk.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <typedef class="edu.cmu.ri.mrpl.TeRK.persistence.StringEnumUserType" name="enumUserType">
+      <param name="enumClassname">edu.cmu.ri.mrpl.TeRK.model.UserType</param>
+   </typedef>
+
+   <class name="edu.cmu.ri.mrpl.TeRK.model.TerkUser" table="TERK_USERS">
+      <id name="id" column="TERK_USER_ID_KEY">
+         <generator class="native"/>
+      </id>
+      <natural-id mutable="false">
+         <many-to-one name="userIdentifier"
+                      column="USER_IDENTIFIER_ID_KEY"
+                      unique="true"
+                      not-null="true"
+                      lazy="false"
+                      cascade="all"/>
+      </natural-id>
+      <property name="userType" column="USER_TYPE" type="enumUserType" access="field" not-null="true"/>
+      <property name="creationTimestamp" column="CREATION_TIMESTAMP" not-null="true"/>
+      <property name="registered" column="IS_REGISTERED"/>
+      <!-- many-to-many mapping (using a join table) to the user's peers -->
+      <set name="terkUserPeers" table="PEER_ASSOCIATIONS">
+         <key column="TERK_USER_1_ID_KEY"/>
+         <many-to-many column="TERK_USER_2_ID_KEY" class="edu.cmu.ri.mrpl.TeRK.model.TerkUser"/>
+      </set>
+      <!-- one-to-many mapping for the user's peer associations where the user is the sender -->
+      <set name="senderPeerAssociationRules" table="PEER_ASSOCIATIONS" inverse="true">
+         <key column="SENDING_USER_ID_KEY"/>
+         <one-to-many class="edu.cmu.ri.mrpl.TeRK.model.PeerAssociationRule"/>
+      </set>
+      <!-- one-to-many mapping for the user's peer associations where the user is the recipient -->
+      <set name="recipientPeerAssociationRules" table="PEER_ASSOCIATIONS" inverse="true">
+         <key column="RECEIVING_USER_ID_KEY"/>
+         <one-to-many class="edu.cmu.ri.mrpl.TeRK.model.PeerAssociationRule"/>
+      </set>
+   </class>
+   <query name="findUsersHavingUserIdAndPassword"><![CDATA[
+      from TerkUser where
+      (userIdentifier.userId = :userId) and
+      (password = :password)
+   ]]></query>
+   <query name="findRegisteredUserByUserId"><![CDATA[
+      from TerkUser where
+      (userIdentifier.userId = :userId) and
+      (registered = true)
+   ]]></query>
+   <query name="findAllPeers"><![CDATA[
+      select receivingUser from PeerAssociationRule as rule where
+      (rule.sendingUser = :user)
+   ]]></query>
+   <query name="findAvailablePeers"><![CDATA[
+      select receivingUser from PeerAssociationRule as rule where
+      (rule.sendingUser = :user) and
+      (rule.receivingUser.registered = true)
+   ]]></query>
+   <query name="findUnavailablePeers"><![CDATA[
+      select receivingUser from PeerAssociationRule as rule where
+      (rule.sendingUser = :user) and
+      (rule.receivingUser.registered = false)
+   ]]></query>
+</hibernate-mapping>

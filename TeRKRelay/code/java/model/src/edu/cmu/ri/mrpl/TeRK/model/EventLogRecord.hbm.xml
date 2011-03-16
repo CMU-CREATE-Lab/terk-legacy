@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <typedef class="edu.cmu.ri.mrpl.TeRK.persistence.StringEnumUserType" name="enumEventType">
+      <param name="enumClassname">edu.cmu.ri.mrpl.TeRK.model.EventType</param>
+   </typedef>
+
+   <class name="edu.cmu.ri.mrpl.TeRK.model.EventLogRecord" table="EVENT_LOG_RECORDS">
+      <id name="id" column="EVENT_LOG_RECORD_ID_KEY">
+         <generator class="native"/>
+      </id>
+      <many-to-one name="user"
+                   class="edu.cmu.ri.mrpl.TeRK.model.TerkUser"
+                   column="USER_IDENTIFIER_ID_KEY"
+                   not-null="true"/>
+      <property name="eventType" column="EVENT_TYPE" type="enumEventType" access="field" not-null="true"/>
+      <property name="eventTimestamp" column="EVENT_TIMESTAMP" not-null="true"/>
+      <property name="field0" column="FIELD_0" not-null="false"/>
+      <property name="field1" column="FIELD_1" not-null="false"/>
+      <property name="field2" column="FIELD_2" not-null="false"/>
+      <property name="field3" column="FIELD_3" not-null="false"/>
+      <property name="field4" column="FIELD_4" not-null="false"/>
+      <property name="field5" column="FIELD_5" not-null="false"/>
+      <property name="field6" column="FIELD_6" not-null="false"/>
+      <property name="field7" column="FIELD_7" not-null="false"/>
+      <property name="field8" column="FIELD_8" not-null="false"/>
+      <property name="field9" column="FIELD_9" not-null="false"/>
+   </class>
+</hibernate-mapping>

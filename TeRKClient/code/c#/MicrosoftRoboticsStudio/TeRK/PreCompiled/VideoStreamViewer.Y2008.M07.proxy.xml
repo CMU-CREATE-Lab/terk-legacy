@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<doc>
+   <assembly>
+      <name>VideoStreamViewer.Y2008.M07.Proxy</name>
+   </assembly>
+   <members>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.Contract">
+         <summary>
+            VideoStreamViewer Contract
+         </summary>
+      </member>
+      <member name="F:Robotics.VideoStreamViewer.Proxy.Contract.Identifier">
+         The Unique Contract Identifier for the VideoStreamViewer service
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Contract.ServiceModel">
+         The Dss Service dssModel Contract(s)
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Contract.CreateService(Microsoft.Dss.Services.Constructor.ConstructorPort,Microsoft.Dss.ServiceModel.Dssp.PartnerType[])">
+         <summary>
+            Creates an instance of the service associated with this contract
+         </summary>
+         <param name="contructorServicePort">Contractor Service that will create the instance</param>
+         <param name="partners">Optional list of service partners for new service instance</param>
+         <returns>Result PortSet for retrieving service creation response</returns>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Contract.CreateService(Microsoft.Dss.Services.Constructor.ConstructorPort)">
+         <summary>
+            Creates an instance of the service associated with this contract
+         </summary>
+         <param name="contructorServicePort">Contractor Service that will create the instance</param>
+         <returns>Result PortSet for retrieving service creation response</returns>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState">
+         <summary>
+            Video Stream Viewer State
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Video Stream Viewer State
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState.Clone">
+         <summary>
+            Clone Video Stream Viewer State
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.DrawFrameRequest">
+         <summary>
+            Draw Frame Request
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrameRequest.CopyTo(Microsoft.Dss.Core.IDssSerializable)">
+         <summary>
+            Copy To Draw Frame Request
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrameRequest.Clone">
+         <summary>
+            Clone Draw Frame Request
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrameRequest.Serialize(System.IO.BinaryWriter)">
+         <summary>
+            Serialize Serialize
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrameRequest.Deserialize(System.IO.BinaryReader)">
+         <summary>
+            Deserialize Deserialize
+         </summary>
+      </member>
+      <member name="P:Robotics.VideoStreamViewer.Proxy.DrawFrameRequest.ImageData">
+         <summary>
+            Image Data
+         </summary>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations">
+         <summary>
+            Video Stream Viewer Operations
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultLookup">
+         <summary>
+            Post Dssp Default Lookup and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultLookup(Microsoft.Dss.ServiceModel.Dssp.DsspDefaultLookup@)">
+         <summary>
+            Post Dssp Default Lookup.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultLookup(Microsoft.Dss.ServiceModel.Dssp.LookupRequestType)">
+         <summary>
+            Post Dssp Default Lookup with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultLookup(Microsoft.Dss.ServiceModel.Dssp.LookupRequestType,Microsoft.Dss.ServiceModel.Dssp.DsspDefaultLookup@)">
+         <summary>
+            Post Dssp Default Lookup with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultDrop">
+         <summary>
+            Post Dssp Default Drop and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultDrop(Microsoft.Dss.ServiceModel.Dssp.DsspDefaultDrop@)">
+         <summary>
+            Post Dssp Default Drop.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultDrop(Microsoft.Dss.ServiceModel.Dssp.DropRequestType)">
+         <summary>
+            Post Dssp Default Drop with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DsspDefaultDrop(Microsoft.Dss.ServiceModel.Dssp.DropRequestType,Microsoft.Dss.ServiceModel.Dssp.DsspDefaultDrop@)">
+         <summary>
+            Post Dssp Default Drop with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Get">
+         <summary>
+            Post Get and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Get(Robotics.VideoStreamViewer.Proxy.Get@)">
+         <summary>
+            Post Get.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Get(Microsoft.Dss.ServiceModel.Dssp.GetRequestType)">
+         <summary>
+            Post Get with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Get(Microsoft.Dss.ServiceModel.Dssp.GetRequestType,Robotics.VideoStreamViewer.Proxy.Get@)">
+         <summary>
+            Post Get with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Replace">
+         <summary>
+            Post Replace and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Replace(Robotics.VideoStreamViewer.Proxy.Replace@)">
+         <summary>
+            Post Replace.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Replace(Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState)">
+         <summary>
+            Post Replace with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.Replace(Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState,Robotics.VideoStreamViewer.Proxy.Replace@)">
+         <summary>
+            Post Replace with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DrawFrame">
+         <summary>
+            Post Draw Frame and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DrawFrame(Robotics.VideoStreamViewer.Proxy.DrawFrame@)">
+         <summary>
+            Post Draw Frame.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DrawFrame(Robotics.VideoStreamViewer.Proxy.DrawFrameRequest)">
+         <summary>
+            Post Draw Frame with body and return the response port.
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.VideoStreamViewerOperations.DrawFrame(Robotics.VideoStreamViewer.Proxy.DrawFrameRequest,Robotics.VideoStreamViewer.Proxy.DrawFrame@)">
+         <summary>
+            Post Draw Frame with body.
+            Returns a Choice which can be called from yield return
+            and the original operation with results in the out param.
+            Note: results are asynchronous and accessible only in
+            an activation handler, or after a yield return.
+         </summary>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.CombinedOperationsPort">
+         <summary>
+            Combined Operations Port
+         </summary>
+      </member>
+      <member name="F:Robotics.VideoStreamViewer.Proxy.CombinedOperationsPort.VideoStreamViewerOperations">
+         <summary>
+            Video Stream Viewer Operations
+         </summary>
+         <remarks>
+            Service port suffix: '/videostreamviewer'
+         </remarks>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.CombinedOperationsPort.#ctor">
+         <summary>
+            Combined Operations Port
+         </summary>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.Get">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Get.#ctor">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Get.#ctor(Microsoft.Dss.ServiceModel.Dssp.GetRequestType)">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Get.#ctor(Microsoft.Dss.ServiceModel.Dssp.GetRequestType,Microsoft.Ccr.Core.PortSet{Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState,W3C.Soap.Fault})">
+         <summary>
+            Get
+         </summary>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.Replace">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Replace.#ctor">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Replace.#ctor(Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState)">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.Replace.#ctor(Robotics.VideoStreamViewer.Proxy.VideoStreamViewerState,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultReplaceResponseType,W3C.Soap.Fault})">
+         <summary>
+            Replace
+         </summary>
+      </member>
+      <member name="T:Robotics.VideoStreamViewer.Proxy.DrawFrame">
+         <summary>
+            Draw Frame
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrame.#ctor">
+         <summary>
+            Draw Frame
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrame.#ctor(Robotics.VideoStreamViewer.Proxy.DrawFrameRequest)">
+         <summary>
+            Draw Frame
+         </summary>
+      </member>
+      <member name="M:Robotics.VideoStreamViewer.Proxy.DrawFrame.#ctor(Robotics.VideoStreamViewer.Proxy.DrawFrameRequest,Microsoft.Ccr.Core.PortSet{Microsoft.Dss.ServiceModel.Dssp.DefaultUpdateResponseType,W3C.Soap.Fault})">
+         <summary>
+            Draw Frame
+         </summary>
+      </member>
+      <member name="T:Robotics.Properties.Resources">
+         <summary>
+            A strongly-typed resource class, for looking up localized strings, etc.
+         </summary>
+      </member>
+      <member name="P:Robotics.Properties.Resources.ResourceManager">
+         <summary>
+            Returns the cached ResourceManager instance used by this class.
+         </summary>
+      </member>
+      <member name="P:Robotics.Properties.Resources.Culture">
+         <summary>
+            Overrides the current thread's CurrentUICulture property for all
+            resource lookups using this strongly typed resource class.
+         </summary>
+      </member>
+      <member name="P:Robotics.Properties.Resources.DssModel">
+         <summary>
+            Looks up a resource file similar to DssModel.
+         </summary>
+      </member>
+   </members>
+</doc>

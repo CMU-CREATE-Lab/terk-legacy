@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FlexDialogState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/robotics/2007/08/flexdialog.html">
+   <Title>Login</Title>
+   <Visible>true</Visible>
+   <Controls>
+      <FlexControl>
+         <Id>errorLabel</Id>
+         <ControlType>Label</ControlType>
+         <Text>Login to the Terk Relay</Text>
+         <Value>errorlabel</Value>
+      </FlexControl>
+   </Controls>
+   <Buttons>
+      <FlexButton>
+         <Id>loginButton</Id>
+         <ControlType>Button</ControlType>
+         <Text>Login</Text>
+         <Value>loginbutton</Value>
+      </FlexButton>
+   </Buttons>
+</FlexDialogState>

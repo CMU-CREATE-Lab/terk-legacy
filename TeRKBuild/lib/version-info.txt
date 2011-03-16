@@ -1,7 +1,5 @@
 VERSION INFO
 ------------
-* Commons Collections 3.2
-
 * Ice 3.1.1
   - Notes:
     * The Ice.jar is Ice's Java 5 jar (located in ICE_HOME/lib/java5).
@@ -39,5 +37,3 @@ VERSION INFO
 * MRPL Peer 1.06-b1
 
 * MRPL Utilities 1.15-b1
-
-* RSSReaders 1.0

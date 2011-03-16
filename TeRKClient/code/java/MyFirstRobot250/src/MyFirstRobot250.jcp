@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<project>
+
+	<settings>
+
+		<label>MyFirstRobot250</label>
+
+		<root_path>\</root_path>
+
+		<output_path>\</output_path>
+
+		<source_path>\</source_path>
+
+		<jdkprofile_ref>JDK version 1.6.0</jdkprofile_ref>
+
+		<compiler_ref>&lt;Default&gt;</compiler_ref>
+
+		<ant_ref/>
+
+	</settings>
+
+	<ant_events/>
+
+	<run_items/>
+
+	<runtimes>
+
+		<runtime>
+
+			<label>&lt;Default&gt;</label>
+
+			<application_ref/>
+
+			<applet_ref/>
+
+			<debugger_ref/>
+
+			<param/>
+
+			<run/>
+
+		</runtime>
+
+	</runtimes>
+
+	<libraries>
+
+		<library_ref>terk</library_ref>
+
+	</libraries>
+
+	<files>
+
+		<include>
+
+			<folderitem>
+
+				<path>RSSReaders</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>RobotClient</path>
+
+			</folderitem>
+
+			<fileitem>
+
+				<path>log4j.xml</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstNewsHeadlineRobot.java</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstRobot250.direct-connect.ice.properties</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstRobot250.java</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstRobot250.relay.ice.properties</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstStockPriceRobot.java</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>MyFirstWeatherRobot.java</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>terk.jar</path>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\BaseFakeReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\FakeNewsReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\FakeSevereWeatherReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\FakeStockComparisonReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\KeywordMatchingNewsReader.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\NewsHeadlineCounter.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RSSReaders\StockComparisonChangeStatus.java</path>
+
+				<folder>RSSReaders</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\R250Logo.jpg</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\Robot250Client.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\Robot250ClientGUI.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+			<fileitem>
+
+				<path>RobotClient\SimpleRobot250Client.java</path>
+
+				<folder>RobotClient</folder>
+
+			</fileitem>
+
+		</include>
+
+	</files>
+
+	<tasks>
+
+		<todotaskitem>
+
+			<description>todo override the inner class</description>
+
+			<filepath>RobotClient\RobotClientGUI250.java</filepath>
+
+			<line>309</line>
+
+			<timestamp>1181058445</timestamp>
+
+		</todotaskitem>
+
+		<todotaskitem>
+
+			<description>todo override the inner class</description>
+
+			<filepath>RobotClient\RobotClientGUI250.java</filepath>
+
+			<line>316</line>
+
+			<timestamp>1181058445</timestamp>
+
+		</todotaskitem>
+
+		<todotaskitem>
+
+			<description>todo override the inner class</description>
+
+			<filepath>RobotClient\RobotClientGUI250.java</filepath>
+
+			<line>323</line>
+
+			<timestamp>1181058445</timestamp>
+
+		</todotaskitem>
+
+		<todotaskitem>
+
+			<description>todo override the inner class</description>
+
+			<filepath>RobotClient\Robot250ClientGUI.java</filepath>
+
+			<line>252</line>
+
+			<timestamp>1181681640</timestamp>
+
+		</todotaskitem>
+
+		<todotaskitem>
+
+			<description>todo override the inner class</description>
+
+			<filepath>RobotClient\Robot250ClientGUI.java</filepath>
+
+			<line>259</line>
+
+			<timestamp>1181681640</timestamp>
+
+		</todotaskitem>
+
+		<todotaskitem>
+
+			<description>todo override the inner class</description>
+
+			<filepath>RobotClient\Robot250ClientGUI.java</filepath>
+
+			<line>266</line>
+
+			<timestamp>1181681640</timestamp>
+
+		</todotaskitem>
+
+	</tasks>
+
+</project>

@@ -1,0 +1,8 @@
+VERSION INFO
+------------
+* Hibernate 3.1.3
+  - Note: I upgraded commons-collections from 2.1.1 to 3.2.1  This post says it's ok to do so for
+    Hibernate core and commons-collections 3.1, so I'm assuming commons-collections 3.2.1 is ok too:
+    http://forum.hibernate.org/viewtopic.php?t=954901
+
+* MySQL Connector/J 3.1.12

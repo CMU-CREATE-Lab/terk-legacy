@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<workspace_user>
+
+	<active_project>
+
+		<label>MyFirstRobot250</label>
+
+	</active_project>
+
+	<projects>
+
+		<project>
+
+			<label>MyFirstRobot250</label>
+
+			<showfiles>false</showfiles>
+
+			<folderitem>
+
+				<path>RSSReaders</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>RobotClient</path>
+
+			</folderitem>
+
+		</project>
+
+	</projects>
+
+</workspace_user>

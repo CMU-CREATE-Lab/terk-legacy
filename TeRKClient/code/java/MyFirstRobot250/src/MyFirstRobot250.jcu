@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<workspace_user>
+
+	<active_project>
+
+		<label>MyFirstRobot</label>
+
+	</active_project>
+
+	<projects>
+
+		<project>
+
+			<label>MyFirstRobot</label>
+
+			<showfiles>false</showfiles>
+
+			<folderitem>
+
+				<path>Examples</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc\RobotClient</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc\RSSReaders</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>javadoc\TTS</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>RobotClient</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>RSSReaders</path>
+
+			</folderitem>
+
+			<folderitem>
+
+				<path>TTS</path>
+
+			</folderitem>
+
+		</project>
+
+	</projects>
+
+	<open_files>
+
+		<docitem>
+
+			<path>MyFirstRobot.java</path>
+
+			<source>true</source>
+
+			<index>0</index>
+
+			<active>true</active>
+
+		</docitem>
+
+	</open_files>
+
+</workspace_user>

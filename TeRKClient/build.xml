@@ -1,0 +1,2115 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeRKClient" default="all">
+
+   <!-- Properties -->
+   <dirname property="base.directory" file="${ant.file}"/>
+   <property file="${user.home}/.terk-project.properties"/>
+   <property file="build.properties"/>
+   <property environment="env"/>
+
+   <condition property="local.host.domain.name" value="${env.HOSTNAME}">
+      <isset property="env.HOSTNAME"/>
+   </condition>
+
+   <property name="build.target" value="dev" description="default the build target to 'dev' (override with -D on the command line)"/>
+   <condition property="build.target.is-valid">
+      <or>
+         <equals arg1="${build.target}" arg2="dev"/>
+         <equals arg1="${build.target}" arg2="test"/>
+         <equals arg1="${build.target}" arg2="prod"/>
+      </or>
+   </condition>
+   <echo level="info" message="Build Target: ${build.target}"/>
+   <fail message="Property 'build.target' must be one of: dev, test, prod" unless="build.target.is-valid"/>
+
+   <property file="${build.number.file}"/>
+   <condition property="build.number.is-valid">
+      <isset property="build.number"/>
+   </condition>
+   <fail message="Property 'build.number' must be specified in the ${build.number.file} file!!" unless="build.number.is-valid"/>
+   <property name="build.number" value="none"/>
+   <echo level="info" message="Build Number: ${build.number}"/>
+
+   <property file="build.${build.target}.properties"/>
+   <echo level="info" message="Local Hostname=${local.host.domain.name}"/>
+   <echo level="info" message="Glacier Hostname=${glacier.host}"/>
+   <echo level="info" message="TeRK Web Site Hostname=${terk-web-site.host}"/>
+
+   <property name="zeroc.slice.dir" value="${env.ICE_HOME}/slice"/>
+   <condition property="isWindows">
+      <os family="windows"/>
+   </condition>
+
+   <!-- Task definitions -->
+   <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+         <pathelement location="${ant-contrib.jar}"/>
+      </classpath>
+   </taskdef>
+
+   <!-- Paths -->
+   <path id="components.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-peerinfo.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="artarm.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-artarm.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-speech.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="audioplayer.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-audioplayer.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-speech.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+   </path>
+
+   <path id="commandline.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-commandline.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-commandline.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+   </path>
+
+   <path id="dance.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-dance.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="diffdrive.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-diffdrive.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="expressomatic.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-expressomatic.java.dir}"/>
+      <!-- The expressomatic app uses some classes from RUR -->
+      <pathelement path="${build-robotuniversalremote.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-roboticon.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="expressomatic2.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-expressomatic2.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-hummingbird.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-roboticon.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="flower.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-flower.java.dir}"/>
+      <!-- The flower app uses some classes from RUR (since ExpressOMatic depends on RUR) -->
+      <pathelement path="${build-robotuniversalremote.java.dir}"/>
+      <!-- The flower app uses some classes from ExpressOMatic -->
+      <pathelement path="${build-expressomatic.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-roboticon.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="MyFirstRobot.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-MyFirstRobot.java.dir}"/>
+      <!-- The MyFirstRobot app uses some classes from RUR (since ExpressOMatic depends on RUR) -->
+      <pathelement path="${build-robotuniversalremote.java.dir}"/>
+      <!-- The MyFirstRobot app uses some classes from ExpressOMatic -->
+      <pathelement path="${build-expressomatic.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${rome-0.9.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="MyFirstRobot250.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-MyFirstRobot250.java.dir}"/>
+      <!-- The MyFirstRobot250 app uses some classes from RUR (since ExpressOMatic depends on RUR) -->
+      <pathelement path="${build-robotuniversalremote.java.dir}"/>
+      <!-- The MyFirstRobot250 app uses some classes from ExpressOMatic -->
+      <pathelement path="${build-expressomatic.java.dir}"/>
+      <!-- The MyFirstRobot250 app uses some classes from MyFirstRobot -->
+      <pathelement path="${build-MyFirstRobot.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${rome-0.9.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="propertyinspector.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-propertyinspector.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="prototypingplayground.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-prototypingplayground.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="robotdiaries.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-robotdiaries.java.dir}"/>
+      <!-- This app uses some classes from Universal Remote -->
+      <pathelement path="${build-universalremote.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${rxtx.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-audioclips.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-hummingbird.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-peerinfo.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-roboticon.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-speech.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-robot-common-serial.jar}"/>
+      <pathelement path="${terk-robot-hummingbird.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+   </path>
+
+   <path id="roboticon-messenger.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-roboticon-messenger.java.dir}"/>
+      <!-- The roboticon messenger app uses some classes from RUR (since ExpressOMatic depends on RUR) -->
+      <pathelement path="${build-robotuniversalremote.java.dir}"/>
+      <!-- The roboticon messenger app uses some classes from Express-O-Matic -->
+      <pathelement path="${build-expressomatic.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-peerinfo.jar}"/>
+      <pathelement path="${terk-common-roboticon.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="robotuniversalremote.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-robotuniversalremote.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${jgraph.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-speech.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="serialdashboard.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-components.java.dir}"/>
+      <pathelement path="${build-serialdashboard.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-client.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-digitalin.jar}"/>
+      <pathelement path="${terk-common-digitalout.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-qwerk.jar}"/>
+      <pathelement path="${terk-common-serial.jar}"/>
+      <pathelement path="${terk-common-serialconfig.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-video.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <path id="universalremote.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-universalremote.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${swing-layout.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-accelerometer.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-buzzer.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-finch.jar}"/>
+      <pathelement path="${terk-common-hummingbird.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-obstacle.jar}"/>
+      <pathelement path="${terk-common-photoresistor.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-speech.jar}"/>
+      <pathelement path="${terk-common-thermistor.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+      <pathelement path="${freetts.jar}"/>
+      <pathelement path="${en_us.jar}"/>
+      <pathelement path="${cmulex.jar}"/>
+      <pathelement path="${cmu_us_kal.jar}"/>
+   </path>
+
+   <path id="visualprogrammer.classpath">
+      <!-- source classes -->
+      <pathelement path="${build-visualprogrammer.java.dir}"/>
+
+      <!-- third-party jars -->
+      <pathelement path="${commons-collections.jar}"/>
+      <pathelement path="${log4j.jar}"/>
+      <pathelement path="${junit.jar}"/>
+      <pathelement path="${ice.jar}"/>
+      <pathelement path="${jdom.jar}"/>
+      <pathelement path="${mrpl-graphics.jar}"/>
+      <pathelement path="${mrpl-utilities.jar}"/>
+      <pathelement path="${mrpl-ice.jar}"/>
+      <pathelement path="${mrpl-peer.jar}"/>
+      <pathelement path="${terk-common.jar}"/>
+      <pathelement path="${terk-common-accelerometer.jar}"/>
+      <pathelement path="${terk-common-analogin.jar}"/>
+      <pathelement path="${terk-common-audio.jar}"/>
+      <pathelement path="${terk-common-buzzer.jar}"/>
+      <pathelement path="${terk-common-color.jar}"/>
+      <pathelement path="${terk-common-communicator.jar}"/>
+      <pathelement path="${terk-common-communicatormanager.jar}"/>
+      <pathelement path="${terk-common-connectionwizard.jar}"/>
+      <pathelement path="${terk-common-expression.jar}"/>
+      <pathelement path="${terk-common-finch.jar}"/>
+      <pathelement path="${terk-common-hummingbird.jar}"/>
+      <pathelement path="${terk-common-led.jar}"/>
+      <pathelement path="${terk-common-motor.jar}"/>
+      <pathelement path="${terk-common-obstacle.jar}"/>
+      <pathelement path="${terk-common-photoresistor.jar}"/>
+      <pathelement path="${terk-common-servant.jar}"/>
+      <pathelement path="${terk-common-service.jar}"/>
+      <pathelement path="${terk-common-servo.jar}"/>
+      <pathelement path="${terk-common-speech.jar}"/>
+      <pathelement path="${terk-common-thermistor.jar}"/>
+      <pathelement path="${terk-common-userinterface.jar}"/>
+      <pathelement path="${terk-common-xml.jar}"/>
+   </path>
+
+   <!-- Compiler options -->
+   <patternset id="compiler.resources">
+      <!-- excluded files -->
+      <exclude name="**/CVS/**"/>
+      <exclude name="**/SCCS/**"/>
+      <exclude name="**/RCS/**"/>
+      <exclude name="**/rcs/**"/>
+      <exclude name="**/.DS_Store/**"/>
+      <exclude name="**/.svn/**"/>
+      <!-- included files -->
+      <include name="**/?*.gif"/>
+      <include name="**/?*.au"/>
+      <include name="**/?*.png"/>
+      <include name="**/?*.jpeg"/>
+      <include name="**/?*.jpg"/>
+      <include name="**/?*.bmp"/>
+      <include name="**/?*.dll"/>
+      <include name="**/?*.lib"/>
+      <include name="**/?*.wav"/>
+   </patternset>
+   <patternset id="compiler.resources.filterable">
+      <include name="**/?*.properties"/>
+      <include name="**/?*.xml"/>
+      <include name="**/?*.htm"/>
+      <include name="**/?*.html"/>
+      <include name="**/?*.dtd"/>
+      <include name="**/?*.tld"/>
+      <include name="**/?*.xsd"/>
+      <include name="**/?*.xsl"/>
+      <include name="**/?*.ice"/>
+      <include name="**/?*.pem"/>
+   </patternset>
+
+   <!-- ============================================================================================================ -->
+
+   <target name="all" depends="clean, build, dist" description="build all"/>
+
+   <target name="clean" description="clean up">
+      <delete dir="${build.dir}"/>
+      <delete dir="${dist.dir}"/>
+   </target>
+
+   <target name="init" unless="initIsComplete">
+      <!-- Create the time stamp -->
+      <tstamp/>
+
+      <!-- Create the output directories -->
+      <mkdir dir="${build.dir}"/>
+      <mkdir dir="${build-components.java.dir}"/>
+      <mkdir dir="${build-artarm.java.dir}"/>
+      <mkdir dir="${build-audioplayer.java.dir}"/>
+      <mkdir dir="${build-commandline.java.dir}"/>
+      <mkdir dir="${build-dance.java.dir}"/>
+      <mkdir dir="${build-diffdrive.java.dir}"/>
+      <mkdir dir="${build-expressomatic.java.dir}"/>
+      <mkdir dir="${build-expressomatic2.java.dir}"/>
+      <mkdir dir="${build-flower.java.dir}"/>
+      <mkdir dir="${build-MyFirstRobot.java.dir}"/>
+      <mkdir dir="${build-MyFirstRobot250.java.dir}"/>
+      <mkdir dir="${build-propertyinspector.java.dir}"/>
+      <mkdir dir="${build-prototypingplayground.java.dir}"/>
+      <mkdir dir="${build-robotdiaries.java.dir}"/>
+      <mkdir dir="${build-roboticon-messenger.java.dir}"/>
+      <mkdir dir="${build-robotuniversalremote.java.dir}"/>
+      <mkdir dir="${build-serialdashboard.java.dir}"/>
+      <mkdir dir="${build-universalremote.java.dir}"/>
+      <mkdir dir="${build-visualprogrammer.java.dir}"/>
+
+      <property name="initIsComplete" value="true"/>
+   </target>
+
+   <target name="build-third-party" unless="BuildThirdPartyIsComplete">
+      <ant dir="${terk-common.dir}" antfile="build.xml" target="dist" inheritall="false" inheritrefs="false"/>
+      <ant dir="${terk-robot.dir}" antfile="build.xml" target="dist" inheritall="false" inheritrefs="false"/>
+
+      <property name="BuildThirdPartyIsComplete" value="true"/>
+   </target>
+
+   <target name="build" depends="compile.java" description="build the java code" unless="buildIsComplete">
+      <property name="buildIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-components" depends="build" unless="DistComponentsIsComplete" description="build the components jar">
+      <mkdir dir="${dist-components.dir}"/>
+
+      <!-- create jar of classes -->
+      <jar destfile="${dist-components.dir}/${components-jar.filename}"
+           basedir="${build-components.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <property name="DistComponentsIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-artarm" depends="build, dist-components" description="build the art arm client" unless="distArtArmIsComplete">
+      <dist-client client-name="artarm"
+                   build-dir="${build-artarm.java.dir}"
+                   dist-dir="${dist-artarm.dir}"
+                   jar-filename="${artarm-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-speech.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+      <property name="distArtArmIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-audioplayer" depends="build, dist-components" description="build the audio player client" unless="distAudioplayerIsComplete">
+      <dist-client client-name="audioplayer"
+                   build-dir="${build-audioplayer.java.dir}"
+                   dist-dir="${dist-audioplayer.dir}"
+                   jar-filename="${audioplayer-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-speech.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+            <fileset file="${freetts.jar}"/>
+            <fileset file="${cmulex.jar}"/>
+            <fileset file="${en_us.jar}"/>
+            <fileset file="${cmu_us_kal.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distAudioplayerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-commandline" depends="build, dist-components" description="build the command line client" unless="distCommandlineIsComplete">
+      <dist-client client-name="commandline"
+                   build-dir="${build-commandline.java.dir}"
+                   dist-dir="${dist-commandline.dir}"
+                   jar-filename="${commandline-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-commandline.jar}"/>
+            <!-- TODO: terk-common-video is required only as long as the TerKClient interface IS-A VideoStreamerClient -->
+            <fileset file="${terk-common-video.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distCommandlineIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-dance" depends="build, dist-components" description="build the robot dance client" unless="distDanceIsComplete">
+      <dist-client client-name="dance"
+                   build-dir="${build-dance.java.dir}"
+                   dist-dir="${dist-dance.dir}"
+                   jar-filename="${dance-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distDanceIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-diffdrive" depends="build, dist-components" description="build the diff drive client (a.k.a. Teleop Client)" unless="distDiffdriveIsComplete">
+      <dist-client client-name="diffdrive"
+                   build-dir="${build-diffdrive.java.dir}"
+                   dist-dir="${dist-diffdrive.dir}"
+                   jar-filename="${diffdrive-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distDiffdriveIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-expressomatic" depends="build, dist-components, dist-robotuniversalremote" description="build the express-o-matic client" unless="distExpressomaticIsComplete">
+      <dist-client client-name="expressomatic"
+                   build-dir="${build-expressomatic.java.dir}"
+                   dist-dir="${dist-expressomatic.dir}"
+                   jar-filename="${expressomatic-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${jgraph.jar}"/>
+            <fileset file="${terk-common-roboticon.jar}"/>
+            <!-- The expressomatic app uses some classes from RUR -->
+            <fileset file="${dist-robotuniversalremote.dir}/${robotuniversalremote-jar.filename}"/>
+
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distExpressomaticIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-expressomatic2" depends="build, dist-components" description="build the expressomatic2 client" unless="distExpressomatic2IsComplete">
+      <dist-client client-name="expressomatic2"
+                   build-dir="${build-expressomatic2.java.dir}"
+                   dist-dir="${dist-expressomatic2.dir}"
+                   jar-filename="${expressomatic2-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-roboticon.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-color.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-hummingbird.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distExpressomatic2IsComplete" value="true"/>
+   </target>
+
+   <target name="dist-flower" depends="build, dist-components, dist-robotuniversalremote, dist-expressomatic" description="build the flower client" unless="distFlowerIsComplete">
+      <dist-client client-name="flower"
+                   build-dir="${build-flower.java.dir}"
+                   dist-dir="${dist-flower.dir}"
+                   jar-filename="${flower-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${jgraph.jar}"/>
+            <fileset file="${terk-common-roboticon.jar}"/>
+            <!-- The flower app uses some classes from RUR -->
+            <fileset file="${dist-robotuniversalremote.dir}/${robotuniversalremote-jar.filename}"/>
+            <!-- The flower app uses some classes from ExpressOMatic -->
+            <fileset file="${dist-expressomatic.dir}/${expressomatic-jar.filename}"/>
+
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distFlowerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-MyFirstRobot" depends="build, dist-components, dist-expressomatic" description="build the My First Robot client" unless="distMyFirstRobotIsComplete">
+      <mkdir dir="${dist-MyFirstRobot.dir}"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-MyFirstRobot.dir}" flatten="true">
+         <fileset file="${jgraph.jar}"/>
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${jdom.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${freetts.jar}"/>
+         <fileset file="${cmulex.jar}"/>
+         <fileset file="${en_us.jar}"/>
+         <fileset file="${cmu_us_kal.jar}"/>
+         <fileset file="${rome-0.9.jar}"/>
+         <fileset file="${dist-components.dir}/${components-jar.filename}"/>
+         <!-- The MyFirstRobot app uses some classes from RUR -->
+         <fileset file="${dist-robotuniversalremote.dir}/${robotuniversalremote-jar.filename}"/>
+         <!-- The MyFirstRobot app uses some classes from ExpressOMatic -->
+         <fileset file="${dist-expressomatic.dir}/${expressomatic-jar.filename}"/>
+
+         <fileset file="${terk-common-analogin.jar}"/>
+         <fileset file="${terk-common-audio.jar}"/>
+         <fileset file="${terk-common-client.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-communicatormanager.jar}"/>
+         <fileset file="${terk-common-connectionwizard.jar}"/>
+         <fileset file="${terk-common-digitalin.jar}"/>
+         <fileset file="${terk-common-digitalout.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-led.jar}"/>
+         <fileset file="${terk-common-motor.jar}"/>
+         <fileset file="${terk-common-qwerk.jar}"/>
+         <fileset file="${terk-common-serial.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${terk-common-servo.jar}"/>
+         <fileset file="${terk-common-userinterface.jar}"/>
+         <fileset file="${terk-common-video.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+      </copy>
+
+      <mkdir dir="${dist-MyFirstRobot.zip.dir}"/>
+
+      <!-- create big honkin' jar containing all third-party classes -->
+      <jar destfile="${dist-MyFirstRobot.zip.dir}/terk.jar" update="no" compress="true">
+         <zipgroupfileset dir="${dist-MyFirstRobot.dir}" includes="**/*.jar"/>
+      </jar>
+
+      <!-- Copy the MyFirstRobot.java source files, resources, scripts, and readme -->
+      <copy todir="${dist-MyFirstRobot.zip.dir}">
+         <fileset dir="${src-MyFirstRobot.java.dir}">
+            <patternset includes="**/*.java"/>
+            <patternset includes="**/*.txt"/>
+            <patternset includes="**/*.jcp"/>
+            <patternset includes="**/*.jcu"/>
+            <patternset includes="**/*.jcw"/>
+            <patternset includes="**/*.pdf"/>
+            <patternset refid="compiler.resources"/>
+         </fileset>
+         <fileset dir="${scripts.dir}/MyFirstRobot/zip" includes="**/*.bat"/>
+      </copy>
+      <copy todir="${dist-MyFirstRobot.zip.dir}">
+         <fileset dir="${src-MyFirstRobot.java.dir}">
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+         <filterset>
+            <filter token="build.target" value="${build.target}"/>
+            <filter token="build.number" value="${build.number}"/>
+            <filter token="glacier.host" value="${glacier.host}"/>
+            <filter token="terk-web-site.host" value="${terk-web-site.host}"/>
+         </filterset>
+      </copy>
+
+      <!-- create javadocs -->
+      <javadoc packagenames="*"
+               destdir="${dist-MyFirstRobot.zip.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK My First Robot Client API"
+               doctitle="TeRK My First Robot Client API"
+               protected="true"
+               notree="true"
+               noindex="true">
+         <classpath>
+            <path refid="components.classpath"/>
+            <path refid="MyFirstRobot.classpath"/>
+         </classpath>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-MyFirstRobot.java.dir}" includes="**/*.java"/>
+         <fileset dir="${src-MyFirstRobot.java.dir}/RobotClient" includes="**/*.java"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <!-- create zip of the zip directory -->
+      <zip destfile="${dist-MyFirstRobot.dir}/${MyFirstRobot-zip.filename}"
+           compress="true">
+         <zipfileset dir="${dist-MyFirstRobot.zip.dir}" prefix="terk-client-MyFirstRobot"/>
+      </zip>
+
+      <!-- delete the temporary zip directory -->
+      <delete dir="${dist-MyFirstRobot.zip.dir}"/>
+
+      <!-- create jars of classes -->
+      <jar destfile="${dist-MyFirstRobot.dir}/${MyFirstRobot-jar.filename}" update="no" compress="true">
+         <fileset dir="${build-MyFirstRobot.java.dir}">
+            <exclude name="RobotClient/**"/>
+            <exclude name="RSSReaders/**"/>
+            <exclude name="TTS/**"/>
+         </fileset>
+      </jar>
+      <jar destfile="${dist-MyFirstRobot.dir}/${MyFirstRobot-RobotClient.jar.filename}"
+           update="no"
+           compress="true">
+         <fileset dir="${build-MyFirstRobot.java.dir}">
+            <include name="RobotClient/**"/>
+         </fileset>
+      </jar>
+      <jar destfile="${dist-MyFirstRobot.dir}/${MyFirstRobot-RSSReaders.jar.filename}"
+           update="no"
+           compress="true">
+         <fileset dir="${build-MyFirstRobot.java.dir}">
+            <include name="RSSReaders/**"/>
+         </fileset>
+      </jar>
+      <jar destfile="${dist-MyFirstRobot.dir}/${MyFirstRobot-TTS.jar.filename}"
+           update="no"
+           compress="true">
+         <fileset dir="${build-MyFirstRobot.java.dir}">
+            <include name="TTS/**"/>
+         </fileset>
+      </jar>
+
+      <copy-scripts app-name="MyFirstRobot" dist-dir="${dist-MyFirstRobot.dir}"/>
+
+      <property name="distMyFirstRobotIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-MyFirstRobot250" depends="build, dist-components, dist-expressomatic, dist-MyFirstRobot" description="build the My First Robot 250 client" unless="distMyFirstRobot250IsComplete">
+      <mkdir dir="${dist-MyFirstRobot250.dir}"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-MyFirstRobot250.dir}" flatten="true">
+         <fileset file="${jdom.jar}"/>
+         <fileset file="${jgraph.jar}"/>
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${freetts.jar}"/>
+         <fileset file="${cmulex.jar}"/>
+         <fileset file="${en_us.jar}"/>
+         <fileset file="${cmu_us_kal.jar}"/>
+         <fileset file="${rome-0.9.jar}"/>
+         <fileset file="${dist-components.dir}/${components-jar.filename}"/>
+         <!-- The MyFirstRobot250 app uses some classes from RUR -->
+         <fileset file="${dist-robotuniversalremote.dir}/${robotuniversalremote-jar.filename}"/>
+         <!-- The MyFirstRobot250 app uses some classes from ExpressOMatic -->
+         <fileset file="${dist-expressomatic.dir}/${expressomatic-jar.filename}"/>
+         <!-- The MyFirstRobot250 app uses some classes from MyFirstRobot -->
+         <fileset file="${dist-MyFirstRobot.dir}/${MyFirstRobot-RobotClient.jar.filename}"/>
+         <fileset file="${dist-MyFirstRobot.dir}/${MyFirstRobot-RSSReaders.jar.filename}"/>
+         <fileset file="${dist-MyFirstRobot.dir}/${MyFirstRobot-TTS.jar.filename}"/>
+
+         <fileset file="${terk-common-analogin.jar}"/>
+         <fileset file="${terk-common-audio.jar}"/>
+         <fileset file="${terk-common-client.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-communicatormanager.jar}"/>
+         <fileset file="${terk-common-connectionwizard.jar}"/>
+         <fileset file="${terk-common-digitalin.jar}"/>
+         <fileset file="${terk-common-digitalout.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-led.jar}"/>
+         <fileset file="${terk-common-motor.jar}"/>
+         <fileset file="${terk-common-qwerk.jar}"/>
+         <fileset file="${terk-common-serial.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${terk-common-servo.jar}"/>
+         <fileset file="${terk-common-userinterface.jar}"/>
+         <fileset file="${terk-common-video.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+      </copy>
+
+      <mkdir dir="${dist-MyFirstRobot250.zip.dir}"/>
+
+      <!-- create big honkin' jar containing all third-party classes -->
+      <jar destfile="${dist-MyFirstRobot250.zip.dir}/terk.jar" update="no" compress="true">
+         <zipgroupfileset dir="${dist-MyFirstRobot250.dir}" includes="**/*.jar"/>
+      </jar>
+
+      <!-- Copy the MyFirstRobot250.java source files, resources, scripts, and readme -->
+      <copy todir="${dist-MyFirstRobot250.zip.dir}">
+         <fileset dir="${src-MyFirstRobot250.java.dir}">
+            <patternset includes="**/*.java"/>
+            <patternset includes="**/*.txt"/>
+            <patternset includes="**/*.jcp"/>
+            <patternset includes="**/*.jcu"/>
+            <patternset includes="**/*.jcw"/>
+            <patternset includes="**/*.pdf"/>
+            <patternset refid="compiler.resources"/>
+         </fileset>
+         <fileset dir="${scripts.dir}/MyFirstRobot250/zip" includes="**/*.bat"/>
+      </copy>
+      <copy todir="${dist-MyFirstRobot250.zip.dir}">
+         <fileset dir="${src-MyFirstRobot250.java.dir}">
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+         <filterset>
+            <filter token="build.target" value="${build.target}"/>
+            <filter token="build.number" value="${build.number}"/>
+            <filter token="glacier.host" value="${glacier.host}"/>
+            <filter token="terk-web-site.host" value="${terk-web-site.host}"/>
+         </filterset>
+      </copy>
+
+      <!-- create javadocs -->
+      <javadoc packagenames="*"
+               destdir="${dist-MyFirstRobot250.zip.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK My First Robot 250 Client API"
+               doctitle="TeRK My First Robot 250 Client API"
+               protected="true"
+               notree="true"
+               noindex="true">
+         <classpath>
+            <path refid="components.classpath"/>
+            <path refid="MyFirstRobot250.classpath"/>
+         </classpath>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-MyFirstRobot.java.dir}/RobotClient" includes="**/*.java"/>
+         <fileset dir="${src-MyFirstRobot.java.dir}/RSSReaders" includes="**/*.java"/>
+         <fileset dir="${src-MyFirstRobot.java.dir}/TTS" includes="**/*.java"/>
+         <fileset dir="${src-MyFirstRobot250.java.dir}" includes="**/*.java"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <!-- create zip of the zip directory -->
+      <zip destfile="${dist-MyFirstRobot250.dir}/${MyFirstRobot250-zip.filename}"
+           compress="true">
+         <zipfileset dir="${dist-MyFirstRobot250.zip.dir}" prefix="terk-client-MyFirstRobot250"/>
+      </zip>
+
+      <!-- delete the temporary zip directory -->
+      <delete dir="${dist-MyFirstRobot250.zip.dir}"/>
+
+      <!-- create jar of classes -->
+      <jar destfile="${dist-MyFirstRobot250.dir}/${MyFirstRobot250-jar.filename}"
+           basedir="${build-MyFirstRobot250.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <copy-scripts app-name="MyFirstRobot250" dist-dir="${dist-MyFirstRobot250.dir}"/>
+
+      <property name="distMyFirstRobot250IsComplete" value="true"/>
+   </target>
+
+   <target name="dist-propertyinspector" depends="build, dist-components" description="build the property inspector client" unless="distPropertyinspectorIsComplete">
+      <dist-client client-name="propertyinspector"
+                   build-dir="${build-propertyinspector.java.dir}"
+                   dist-dir="${dist-propertyinspector.dir}"
+                   jar-filename="${propertyinspector-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distPropertyinspectorIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-prototypingplayground" depends="build, dist-components" description="build the prototyping playground client" unless="distPrototypingplaygroundIsComplete">
+      <mkdir dir="${dist-prototypingplayground.dir}"/>
+
+      <!-- copy required jar files -->
+      <copy todir="${dist-prototypingplayground.dir}" flatten="true">
+         <fileset file="${log4j.jar}"/>
+         <fileset file="${jdom.jar}"/>
+         <fileset file="${ice.jar}"/>
+         <fileset file="${mrpl-graphics.jar}"/>
+         <fileset file="${mrpl-utilities.jar}"/>
+         <fileset file="${mrpl-ice.jar}"/>
+         <fileset file="${mrpl-peer.jar}"/>
+         <fileset file="${terk-common.jar}"/>
+         <fileset file="${dist-components.dir}/${components-jar.filename}"/>
+
+         <fileset file="${terk-common-analogin.jar}"/>
+         <fileset file="${terk-common-audio.jar}"/>
+         <fileset file="${terk-common-client.jar}"/>
+         <fileset file="${terk-common-communicator.jar}"/>
+         <fileset file="${terk-common-communicatormanager.jar}"/>
+         <fileset file="${terk-common-connectionwizard.jar}"/>
+         <fileset file="${terk-common-digitalin.jar}"/>
+         <fileset file="${terk-common-digitalout.jar}"/>
+         <fileset file="${terk-common-expression.jar}"/>
+         <fileset file="${terk-common-led.jar}"/>
+         <fileset file="${terk-common-motor.jar}"/>
+         <fileset file="${terk-common-qwerk.jar}"/>
+         <fileset file="${terk-common-serial.jar}"/>
+         <fileset file="${terk-common-serialconfig.jar}"/>
+         <fileset file="${terk-common-servant.jar}"/>
+         <fileset file="${terk-common-service.jar}"/>
+         <fileset file="${terk-common-servo.jar}"/>
+         <fileset file="${terk-common-userinterface.jar}"/>
+         <fileset file="${terk-common-video.jar}"/>
+         <fileset file="${terk-common-xml.jar}"/>
+      </copy>
+
+      <mkdir dir="${dist-prototypingplayground.zip.dir}"/>
+
+      <!-- create big honkin' jar containing all third-party classes -->
+      <jar destfile="${dist-prototypingplayground.zip.dir}/terk.jar" update="no" compress="true">
+         <zipgroupfileset dir="${dist-prototypingplayground.dir}" includes="**/*.jar"/>
+      </jar>
+
+      <!-- Copy the PrototypingPlayground.java source files, resources, scripts, and readme -->
+      <copy todir="${dist-prototypingplayground.zip.dir}">
+         <fileset dir="${src-prototypingplayground.java.dir}">
+            <patternset includes="**/*.java"/>
+            <patternset includes="**/*.txt"/>
+            <patternset refid="compiler.resources"/>
+         </fileset>
+         <fileset dir="${scripts.dir}/prototypingplayground/zip" includes="**/*.bat"/>
+         <fileset dir="${scripts.dir}/prototypingplayground/zip" includes="**/*.sh"/>
+      </copy>
+      <copy todir="${dist-prototypingplayground.zip.dir}">
+         <fileset dir="${src-prototypingplayground.java.dir}">
+            <patternset refid="compiler.resources.filterable"/>
+         </fileset>
+         <filterset>
+            <filter token="build.target" value="${build.target}"/>
+            <filter token="build.number" value="${build.number}"/>
+            <filter token="glacier.host" value="${glacier.host}"/>
+            <filter token="terk-web-site.host" value="${terk-web-site.host}"/>
+         </filterset>
+      </copy>
+
+      <!-- create javadocs -->
+      <javadoc packagenames="edu.cmu.ri.mrpl.TeRK.client.components.services.*"
+               destdir="${dist-prototypingplayground.zip.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK Prototyping Playground API"
+               doctitle="TeRK Prototyping Playground API"
+               protected="true"
+               notree="true"
+               noindex="true">
+         <classpath>
+            <path refid="components.classpath"/>
+            <path refid="prototypingplayground.classpath"/>
+         </classpath>
+         <packageset dir="${src-components.java.dir}"/>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-prototypingplayground.java.dir}" includes="**/*.java"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+      </javadoc>
+
+      <!-- create zip of the zip directory -->
+      <zip destfile="${dist-prototypingplayground.dir}/${prototypingplayground-zip.filename}"
+           compress="true">
+         <zipfileset dir="${dist-prototypingplayground.zip.dir}" prefix="terk-client-prototyping-playground"/>
+      </zip>
+
+      <!-- delete the temporary zip directory -->
+      <delete dir="${dist-prototypingplayground.zip.dir}"/>
+
+      <!-- create jar of classes -->
+      <jar destfile="${dist-prototypingplayground.dir}/${prototypingplayground-jar.filename}"
+           basedir="${build-prototypingplayground.java.dir}"
+           update="no"
+           compress="true"/>
+
+      <copy-scripts app-name="prototypingplayground" dist-dir="${dist-prototypingplayground.dir}"/>
+
+      <property name="distPrototypingplaygroundIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-robotdiaries" depends="build, dist-components, dist-universalremote" description="build the robot diaries client" unless="distRobotDiariesIsComplete">
+      <dist-client client-name="robotdiaries"
+                   build-dir="${build-robotdiaries.java.dir}"
+                   dist-dir="${dist-robotdiaries.dir}"
+                   jar-filename="${robotdiaries-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${dist-components.dir}/${components-jar.filename}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${jgraph.jar}"/>
+            <fileset file="${junit.jar}"/>
+            <fileset file="${rxtx.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-audioclips.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-color.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-hummingbird.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-peerinfo.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-roboticon.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-speech.jar}"/>
+            <!-- TODO: terk-common-video is required only as long as the TerKClient interface IS-A VideoStreamerClient -->
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+            <fileset file="${terk-robot-common-serial.jar}"/>
+            <fileset file="${terk-robot-hummingbird.jar}"/>
+            <fileset file="${freetts.jar}"/>
+            <fileset file="${cmulex.jar}"/>
+            <fileset file="${en_us.jar}"/>
+            <fileset file="${cmu_us_kal.jar}"/>
+
+            <!-- This app uses some classes from Universal Remote -->
+            <fileset file="${dist-universalremote.dir}/${universalremote-jar.filename}"/>
+
+            <!-- Additional jars used by Java Web Start -->
+            <fileset file="${rxtx-native-mac.jar}"/>
+            <fileset file="${rxtx-native-win.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <!-- copy required native libraries files -->
+      <copy todir="${dist-robotdiaries.dir}" flatten="true">
+         <fileset dir="${rxtx.dir}">
+            <include name="**/?*.jnilib"/>
+            <include name="**/?*.dll"/>
+            <include name="**/?*.so"/>
+         </fileset>
+      </copy>
+
+      <property name="distRobotDiariesIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-roboticon-messenger" depends="build, dist-components, dist-robotuniversalremote, dist-expressomatic" description="build the roboticon messenger client" unless="distRoboticonMessengerIsComplete">
+      <dist-client client-name="roboticonmessenger"
+                   build-dir="${build-roboticon-messenger.java.dir}"
+                   dist-dir="${dist-roboticon-messenger.dir}"
+                   jar-filename="${roboticon-messenger-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-color.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-roboticon.jar}"/>
+            <fileset file="${terk-common-peerinfo.jar}"/>
+            <!-- The roboticon-messenger app uses some classes from RUR -->
+            <fileset file="${dist-robotuniversalremote.dir}/${robotuniversalremote-jar.filename}"/>
+            <!-- The roboticon-messenger app uses some classes from ExpressOMatic -->
+            <fileset file="${dist-expressomatic.dir}/${expressomatic-jar.filename}"/>
+            <fileset file="${jgraph.jar}"/>
+            <!-- TODO: terk-common-video is required only as long as the TerKClient interface IS-A VideoStreamerClient -->
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distRoboticonMessengerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-robotuniversalremote" depends="build, dist-components" description="build the RUR client" unless="distRobotuniversalremoteIsComplete">
+      <dist-client client-name="robotuniversalremote"
+                   build-dir="${build-robotuniversalremote.java.dir}"
+                   dist-dir="${dist-robotuniversalremote.dir}"
+                   jar-filename="${robotuniversalremote-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${terk-common-speech.jar}"/>
+            <fileset file="${jgraph.jar}"/>
+            <fileset file="${freetts.jar}"/>
+            <fileset file="${cmulex.jar}"/>
+            <fileset file="${en_us.jar}"/>
+            <fileset file="${cmu_us_kal.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+
+      <property name="distRobotuniversalremoteIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-serialdashboard" depends="build, dist-components" description="build the serial dashboard client" unless="distSerialdashboardIsComplete">
+      <dist-client client-name="serialdashboard"
+                   build-dir="${build-serialdashboard.java.dir}"
+                   dist-dir="${dist-serialdashboard.dir}"
+                   jar-filename="${serialdashboard-jar.filename}"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-client.jar}"/>
+            <fileset file="${terk-common-digitalin.jar}"/>
+            <fileset file="${terk-common-digitalout.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-qwerk.jar}"/>
+            <fileset file="${terk-common-serial.jar}"/>
+            <fileset file="${terk-common-serialconfig.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-video.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+      <property name="distSerialdashboardIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-universalremote" depends="build, dist-components" description="build the universal remote client" unless="distUniversalRemoteIsComplete">
+      <dist-client client-name="universalremote"
+                   build-dir="${build-universalremote.java.dir}"
+                   dist-dir="${dist-universalremote.dir}"
+                   jar-filename="${universalremote-jar.filename}"
+                   resources-jar-filename="${universalremote-resources-jar.filename}"
+                   resource-files="log4j.xml,local-entity-resolver.xml,version.properties"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${swing-layout.jar}"/>
+            <fileset file="${terk-common-accelerometer.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-buzzer.jar}"/>
+            <fileset file="${terk-common-color.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-finch.jar}"/>
+            <fileset file="${terk-common-hummingbird.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-obstacle.jar}"/>
+            <fileset file="${terk-common-photoresistor.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-speech.jar}"/>
+            <fileset file="${terk-common-thermistor.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+            <fileset file="${freetts.jar}"/>
+            <fileset file="${cmulex.jar}"/>
+            <fileset file="${en_us.jar}"/>
+            <fileset file="${cmu_us_kal.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+      <property name="distUniversalRemoteIsComplete" value="true"/>
+   </target>
+
+   <target name="dist-visualprogrammer" depends="build, dist-components" description="build the visual programmer client" unless="distVisualProgrammerIsComplete">
+      <dist-client client-name="visualprogrammer"
+                   build-dir="${build-visualprogrammer.java.dir}"
+                   dist-dir="${dist-visualprogrammer.dir}"
+                   jar-filename="${visualprogrammer-jar.filename}"
+                   resources-jar-filename="${visualprogrammer-resources-jar.filename}"
+                   resource-files="log4j.xml,version.properties"
+            >
+         <additional-jar-files-to-copy>
+            <fileset file="${commons-collections.jar}"/>
+            <fileset file="${jdom.jar}"/>
+            <fileset file="${terk-common-accelerometer.jar}"/>
+            <fileset file="${terk-common-analogin.jar}"/>
+            <fileset file="${terk-common-audio.jar}"/>
+            <fileset file="${terk-common-buzzer.jar}"/>
+            <fileset file="${terk-common-color.jar}"/>
+            <fileset file="${terk-common-expression.jar}"/>
+            <fileset file="${terk-common-finch.jar}"/>
+            <fileset file="${terk-common-hummingbird.jar}"/>
+            <fileset file="${terk-common-led.jar}"/>
+            <fileset file="${terk-common-motor.jar}"/>
+            <fileset file="${terk-common-obstacle.jar}"/>
+            <fileset file="${terk-common-photoresistor.jar}"/>
+            <fileset file="${terk-common-servo.jar}"/>
+            <fileset file="${terk-common-speech.jar}"/>
+            <fileset file="${terk-common-thermistor.jar}"/>
+            <fileset file="${terk-common-xml.jar}"/>
+         </additional-jar-files-to-copy>
+      </dist-client>
+      <property name="distVisualProgrammerIsComplete" value="true"/>
+   </target>
+
+   <target name="dist" depends="build,
+                                dist-components,
+                                dist-artarm,
+                                dist-audioplayer,
+                                dist-commandline,
+                                dist-dance,
+                                dist-diffdrive,
+                                dist-expressomatic,
+                                dist-expressomatic2,
+                                dist-flower,
+                                dist-MyFirstRobot,
+                                dist-MyFirstRobot250,
+                                dist-propertyinspector,
+                                dist-prototypingplayground,
+                                dist-robotdiaries,
+                                dist-roboticon-messenger,
+                                dist-robotuniversalremote,
+                                dist-serialdashboard,
+                                dist-universalremote,
+                                dist-visualprogrammer"
+           description="create the distribution" unless="distIsComplete">
+      <!-- set permissions for the executables and scripts-->
+      <chmod dir="${dist.dir}" includes="**/*.bat, **/*.sh" perm="755" verbose="true"/>
+      <property name="distIsComplete" value="true"/>
+   </target>
+
+   <target name="compile.java" depends="build-third-party, init" unless="compileJavaIsComplete">
+
+      <!-- Compile components classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-components.java.dir}"
+                                              src-dir="${src-components.java.dir}"
+                                              classpath-ref="components.classpath"/>
+
+      <!-- Compile robotuniversalremote classes and copy its resources (this must be done before building expressomatic and flower since they depend on it!) -->
+      <compile-client-code-and-copy-resources build-dir="${build-robotuniversalremote.java.dir}"
+                                              src-dir="${src-robotuniversalremote.java.dir}"
+                                              classpath-ref="robotuniversalremote.classpath"/>
+
+      <!-- Compile artarm classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-artarm.java.dir}"
+                                              src-dir="${src-artarm.java.dir}"
+                                              classpath-ref="artarm.classpath"/>
+
+      <!-- Compile audioplayer classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-audioplayer.java.dir}"
+                                              src-dir="${src-audioplayer.java.dir}"
+                                              classpath-ref="audioplayer.classpath"/>
+
+      <!-- Compile commandline classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-commandline.java.dir}"
+                                              src-dir="${src-commandline.java.dir}"
+                                              classpath-ref="commandline.classpath"/>
+
+      <!-- Compile dance classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-dance.java.dir}"
+                                              src-dir="${src-dance.java.dir}"
+                                              classpath-ref="dance.classpath"/>
+
+      <!-- Compile diffdrive classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-diffdrive.java.dir}"
+                                              src-dir="${src-diffdrive.java.dir}"
+                                              classpath-ref="diffdrive.classpath"/>
+
+      <!-- Compile expressomatic classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-expressomatic.java.dir}"
+                                              src-dir="${src-expressomatic.java.dir}"
+                                              classpath-ref="expressomatic.classpath"/>
+
+      <!-- Compile expressomatic2 classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-expressomatic2.java.dir}"
+                                              src-dir="${src-expressomatic2.java.dir}"
+                                              classpath-ref="expressomatic2.classpath"/>
+
+      <!-- Compile flower classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-flower.java.dir}"
+                                              src-dir="${src-flower.java.dir}"
+                                              classpath-ref="flower.classpath"/>
+
+      <!-- Compile MyFirstRobot classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-MyFirstRobot.java.dir}"
+                                              src-dir="${src-MyFirstRobot.java.dir}"
+                                              classpath-ref="MyFirstRobot.classpath"/>
+
+      <!-- Compile MyFirstRobot250 classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-MyFirstRobot250.java.dir}"
+                                              src-dir="${src-MyFirstRobot250.java.dir}"
+                                              classpath-ref="MyFirstRobot250.classpath"/>
+
+      <!-- Compile propertyinspector classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-propertyinspector.java.dir}"
+                                              src-dir="${src-propertyinspector.java.dir}"
+                                              classpath-ref="propertyinspector.classpath"/>
+
+      <!-- Compile prototypingplayground classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-prototypingplayground.java.dir}"
+                                              src-dir="${src-prototypingplayground.java.dir}"
+                                              classpath-ref="prototypingplayground.classpath"/>
+
+      <!-- Compile roboticon-messenger classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-roboticon-messenger.java.dir}"
+                                              src-dir="${src-roboticon-messenger.java.dir}"
+                                              classpath-ref="roboticon-messenger.classpath"/>
+
+      <!-- Compile serialdashboard classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-serialdashboard.java.dir}"
+                                              src-dir="${src-serialdashboard.java.dir}"
+                                              classpath-ref="serialdashboard.classpath"/>
+
+      <!-- Compile universalremote classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-universalremote.java.dir}"
+                                              src-dir="${src-universalremote.java.dir}"
+                                              classpath-ref="universalremote.classpath"/>
+
+      <!-- Compile visualprogrammer classes and copy its resources -->
+      <compile-client-code-and-copy-resources build-dir="${build-visualprogrammer.java.dir}"
+                                              src-dir="${src-visualprogrammer.java.dir}"
+                                              classpath-ref="visualprogrammer.classpath"/>
+
+      <!-- Compile robotdiaries classes and copy its resources (doing this last since it depends on a number of other apps) -->
+      <compile-client-code-and-copy-resources build-dir="${build-robotdiaries.java.dir}"
+                                              src-dir="${src-robotdiaries.java.dir}"
+                                              classpath-ref="robotdiaries.classpath"/>
+
+      <property name="compileJavaIsComplete" value="true"/>
+   </target>
+
+   <target name="javadoc" depends="build" description="generate javadocs" unless="javadocIsComplete">
+      <mkdir dir="${dist.dir}/javadoc"/>
+      <javadoc packagenames="*"
+               destdir="${dist.dir}/javadoc"
+               author="true"
+               version="true"
+               windowtitle="TeRK Client API"
+               doctitle="TeRK Client API"
+               protected="true">
+         <classpath>
+            <path refid="components.classpath"/>
+            <path refid="artarm.classpath"/>
+            <path refid="audioplayer.classpath"/>
+            <path refid="commandline.classpath"/>
+            <path refid="dance.classpath"/>
+            <path refid="diffdrive.classpath"/>
+            <path refid="expressomatic.classpath"/>
+            <path refid="expressomatic2.classpath"/>
+            <path refid="flower.classpath"/>
+            <path refid="MyFirstRobot.classpath"/>
+            <path refid="MyFirstRobot250.classpath"/>
+            <path refid="propertyinspector.classpath"/>
+            <path refid="prototypingplayground.classpath"/>
+            <path refid="robotdiaries.classpath"/>
+            <path refid="roboticon-messenger.classpath"/>
+            <path refid="robotuniversalremote.classpath"/>
+            <path refid="serialdashboard.classpath"/>
+            <path refid="universalremote.classpath"/>
+            <path refid="visualprogrammer.classpath"/>
+         </classpath>
+         <packageset dir="${src-components.java.dir}"/>
+         <packageset dir="${src-artarm.java.dir}"/>
+         <packageset dir="${src-audioplayer.java.dir}"/>
+         <packageset dir="${src-commandline.java.dir}"/>
+         <packageset dir="${src-dance.java.dir}"/>
+         <packageset dir="${src-diffdrive.java.dir}"/>
+         <packageset dir="${src-expressomatic.java.dir}"/>
+         <packageset dir="${src-expressomatic2.java.dir}"/>
+         <packageset dir="${src-flower.java.dir}"/>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-MyFirstRobot.java.dir}" includes="**/*.java"/>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-MyFirstRobot250.java.dir}" includes="**/*.java"/>
+         <!-- Use fileset instead of packageset since it has classes in the default package -->
+         <fileset dir="${src-prototypingplayground.java.dir}" includes="**/*.java"/>
+         <packageset dir="${src-propertyinspector.java.dir}"/>
+         <packageset dir="${src-robotdiaries.java.dir}"/>
+         <packageset dir="${src-roboticon-messenger.java.dir}"/>
+         <packageset dir="${src-robotuniversalremote.java.dir}"/>
+         <packageset dir="${src-serialdashboard.java.dir}"/>
+         <packageset dir="${src-universalremote.java.dir}"/>
+         <packageset dir="${src-visualprogrammer.java.dir}"/>
+         <link href="http://download.oracle.com/javase/6/docs/api/"/>
+         <link href="http://www.jgraph.com/pub/api/"/>
+      </javadoc>
+
+      <property name="javadocIsComplete" value="true"/>
+   </target>
+
+   <!-- ============================================================================================================ -->
+   <!-- Macro definitions -->
+   <!-- ============================================================================================================ -->
+
+   <macrodef name="compile-client-code-and-copy-resources">
+      <attribute name="classpath-ref"/>
+      <attribute name="build-dir"/>
+      <attribute name="src-dir"/>
+      <sequential>
+         <!-- compile code -->
+         <javac srcdir="@{src-dir}"
+                destdir="@{build-dir}"
+                classpathref="@{classpath-ref}"
+                debug="${java.compiler.debug}"
+                nowarn="${java.compiler.generate.no.warnings}"
+                memorymaximumsize="${java.compiler.max.memory}"
+                source="${java.compiler.source.level}"
+                fork="true"
+                includeAntRuntime="false">
+            <compilerarg line="${java.compiler.args}"/>
+         </javac>
+
+         <!-- copy resources -->
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources"/>
+            </fileset>
+         </copy>
+         <copy todir="@{build-dir}">
+            <fileset dir="@{src-dir}">
+               <patternset refid="compiler.resources.filterable"/>
+            </fileset>
+            <filterset>
+               <filter token="build.target" value="${build.target}"/>
+               <filter token="build.number" value="${build.number}"/>
+               <filter token="glacier.host" value="${glacier.host}"/>
+               <filter token="terk-web-site.host" value="${terk-web-site.host}"/>
+            </filterset>
+         </copy>
+
+      </sequential>
+   </macrodef>
+
+   <macrodef name="dist-client">
+      <attribute name="client-name"/>
+      <attribute name="build-dir"/>
+      <attribute name="dist-dir"/>
+      <attribute name="jar-filename"/>
+      <attribute name="will-copy-standard-jars" default="true"/>
+      <attribute name="resources-jar-filename" default=""/>
+      <attribute name="resource-files" default=""/>
+      <element name="additional-jar-files-to-copy" optional="false"/>
+      <sequential>
+         <!-- create the dist directory -->
+         <mkdir dir="@{dist-dir}"/>
+
+         <!-- create jar of classes (excluding files that will go into the resources jar) -->
+         <jar destfile="@{dist-dir}/@{jar-filename}"
+              basedir="@{build-dir}"
+              update="no"
+              compress="true"
+              excludes="@{resource-files}"/>
+
+         <!-- See whether we should create the resources jar -->
+         <if>
+            <equals arg1="@{resources-jar-filename}" arg2=""/>
+            <then>
+               <!-- do nothing -->
+            </then>
+            <else>
+               <!-- create jar of resources -->
+               <jar destfile="@{dist-dir}/@{resources-jar-filename}"
+                    basedir="@{build-dir}"
+                    update="no"
+                    compress="true"
+                    includes="@{resource-files}"/>
+            </else>
+         </if>
+
+         <!-- (optionally) copy the standard set of jars -->
+         <if>
+            <istrue value="@{will-copy-standard-jars}"/>
+            <then>
+               <copy todir="@{dist-dir}" flatten="true">
+                  <fileset file="${log4j.jar}"/>
+                  <fileset file="${ice.jar}"/>
+                  <fileset file="${mrpl-graphics.jar}"/>
+                  <fileset file="${mrpl-utilities.jar}"/>
+                  <fileset file="${mrpl-ice.jar}"/>
+                  <fileset file="${mrpl-peer.jar}"/>
+                  <fileset file="${terk-common.jar}"/>
+                  <fileset file="${dist-components.dir}/${components-jar.filename}"/>
+                  <fileset file="${terk-common-communicator.jar}"/>
+                  <fileset file="${terk-common-communicatormanager.jar}"/>
+                  <fileset file="${terk-common-connectionwizard.jar}"/>
+                  <fileset file="${terk-common-servant.jar}"/>
+                  <fileset file="${terk-common-service.jar}"/>
+                  <fileset file="${terk-common-userinterface.jar}"/>
+               </copy>
+            </then>
+         </if>
+
+         <!-- copy additional required jar files -->
+         <copy todir="@{dist-dir}" flatten="true">
+            <additional-jar-files-to-copy/>
+         </copy>
+
+         <copy-scripts app-name="@{client-name}" dist-dir="@{dist-dir}"/>
+      </sequential>
+   </macrodef>
+
+   <macrodef name="copy-scripts">
+      <attribute name="app-name"/>
+      <attribute name="dist-dir"/>
+      <sequential>
+         <if>
+            <istrue value="${isWindows}"/>
+            <then>
+               <property name="platform-for-path-conversion" value="windows"/>
+               <property name="script-file-extension" value="bat"/>
+            </then>
+            <else>
+               <property name="platform-for-path-conversion" value="unix"/>
+               <property name="script-file-extension" value="sh"/>
+            </else>
+         </if>
+
+         <!-- define the execution classpath for use in the scripts -->
+         <path id="@{app-name}.execution.classpath.elements">
+            <pathelement location="@{dist-dir}"/>
+            <fileset dir="@{dist-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </path>
+
+         <!-- Set up a path id for the dist directory so it contains the correct kind of slashes when we do the pathconvert mapping -->
+         <path id="dist-@{app-name}.dir.before-conversion" path="@{dist-dir}"/>
+
+         <!-- Convert the dist directory path for the target platform to ensure that all the slashes are in the right direction -->
+         <pathconvert property="dist-@{app-name}.dir.after-conversion" targetos="${platform-for-path-conversion}" refid="dist-@{app-name}.dir.before-conversion"/>
+
+         <!-- Create the classpath -->
+         <pathconvert property="@{app-name}.execution.classpath" targetos="${platform-for-path-conversion}" refid="@{app-name}.execution.classpath.elements">
+            <map from="${dist-@{app-name}.dir.after-conversion}" to="."/>
+         </pathconvert>
+
+         <!-- copy scripts (with filtering) -->
+         <copy todir="@{dist-dir}" flatten="true">
+            <fileset dir="${scripts.dir}/@{app-name}" includes="**/*.${script-file-extension}"/>
+            <filterset>
+               <filter token="Classpath" value="${@{app-name}.execution.classpath}"/>
+            </filterset>
+         </copy>
+
+         <!-- set permissions for the executables and scripts-->
+         <chmod dir="${dist.dir}" includes="**/*.bat, **/*.sh" perm="755" verbose="true"/>
+      </sequential>
+   </macrodef>
+
+</project>

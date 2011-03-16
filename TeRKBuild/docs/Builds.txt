@@ -1,0 +1,72 @@
+========================================================================================================================
+
+BUILDING THE CODE
+-----------------
+
+NOTE: Depending on your snapshot of the code (e.g. checked out from SVN or downloaded from the TeRK web site), the
+values of the build target variables may differ.
+
+For example, users who have downloaded the source from the TeRK web site will notice that all three build targets
+("dev", "test", and "prod") have the same values because those users will always want to use the production relay.
+
+Users who have checked the source out of SVN will see different values for the three build targets since they may either
+be developing locally, for the test environment, or for production. The simple rule of thumb is that if you're not
+running your own relay server locally, then you'll want to use the production relay, so you'll want to always build
+using the "prod" target.
+
+========================================================================================================================
+
+BUILDING THE SOURCE CODE
+------------------------
+
+This module provides an easy way to build all the code.  You can of course still build code for a single module by just
+cd'ing to the root of that module and typing the appropriate Ant command (and most modules let you build only part of
+the code, if you wish--run the "ant -p" command to see a list of all commands supported by that build script).
+
+There are two Ant targets you'll want to use in this module's build script:
+
+   clean
+
+      This target calls the "clean" target on all the TeRK modules.
+
+   dist
+
+      This target calls the "dist" target on all the TeRK modules.
+
+To do a (clean) build for your local development enviroment, do the following:
+
+   ant clean dist
+
+Which is the same as (since the default build target is "dev"):
+
+   ant -Dbuild.target=dev clean dist
+
+Here's an example of creating a build for the test environment:
+
+   ant -Dbuild.target=test clean dist
+
+That command first cleans all the TeRK modules and then calls dist on each one, specifying the "test" build target.
+
+Here's an example of creating a build for the production environment:
+
+   ant -Dbuild.target=prod clean dist
+
+That command does the same as the previous one, but builds for the "prod" build target.
+
+The only supported build targets are "dev" (the default), "test", and "prod".  A build number may optionally be
+specified when building.  If unspecified, the build number defaults to the value in the TeRKBuild/build.number.txt file.
+Here's an example of specifying the build number:
+
+   ant -Dbuild.target=prod -Dbuild.number=42 clean dist
+
+========================================================================================================================
+
+JAVADOCS
+--------
+
+To generate javadocs, simply run "ant javadoc" at the root of any module.  For example, running it at the root of
+TeRKClient will generate only the TeRKClient javadocs.  Running it at the root of TeRKBuild will generate all the
+javadocs by calling "ant javadoc" on each of the other modules.  You can find the generated javadocs in
+MODULE_NAME/dist/javadoc.
+
+========================================================================================================================

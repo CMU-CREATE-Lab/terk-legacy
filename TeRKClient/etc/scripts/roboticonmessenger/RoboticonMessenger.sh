@@ -1,0 +1,1 @@
+java -Dsun.swing.enableImprovedDragGesture -cp @Classpath@ edu.cmu.ri.mrpl.TeRK.client.roboticonmessenger.RoboticonMessenger
